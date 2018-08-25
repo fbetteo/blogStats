@@ -1,0 +1,44 @@
+---
+title: Tipos de Variables
+author: ''
+date: '2018-08-25'
+slug: tipos-de-variables
+categories: []
+tags: []
+hero_image: hero.jpg
+---
+
+
+
+<div id="header" class="section level2">
+<h2>Header</h2>
+<p>Las características de las variables que podemos encontrar en un dataset son muy diversas, pero general se pueden clasificar bajo alguno de los siguientes formatos.</p>
+<p><strong>Categóricas</strong> o <strong>Cualitativas</strong></p>
+<p>Corresponden a variables con <em>etiquetas</em> o valores pero que no siguen un orden específico o no tienen jerarquía. Por ejemplo: color de ojos, género, sabor (dulce, salado, amargo), etc. Para estas variables, que una observación corresponda a un valor u a otro no revela mayor importancia o mejor ponderación sobre otra observación, son simplemente distintas.</p>
+<pre class="r"><code>df &lt;- as.data.frame(matrix(c(&quot;Persona1&quot;,&quot;Persona2&quot;,&quot;Persona3&quot;,&quot;Verde&quot;,&quot;Marron&quot;, &quot;Azul&quot;,1.8,1.87,1.65,&quot;Secundario Completo&quot;, &quot;Universitario Completo&quot;,&quot;Sin estudios&quot;,3,2,1),nrow = 3, ncol = 5))
+names(df) &lt;- c(&quot;ID&quot;,&quot;Ojos&quot;,&quot;Altura&quot;,&quot;Estudios&quot;,&quot;Hijos&quot;)
+
+df$Ojos</code></pre>
+<pre><code>## [1] Verde  Marron Azul  
+## Levels: Azul Marron Verde</code></pre>
+<p>Simulamos una tabla muy básica con 4 columnas por observación. Como ejemplo de variable categórica tomamos el color de ojos de estas personas. Y vemos que puede tomar los valores azul, marrón o verde. Más allá de los gustos personales, en principio estas etiquetas no revelan ningún orden, simplemente valores distintos según el individuo.</p>
+<p><strong>Ordinales</strong></p>
+<p>Corresponden a variables con <em>etiquetas</em> pero que en este caso sí tienen un orden establecido o jerarquía. Es decir que una etiqueta es “mejor” o tiene un valor más elevado. Por otra parte, en esta jerarquía o escala no podemos determinar cuánto mejor es una etiqueta por sobre otra, solo sabemos cómo se ordenan.</p>
+<p>Volvemos al ejemplo de nuestra tabla. Este caso tomamos la columna Nivel de estudios.</p>
+<pre class="r"><code>df$Estudios</code></pre>
+<pre><code>## [1] Secundario Completo    Universitario Completo Sin estudios          
+## Levels: Secundario Completo Sin estudios Universitario Completo</code></pre>
+<p>Vemos que en nuestra tabla se pueden encontrar los valores “Sin estudios”, “Secundario Completo” y “Universitario Completo”. Podemos decir que esta columna presenta un orden lógico entre las distintas etiquetas y que Universitario completo es más deseable que Secundario Completo y este último a su vez más deseable que Sin Estudios. Por otra parte, no podemos definir concretamente cuánto más deseable una categoría sobre la otra. Es universitario Completo 2 veces mejor que Secundario completo? 1? 3?. Y esa “distancia”, es la misma entre Secundario completo y Sin Estudios? No es clara amplitud.</p>
+<p><strong>Cuantitativas Discretas</strong></p>
+<p>Corresponden a variables numéricas que son <em>numerables</em>, es decir que podemos contar cuantos valores intermedios hay entre 2 valores cualquiera. Entre cada valor no hay infinitos posibles. Siguiendo nuestra tabla, el ejemplo a tener en cuenta es el de número de hijos.</p>
+<pre class="r"><code>df$Hijos</code></pre>
+<pre><code>## [1] 3 2 1
+## Levels: 1 2 3</code></pre>
+<p>Cada persona puede tener entre 0 y digamos… 10 hijos para no ser tan extremistas. A su vez, no se pueden tener fracciones de hijo. Por lo tanto, entre 6 y 8 hijos, solo se pueden tener 7. No 7.4, ni 6.2. En ese sentido decimos que entre dos valores cualquiera podemos numerar los intermedios.</p>
+<p><strong>Cuantitativas Continuas</strong></p>
+<p>Corresponden a variables numéricas no numerables, es decir que entre 2 valores cualquiera, hay infinitos intermedios. En nuestro ejemplo, podemos tomar la columna Altura para ilustrarlo.</p>
+<pre class="r"><code>df$Altura</code></pre>
+<pre><code>## [1] 1.8  1.87 1.65
+## Levels: 1.65 1.8 1.87</code></pre>
+<p>En nuestro caso tenemos valores redondeados pero si tuviéramos valores más precisos, hay inifinitas posibilidades entre 1.7 y 1.8. Este tipo de variables son muy comunes y se encuentran por todos lados. Temperatura, longitudes, etc.</p>
+</div>
