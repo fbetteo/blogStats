@@ -13,7 +13,7 @@
 # use grunt task `build` to synchronize assets
 
 baseURL = "/"
-languageCode = "es-ar"
+languageCode = "es"
 defaultContentLanguage = "es-ar"
 title = "FB Stats"
 theme = "hugo-tranquilpeak-theme"

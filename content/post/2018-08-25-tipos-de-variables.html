@@ -10,12 +10,12 @@ hero_image: hero.jpg
 
 
 
-<div id="header" class="section level2">
-<h2>Header</h2>
 <p>Las características de las variables que podemos encontrar en un dataset son muy diversas, pero general se pueden clasificar bajo alguno de los siguientes formatos.</p>
 <p><strong>Categóricas</strong> o <strong>Cualitativas</strong></p>
 <p>Corresponden a variables con <em>etiquetas</em> o valores pero que no siguen un orden específico o no tienen jerarquía. Por ejemplo: color de ojos, género, sabor (dulce, salado, amargo), etc. Para estas variables, que una observación corresponda a un valor u a otro no revela mayor importancia o mejor ponderación sobre otra observación, son simplemente distintas.</p>
-<pre class="r"><code>df &lt;- as.data.frame(matrix(c(&quot;Persona1&quot;,&quot;Persona2&quot;,&quot;Persona3&quot;,&quot;Verde&quot;,&quot;Marron&quot;, &quot;Azul&quot;,1.8,1.87,1.65,&quot;Secundario Completo&quot;, &quot;Universitario Completo&quot;,&quot;Sin estudios&quot;,3,2,1),nrow = 3, ncol = 5))
+<pre class="r"><code>df &lt;- as.data.frame(matrix(c(&quot;Persona1&quot;,&quot;Persona2&quot;,&quot;Persona3&quot;,&quot;Verde&quot;,&quot;Marron&quot;,
+      &quot;Azul&quot;,      1.8,1.87,1.65,&quot;Secundario Completo&quot;, &quot;Universitario Completo&quot;,
+      &quot;Sin estudios&quot;,3,2,1),nrow = 3, ncol = 5))
 names(df) &lt;- c(&quot;ID&quot;,&quot;Ojos&quot;,&quot;Altura&quot;,&quot;Estudios&quot;,&quot;Hijos&quot;)
 
 df$Ojos</code></pre>
@@ -41,4 +41,3 @@ df$Ojos</code></pre>
 <pre><code>## [1] 1.8  1.87 1.65
 ## Levels: 1.65 1.8 1.87</code></pre>
 <p>En nuestro caso tenemos valores redondeados pero si tuviéramos valores más precisos, hay inifinitas posibilidades entre 1.7 y 1.8. Este tipo de variables son muy comunes y se encuentran por todos lados. Temperatura, longitudes, etc.</p>
-</div>

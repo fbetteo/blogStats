@@ -8,11 +8,6 @@ tags: []
 hero_image: hero.jpg
 ---
 
-## Header
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 Las características de las variables que podemos encontrar en un dataset son muy diversas, pero general se pueden clasificar bajo alguno de los siguientes formatos.
 
@@ -23,7 +18,9 @@ Por ejemplo: color de ojos, género, sabor (dulce, salado, amargo), etc.
 Para estas variables, que una observación corresponda a un valor u a otro no revela mayor importancia o mejor ponderación  sobre otra observación, son simplemente distintas.
 
 ````{r}
-df <- as.data.frame(matrix(c("Persona1","Persona2","Persona3","Verde","Marron", "Azul",1.8,1.87,1.65,"Secundario Completo", "Universitario Completo","Sin estudios",3,2,1),nrow = 3, ncol = 5))
+df <- as.data.frame(matrix(c("Persona1","Persona2","Persona3","Verde","Marron",
+      "Azul",      1.8,1.87,1.65,"Secundario Completo", "Universitario Completo",
+      "Sin estudios",3,2,1),nrow = 3, ncol = 5))
 names(df) <- c("ID","Ojos","Altura","Estudios","Hijos")
 
 df$Ojos
