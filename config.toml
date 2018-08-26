@@ -12,13 +12,13 @@
 # For developpers, if you modify this theme, put your images in `source/images` folder and
 # use grunt task `build` to synchronize assets
 
-baseURL = "/"
+baseURL = "https://fbetteo.netlify.com/"
 languageCode = "es"
 defaultContentLanguage = "es-ar"
 title = "FB Stats"
 theme = "hugo-tranquilpeak-theme"
 disqusShortname = "hugo-tranquilpeak-theme"
-# googleAnalytics = "UA-123-45"
+googleAnalytics = "UA-124611581-1"
 paginate = 7
 canonifyurls = true
 
