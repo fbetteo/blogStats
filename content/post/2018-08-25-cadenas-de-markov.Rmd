@@ -8,7 +8,7 @@ tags: []
 ---
 
 
-Las cadenas de Markov son herramientas muy útiles para modelar transiciones entre estados. Imaginemos un escenario sencillo con dos posibles estados: día de lluvia o día soleado. En el momento ** t ** el estado supongamos que es "día soleado". ¿Cuál será el estado en ** t+1 ** ? Dadas las probabilidades de transición de un estado a otro podemos simular escenarios tras el paso del tiempo. Mismo en algunos casos puede ser útil entender si en el largo plazo esta simulación converge hacia algún resultado estable en el tiempo.
+Las cadenas de Markov son herramientas muy útiles para modelar transiciones entre estados. Imaginemos un escenario sencillo con dos posibles estados: día de lluvia o día soleado. En el momento **t** el estado supongamos que es "día soleado". ¿Cuál será el estado en **t+1** ? Dadas las probabilidades de transición de un estado a otro podemos simular escenarios tras el paso del tiempo. Mismo en algunos casos puede ser útil entender si en el largo plazo esta simulación converge hacia algún resultado estable en el tiempo.
 
 Mostraremos ejemplos sencillos, pero la metodología es escalable a procesos complejos como pueden usarse en meteorología, aplicaciones financieras, etc. El [algoritmo de búsqueda de Google](http://blog.kleinproject.org/?p=1605&lang=es) está basado en cadenas de Markov, para que vean la utilidad. [^1]
 
