@@ -3,9 +3,8 @@ title: "Hola MAP. Chau Apply."
 author: "Franco Betteo"
 date: '2018-09-01'
 output:
-  html_document:
-    toc: yes
-    toc_float: true
+  blogdown::html_page:
+    toc: true
     depth: 3
 slug: hola-map-chau-apply
 tags: []
