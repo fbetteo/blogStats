@@ -1,10 +1,10 @@
 ---
-title: Simulación de Monty Hall
-author: FB
+title: "SimulaciÃ³n de Monty Hall"
+author: "FB"
 date: '2018-08-25'
-slug: simulación-de-monty-hall
-categories: []
+slug: simulaciÃ³n-de-monty-hall
 tags: []
+categories: []
 ---
 
 Vamos a ver en un corto y sencillo ejemplo cómo hacer una simulación en R. El caso a utilizar es el "famoso" [problema de Monty Hall](https://es.wikipedia.org/wiki/Problema_de_Monty_Hall), asociado a un programa televisivo de Estados Unidos. 
