@@ -1,8 +1,8 @@
 ---
-title: "SimulaciÃ³n de Monty Hall"
+title: "Simulación de Monty Hall"
 author: "FB"
 date: '2018-08-25'
-slug: simulaciÃ³n-de-monty-hall
+slug: simulación-de-monty-hall
 tags: []
 categories: []
 ---
