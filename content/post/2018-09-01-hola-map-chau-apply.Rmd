@@ -11,8 +11,8 @@ tags: []
 categories:
 - R
 - tidyverse
-header:
-  image: "cover.jgg"
+coverImage: "cover.jpg"
+thumbnailImagePosition: left
 ---
 
 # Introducción
