@@ -141,7 +141,7 @@ canonifyurls = true
   # Current image is on AWS S3 and delivered by AWS CloudFront.
   # Otherwise put your image in folder `static/_images/` (development)  or in `source/assets/images/` if you can't or don't want to build the theme,
   # and use relative url : `your-image.png`
-  coverImage = "cover-v.1.2.0.jpg"
+  coverImage = "cover-v1.2.0.jpg"
   coverCaption = "A beautiful sunrise"
 
 
