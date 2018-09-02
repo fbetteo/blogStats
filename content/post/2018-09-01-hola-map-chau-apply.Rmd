@@ -14,6 +14,7 @@ categories:
 coverImage: "cover.jpg"
 thumbnailImage: https://lh3.googleusercontent.com/iAbeDudWjqCRe2WIRN6Z9UQFLtGfEXSCevQjT8p13BBYx5eXYw7ThHbsXL-gdE_VnUjZ5QjeLcN4mETILw=w191-h220
 thumbnailImagePosition: left
+summary: "La idea de este post es introducirlos a la familia de funciones **MAP**, propias de [tidyverse](https://www.tidyverse.org/)."
 ---
 
 # Introducción
