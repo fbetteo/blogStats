@@ -5,6 +5,8 @@ date: '2018-08-25'
 slug: simulación-de-monty-hall
 tags: []
 categories: []
+thumbnailImage: https://lh3.googleusercontent.com/gUN2g5rzhaBIHzGxhZXsoqYLRaxVwWP9-bNxI6GVCkoa56rHv1LmzPhfR-l7quXIhnoGTRVOAWFtCj9uaA=w396-h220
+thumbnailImagePosition: left
 ---
 
 Vamos a ver en un corto y sencillo ejemplo cómo hacer una simulación en R. El caso a utilizar es el "famoso" [problema de Monty Hall](https://es.wikipedia.org/wiki/Problema_de_Monty_Hall), asociado a un programa televisivo de Estados Unidos. 
