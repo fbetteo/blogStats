@@ -3,12 +3,16 @@ title: Comparación de medias entre muestras relacionadas
 author: FB
 date: '2018-08-25'
 slug: comparación-de-medias-entre-muestras-relacionadas
-categories: []
-tags: []
+categories: 
+- estadistica
+tags:
+- r
+- estadistica
 output:
   highlight: github
 thumbnailImage: https://lh3.googleusercontent.com/G-tmnSALJel8vYa-2eO_5icarEa0z3K5nehA7Lp_P03iVt2NkDhfeEAnEcjDjtWB_kFgsE3BlacuHyCknQ=w297-h220
 thumbnailImagePosition: left
+summary: Cómo hacer en R una comparación de medias entre muestras relacionadas, con gráficos y análsis de resultados.
 ---
 
 

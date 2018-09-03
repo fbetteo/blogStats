@@ -7,10 +7,11 @@ output:
     toc: true
     depth: 3
 slug: hola-map-chau-apply
-tags: []
+tags:
+- tidyverse
+- R
 categories:
 - R
-- tidyverse
 coverImage: https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/images/649694main_pia15417-43_full.jpg
 thumbnailImage: https://lh3.googleusercontent.com/iAbeDudWjqCRe2WIRN6Z9UQFLtGfEXSCevQjT8p13BBYx5eXYw7ThHbsXL-gdE_VnUjZ5QjeLcN4mETILw=w191-h220
 thumbnailImagePosition: left
