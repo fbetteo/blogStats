@@ -3,6 +3,7 @@ title: "Como crear un blog con Blogdown y Netlify"
 author: ''
 date: '2018-10-07'
 slug: como-crear-un-blog-con-blogdown-y-netlify
+thumbnailImage: https://lh3.googleusercontent.com/g2mm0fyXtyKGiWojKhln-Ln3yZQRqVl7Tc2YtfIY65Okj8jVnsg_dkkmikxPvsaoMh6KhOUr5QhjkYF4Aw=w190-h220
 tags:
 - blogdown
 - blog
@@ -10,6 +11,8 @@ tags:
 categories:
 - R
 - blog
+thumbnailImagePosition: left
+summary: Post sobre como poner en funcionamiento un blog utilizando Rstudio, blogdown, github y netlify! Todo gratis!
 ---
 
 En este post vamos a ver el proceso reusmido para crear un blog donde podemos generar contenido directamente desde RStudio, utilizando el paquete [blogdown](https://bookdown.org/yihui/blogdown/), [Github](www.github.com) y [Netlify](www.netlify.com).
