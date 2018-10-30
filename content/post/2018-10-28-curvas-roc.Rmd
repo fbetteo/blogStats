@@ -1,14 +1,17 @@
 ---
 title: "Curvas ROC"
-author: "Franco Betteo"
+author: ""
 date: '2018-10-28'
 slug: curvas-roc
+thumbnailImage: https://lh3.googleusercontent.com/ltt1jJAJ-hZsUNTKq_qI_x9OxIssC29pNyhO-iP0IbQ4eyIAsM-JCu2A2sxLIMXLLUP-nkzHNrJbJOxTvQ=w221-h220
 tags:
 - R
 - estadistica
 categories:
 - estadistica
 - R
+thumbnailImagePosition: left
+summary: Post sobre como curvas ROC y Area bajo la Curva (AUC).
 ---
 
 La curva ROC y AUC (area bajo la curva) permiten evaluar la eficacia de un modelo clasificador y elegir el mejor umbral de corte donde determinar qué observación es predicha positiva y cual negativa.
