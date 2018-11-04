@@ -91,11 +91,11 @@ canonifyurls = true
   url = "https://paypal.me/fbetteo"
 
 [[menu.misc]]
-  weight = 1
-  identifier = "rss"
-  name = "RSS"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-rss\"></i>"
-  url = "/index.xml"
+# weight = 1
+# identifier = "rss"
+# name = "RSS"
+# pre = "<i class=\"sidebar-button-icon fa fa-lg fa-rss\"></i>"
+# url = "/index.xml"
 
 [params]
   # Customize date format use to render blog post date, categories and other
