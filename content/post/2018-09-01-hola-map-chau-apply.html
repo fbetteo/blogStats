@@ -63,21 +63,22 @@ map(l1, max)</code></pre>
 ## $b
 ## [1] 10</code></pre>
 <p>Aplicando funciones a elementos de un vector. Cada numero de 1 a 5 es usado como primer input de la funcion <em>rnorm</em>, sd y n son otros parámetros de rnorm. El resultado de nuevo es una lista.</p>
-<pre class="r"><code>1:5 %&gt;% map(., rnorm,sd =2, n=5)</code></pre>
+<pre class="r"><code>set.seed(1)
+1:5 %&gt;% map(., rnorm,sd =2, n=5)</code></pre>
 <pre><code>## [[1]]
-## [1]  0.8146113  2.5486920 -0.2052858 -0.3454044 -0.8844663
+## [1] -0.2529076  1.3672866 -0.6712572  4.1905616  1.6590155
 ## 
 ## [[2]]
-## [1]  1.2252444  2.3626347  2.6269113  3.0262444 -0.1941289
+## [1] 0.3590632 2.9748581 3.4766494 3.1515627 1.3892232
 ## 
 ## [[3]]
-## [1]  0.2853975 -0.4210261  5.8738424  4.2135941  6.0500495
+## [1]  6.023562  3.779686  1.757519 -1.429400  5.249862
 ## 
 ## [[4]]
-## [1] 4.5891074 0.6550007 1.8564873 6.7420030 4.2005604
+## [1] 3.910133 3.967619 5.887672 5.642442 5.187803
 ## 
 ## [[5]]
-## [1] 1.772356 7.262263 7.229187 3.750791 8.106064</code></pre>
+## [1] 6.837955 6.564273 5.149130 1.021297 6.239651</code></pre>
 </div>
 <div id="consistencia-entre-variantes" class="section level1">
 <h1>Consistencia entre variantes</h1>
