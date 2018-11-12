@@ -1,0 +1,112 @@
+---
+title: 'Como correr un proyecto con R en Google Cloud '
+author: ''
+date: '2018-11-10'
+slug: como-correr-un-proyecto-con-r-en-google-cloud
+categories:
+  - R
+tags:
+  - R
+  - Cloud
+thumbnailImage: https://lh3.googleusercontent.com/Jcx9JBr2MRA9mDwumsGc7bJDHGFc5E55q0t7gYKxavFVSKSZD3H0ai6JtFIOuD0HZZKapuZ-4h7wgXBGgg=s192
+thumbnailImagePosition: left
+summary: Post sobre como crear máquinas virtuales en Google Cloud y correr scripts de R en servidores alrededor del mundo!
+---
+
+
+
+<p>Hay situaciones en que nuestras computadoras no alcanzan para correr ciertos algoritmos por la cantidad de memoria o núcleos que tenemos (y comprar otra no es una opción..). Una solución es correr nuestro proyecto en “la nube”, es decir en servidores ajenos mantenidos por empresas. Los servicios de esta índole más conocidos son:</p>
+<ul>
+<li>Google Cloud</li>
+<li>Amazon AWS</li>
+<li>Microsoft Azure</li>
+</ul>
+<p>En este post usaremos el primero. Como es de esperar, estos servicios son pagos y si su negocio lo amerita son una gran opción. Igualmente Google Cloud ofrece U$S300 de regalo al crear una cuenta por lo que podrían hacer uso para algún proyecto o pruebas. Les aseguro que no es particularmente bajo el monto. Solo tienen que registrarse y asociar una tarjeta de crédito y no abonar nada.</p>
+<p>Google Cloud ofrece un montón de servicios y opciones de las cuales presentaremos lo más básico pero igualmente suficiente para correr un xgboost en gigas y gigas de datos con cientos de variables je.</p>
+<ol style="list-style-type: decimal">
+<li>Crear una máquina virtual instalando R</li>
+<li>Crear un Bucket que sirve como Disco duro para guardar data, outputs, etc</li>
+<li>Correr un algoritmo</li>
+</ol>
+<div id="maquina-virtual" class="section level2">
+<h2>Máquina Virtual</h2>
+<p>Una vez registrados, lo primero que vamos a hacer es crear la máquina virtual e instalar R y ciertos paquetes. Lamentablemente el proceso es bastante engorroso para quienes no conocen bash ni están familiarizados con Cloud. Es todo por consola y para nada intuitivo sin leer la documentación, que está en inglés. Es un proceso largo y la documentación más clara que encontré se encuentra en este <a href="http://grantmcdermott.com/2017/05/30/rstudio-server-compute-engine/">BLOG</a>. No tiene sentido intentar decir lo mismo que él pero peor. Les recomiendo seguirlo y van a obtener una máquina virtual con Rstudio instalado y ciertas dependencias útiles para la mayoría de las librerías que se usan.</p>
+<!-- lo tengo en la pc tambien por las dudas 
+miran sino el dropbox https://www.dropbox.com/sh/8xzxv7erkeb3ncx/AADwqKGuOmXEPvy5pwNe7R1Ia/cloud?dl=0&subfolder_nav_tracking=1 -->
+</div>
+<div id="crear-bucket" class="section level2">
+<h2>Crear Bucket</h2>
+<p>Ir a <img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/bucket1.PNG" width="200" height="350" /> Clickear los 3 puntos a la derecha y entrar a “Create key”</p>
+<p>Se les descargará un archivo .json que deben renombrar a ** privatekey_inicial.json ** . Luego ir a: <img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/bucket2.PNG" width="200" height="350" /></p>
+<p>Crear un bucket cuyo nombre no tenga espacios ni caracteres raros. Va a pedirles que sea un nombre que no esté siendo usado por nadie más. Hecho esto el bucket está creado y se le pueden subir archivos. Luego desde los scripts también se le van a poder escribir directamente, es decir, guardar los outputs. Ahora vamos a cambiar los permisos del bucket. Copiarse el account id desde aquí. <img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/bucket3.PNG" width="350" height="200" /></p>
+<p>Luego ir a storage y en los 3 puntitos de nuesto bucket clickear “Edit Bucket permissions” y pegar el ID. <img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/bucket4.PNG" width="200" height="350" /></p>
+</div>
+<div id="crear-imagen" class="section level2">
+<h2>Crear Imagen</h2>
+<p>Lo que haremos ahora es crear una imagen de la maquina virtual que generamos (donde instalamos R) para poder levantar futuras máquinas y que directamente tengan instalado R y los paquetes si lo deseamos (invocando a esta imagen). Dejo imágenes de un tutorial que van a ser más claras que yo.</p>
+<div class="figure">
+<img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/imagen%201.PNG" width="400" height="700" />
+
+</div>
+<div class="figure">
+<img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/imagen2.PNG" width="400" height="700" />
+
+</div>
+<div class="figure">
+<img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/imagen3.PNG" width="400" height="700" />
+
+</div>
+<p>Luego ir a Compute Engine –&gt; Images</p>
+<div class="figure">
+<img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/imagen4.PNG" width="400" height="700" />
+
+</div>
+<div id="status" class="section level3">
+<h3>Status</h3>
+<p>Resumiendo brevemente:</p>
+<ul>
+<li>Tenemos una cuenta y U$S 300 disponibles.</li>
+<li>Creamos una VM con R y paquetes.</li>
+<li>Generamos una imagen de esa VM para poder retutilizarla.</li>
+<li>Creamos un bucket donde almacenar inputs y outputs, linkeado a la imagen.</li>
+</ul>
+<p>Estamos casi listos. Falta correr algun script!</p>
+</div>
+</div>
+<div id="como-correr-un-script-de-r." class="section level2">
+<h2>Cómo correr un script de R.</h2>
+<p>Una vez seteado todo lo anterior (y asegurándonos de haber apagado la maquina virtual utilizada) lo que debemos hacer es crear otras VM (instance) con los núcleos y Ram que cremos convenientes - esto depende totalmente de la complejidad del algoritmo que vayan a correr-, asignando una región donde preferentemente sea de noche o fin de semana para que esté menos saturada. Lo más importante es cambiar el boot disk y seleccionar dentro de “custom” la imagen que hayamos generado con R. De esta manera la VM que iniciemos ya tendrá R, Rstudio y librerías instaladas.</p>
+<div class="figure">
+<img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/runscript1.PNG" width="200" height="350" />
+
+</div>
+<p>Justo debajo de lo que se ve en la imagen hay opciones extras de “Management, security, disks”, etc. Depende la importancia de lo que estén haciendo puede ser bueno asegurarse que la opción <em>Preemptibility</em> esté OFF. Si está ON, la VM se correrá en un servidor que máximo puede durar 24hs (posterior a eso se apaga automáticamente la VM) y más importante aún, están sujetos a disponibilidad de Google, es decir que si hay mucha demanda de servidores pueden apagarles el suyo sin consultar. Lo positivo es que son mucho más baratas. Al tenerlo OFF, se aseguran que su VM estará encendida durante todo lo que tarde el script en correr y no va a depender de la demanda. Queda a criterio de cada uno.</p>
+<p>Ya estamos listos para correr. Hay dos maneras sencillas:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Directo desde Rstudio en la VM.</strong></li>
+</ol>
+<p>Haciendo click en el IP de su instancia. Se abrirá Rstudio y deberán poner Usuario y Contraseña seteados durante la instalación. Ahi pueden trabajar como si fuera directamente R. Recomiendo tener Script listo porque no es muy dinámico trabajar en vivo ahí.</p>
+<div class="figure">
+<img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/runscript2.PNG" width="200" height="350" />
+
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Desde la terminal, llamando a script en el bucket.</strong></li>
+</ol>
+<p>Otra opción es subir su script al bucket que generaron y en Rstudio (como en 1.) ir a la terminal y correr:</p>
+<pre class="r"><code>Rscipt --vanilla ~/cloud/cloud1/pathToScript/script.r</code></pre>
+<p>O desde la consola (que basicamente system() simular ser la temrinal) :</p>
+<pre class="r"><code>system(Rscipt --vanilla ~/cloud/cloud1/pathToScript/script.r)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Desde la terminal de la instancia.</strong></li>
+</ol>
+<div class="figure">
+<img src="/post/2018-11-10-como-correr-un-proyecto-con-r-en-google-cloud_files/runscript3.PNG" width="200" height="350" />
+
+</div>
+<p>Y ahí deberían poder correr sin problema.</p>
+<pre class="r"><code>Rscipt --vanilla ~/cloud/cloud1/pathToScript/script.r</code></pre>
+<p>En cualquiera de los 3 casos presten atención a las rutas que usan en sus scripts para referenciar al bucket. Si linkearon el bucket a la imagen de la VM como vimos en el post deberían poder usar la siguiente ruta genérica.</p>
+<pre class="r"><code>&quot;~/cloud/cloud1/RestoDelPath/&quot;</code></pre>
+<p>Y eso es todo. Ya pueden levantar una VM en google cloud y correr algoritmos con gigas y gigas de data sin quemar su PC!</p>
+</div>
