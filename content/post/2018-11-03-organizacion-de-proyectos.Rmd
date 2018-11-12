@@ -7,7 +7,7 @@ categories:
   - R
 tags:
   - R
-thumbnailImage: https://lh3.googleusercontent.com/xLZzBlRM-GAz6ERF6pnDNZdlFVAErPvzSNbkTc27Na8Mm0k-a6aCqHQ8OAJsOQ3KfQYWmTnyRvS-37YCMw=w410-h215-rw
+thumbnailImage: https://lh3.googleusercontent.com/isCJp6L6bOcZABrHMm5wPhVWK-fxzUlhsyVRrooD3WcBA6cWJgd7BtZVA9ifPsmb6Z6Tul065aNJNrWeig=w328-h172
 thumbnailImagePosition: left
 summary: Post sobre como organizar proyectos, estructura de carpetas y más.
 ---
