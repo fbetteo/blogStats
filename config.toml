@@ -12,12 +12,12 @@
 # For developpers, if you modify this theme, put your images in `source/images` folder and
 # use grunt task `build` to synchronize assets
 
-baseURL = "https://fbetteo.netlify.com/"
+baseURL = "https://fbetteo.netlify.com"
 languageCode = "es"
-defaultContentLanguage = "es-ar"
+defaultContentLanguage = "en-us"
 title = "FB Stats"
 theme = "hugo-tranquilpeak-theme"
-disqusShortname = "hugo-tranquilpeak-theme"
+disqusShortname = "fbetteo-netlify-com"
 googleAnalytics = "UA-124611581-1"
 paginate = 7
 canonifyurls = true
@@ -33,13 +33,13 @@ canonifyurls = true
 [author]
   name = "Franco Betteo"
   bio = "Economista. Maestría en Análisis de datos UBA en curso. Fbetteo"
-  job = "Your job title"
+  job = "Marketing Analytics"
   location = "Argentina"
   # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
-  gravatarEmail = "francobetteo@gmail.com"
+  # gravatarEmail = "francobetteo@gmail.com"
   # Your profile picture
   # Overwritten by your gravatar image if `author.gravatarEmail` is filled
-  picture = "https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png"
+  picture = "https://lh3.googleusercontent.com/fZuxF30U_YAZNUhbVKs_UpZHaunCd4ygudXMmJT8Or_s-m-5ItHmNuMZZFAn9CdLqIyhLMGWcblDpXLBLA=s275-rw"
   # Your Twitter username without the @. E.g : thibaudlepretre
   # twitter = "francobetteo"
   # Your google plus profile id. E.g : +ThibaudLepretre or 114625208755123718311
@@ -91,21 +91,21 @@ canonifyurls = true
   url = "https://paypal.me/fbetteo"
 
 [[menu.misc]]
-  weight = 1
-  identifier = "rss"
-  name = "RSS"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-rss\"></i>"
-  url = "/index.xml"
+# weight = 1
+# identifier = "rss"
+# name = "RSS"
+# pre = "<i class=\"sidebar-button-icon fa fa-lg fa-rss\"></i>"
+# url = "/index.xml"
 
 [params]
   # Customize date format use to render blog post date, categories and other
   # You must use date format used by Go Time package https://golang.org/pkg/time/
   # Months (not work with short month like "jan", "feb", etc) are translated if translation exists on i18n folders
   # Default format is: January 2, 2006 
-  dateFormat = "2 January 2006"
+  # dateFormat = "2 January 2006"
 
   # Global keywords configuration. Following keywords will be add to every pages
-  # keywords = ["development", "next-gen"]
+  keywords = ["R", "statistics", "rstats", "machine learning", "AI", "Data Science","Analytics"]
 
   # Syntax highlighter, possible choice between: "highlight.js" (recommanded) and "prism.js" (experimental)
   # You can comment it to disable syntax highlighting
@@ -116,7 +116,7 @@ canonifyurls = true
 
   # Define categories will create hierarchy between parents: `categories = ["foo", "bar"]` will consider "bar" a sub-category of "foo". 
   # If false it will flat categories.
-  hierarchicalCategories = true
+  hierarchicalCategories = false
 
   description = "Hugo tranquilpeak theme demo"
 
@@ -141,7 +141,7 @@ canonifyurls = true
   # Current image is on AWS S3 and delivered by AWS CloudFront.
   # Otherwise put your image in folder `static/_images/` (development)  or in `source/assets/images/` if you can't or don't want to build the theme,
   # and use relative url : `your-image.png`
-  coverImage = "cover.jpg"
+  coverImage = "cover3.png"
   coverCaption = "A beautiful sunrise"
 
 

@@ -29,6 +29,7 @@ Muestra1 &lt;- rnorm(1000, mean = 80000, sd = 7000)
 Muestra2 &lt;- Muestra1 + rnorm(1000, mean = 20000, sd = 10000)</code></pre>
 <p>Como se puede ver desde la generación de las variables, lo que hicimos fue aumentar el salario en $20000 promedio con cierto desvío para todos los individuos. Por lo tanto tenemos dos muestras de los mismos 1000 individuos, antes y después de obtener un posgrado. Como lo generamos nosotros ya sabemos a priori las conclusiones pero con el objetivo de entender nos es útil.</p>
 <p>Gráficamos para tener visibilidad sobre la data.</p>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.4.4</code></pre>
 <p><img src="/post/2018-08-25-comparación-de-medias-entre-muestras-relacionadas_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>A simple vista vemos que al obtener un posgrado los individuos pasan a tener un salario promedio mayor aunque quizás con un poco mas de varianza alrededor de la media. El test T nos va a permitir determinar si esta diferencia es estadísticamente significativa.</p>
 <pre class="r"><code># Paired = TRUE para indicar que son muestras relacinadas.
