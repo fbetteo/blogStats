@@ -84,82 +84,28 @@ head(sum_prov)</code></pre>
 ## It has 9 fields
 ## Integer64 fields read as strings:  ID_0 ID_1</code></pre>
 <p>Es un archivo S4 por lo que se utiliza “@” para acceder a su contenido. Por ejemplo:</p>
-<pre class="r"><code>argentina@data</code></pre>
-<pre><code>##    ID_0 ISO    NAME_0 ID_1                 NAME_1
-## 0    12 ARG Argentina    1           Buenos Aires
-## 1    12 ARG Argentina    2                Córdoba
-## 2    12 ARG Argentina    3              Catamarca
-## 3    12 ARG Argentina    4                  Chaco
-## 4    12 ARG Argentina    5                 Chubut
-## 5    12 ARG Argentina    6 Ciudad de Buenos Aires
-## 6    12 ARG Argentina    7             Corrientes
-## 7    12 ARG Argentina    8             Entre Ríos
-## 8    12 ARG Argentina    9                Formosa
-## 9    12 ARG Argentina   10                  Jujuy
-## 10   12 ARG Argentina   11               La Pampa
-## 11   12 ARG Argentina   12               La Rioja
-## 12   12 ARG Argentina   13                Mendoza
-## 13   12 ARG Argentina   14               Misiones
-## 14   12 ARG Argentina   15                Neuquén
-## 15   12 ARG Argentina   16              Río Negro
-## 16   12 ARG Argentina   17                  Salta
-## 17   12 ARG Argentina   18               San Juan
-## 18   12 ARG Argentina   19               San Luis
-## 19   12 ARG Argentina   20             Santa Cruz
-## 20   12 ARG Argentina   21               Santa Fe
-## 21   12 ARG Argentina   22    Santiago del Estero
-## 22   12 ARG Argentina   23       Tierra del Fuego
-## 23   12 ARG Argentina   24                Tucumán
-##                           TYPE_1          ENGTYPE_1 NL_NAME_1
-## 0                      Provincia           Province      &lt;NA&gt;
-## 1                      Provincia           Province      &lt;NA&gt;
-## 2                      Provincia           Province      &lt;NA&gt;
-## 3                      Provincia           Province      &lt;NA&gt;
-## 4                      Provincia           Province      &lt;NA&gt;
-## 5               Distrito Federal   Federal District      &lt;NA&gt;
-## 6                      Provincia           Province      &lt;NA&gt;
-## 7                      Provincia           Province      &lt;NA&gt;
-## 8                      Provincia           Province      &lt;NA&gt;
-## 9                      Provincia           Province      &lt;NA&gt;
-## 10                     Provincia           Province      &lt;NA&gt;
-## 11                     Provincia           Province      &lt;NA&gt;
-## 12                     Provincia           Province      &lt;NA&gt;
-## 13                     Provincia           Province      &lt;NA&gt;
-## 14                     Provincia           Province      &lt;NA&gt;
-## 15                     Provincia           Province      &lt;NA&gt;
-## 16                     Provincia           Province      &lt;NA&gt;
-## 17                     Provincia           Province      &lt;NA&gt;
-## 18                     Provincia           Province      &lt;NA&gt;
-## 19                     Provincia           Province      &lt;NA&gt;
-## 20                     Provincia           Province      &lt;NA&gt;
-## 21                     Provincia           Province      &lt;NA&gt;
-## 22 Territorio Nacional|Provincia National Territory      &lt;NA&gt;
-## 23                     Provincia           Province      &lt;NA&gt;
-##                                                                                                    VARNAME_1
-## 0                                                                                        Baires|Buenos Ayres
-## 1                                                                                                    Cordova
-## 2                                                                                                       &lt;NA&gt;
-## 3                                                                             El Chaco|Presidente Juan Peron
-## 4                                                                                                       &lt;NA&gt;
-## 5                      BUENOS AIRES D.F.|Capital Federal|Distretto Federale|Distrito Federal|Federal Capital
-## 6                                                                                                       &lt;NA&gt;
-## 7                                                                                                 Entre-Rios
-## 8                                                                                                       &lt;NA&gt;
-## 9                                                                                                       &lt;NA&gt;
-## 10                                                                                        El Pampa|Eva Perón
-## 11                                                                                                      &lt;NA&gt;
-## 12                                                                                                      &lt;NA&gt;
-## 13                                                                                                   Missões
-## 14                                                                                                   Neuquén
-## 15                                                                                                      &lt;NA&gt;
-## 16                                                                                                      &lt;NA&gt;
-## 17                                                                                                      &lt;NA&gt;
-## 18                                                                                                      &lt;NA&gt;
-## 19                                                                                                      &lt;NA&gt;
-## 20                                                                                                  Santa Fé
-## 21                                                                                                      &lt;NA&gt;
-## 22 Feuerland|Terra del Fuoco|Terre de Feu|Terra do Fogo|Tierra del Fuego|Antártida e Islas del Atlántico Sur
-## 23                                                                                                   Tucumão</code></pre>
+<pre class="r"><code>head(argentina@data)</code></pre>
+<pre><code>##   ID_0 ISO    NAME_0 ID_1                 NAME_1           TYPE_1
+## 0   12 ARG Argentina    1           Buenos Aires        Provincia
+## 1   12 ARG Argentina    2                Córdoba        Provincia
+## 2   12 ARG Argentina    3              Catamarca        Provincia
+## 3   12 ARG Argentina    4                  Chaco        Provincia
+## 4   12 ARG Argentina    5                 Chubut        Provincia
+## 5   12 ARG Argentina    6 Ciudad de Buenos Aires Distrito Federal
+##          ENGTYPE_1 NL_NAME_1
+## 0         Province      &lt;NA&gt;
+## 1         Province      &lt;NA&gt;
+## 2         Province      &lt;NA&gt;
+## 3         Province      &lt;NA&gt;
+## 4         Province      &lt;NA&gt;
+## 5 Federal District      &lt;NA&gt;
+##                                                                               VARNAME_1
+## 0                                                                   Baires|Buenos Ayres
+## 1                                                                               Cordova
+## 2                                                                                  &lt;NA&gt;
+## 3                                                        El Chaco|Presidente Juan Peron
+## 4                                                                                  &lt;NA&gt;
+## 5 BUENOS AIRES D.F.|Capital Federal|Distretto Federale|Distrito Federal|Federal Capital</code></pre>
 <p>Este tipo de archivos tiene una estructura complicada y hay varias librerías útiles. Con el fin de mantenernos dentro del tidyverse usaremos el enfoque de ggplot por capaz para graficar. Primero necesitamos llevar la información del shapefile a un dataframe.</p>
 <pre class="r"><code># Transformo a dataframe.
 argentina_df &lt;- broom::tidy(argentina)</code></pre>
