@@ -1,21 +1,20 @@
 ---
-title: 'Introducción a gráficos con mapas '
-author: 'Franco Betteo'
+title: "Introducción a gráficos con mapas"
+author: "Franco Betteo"
 date: '2019-03-30'
-output:
-  html_document:
-    df_print: paged
-slug: introduccionn-a-graficos-con-mapas
+slug: introduccion-a-graficos-con-mapas
 tags:
 - GIS
 - mapas
 - R
 - tidyverse
-categories: R
-thumbnailImage: https://lh3.googleusercontent.com/UrrvM2aSqKpt-kLI2PSzo5_ghVPqViZ5JoFw9fv8q8TaDoh-pJ3NwP6lstTNy9APJwRmqn9Lhks0eTAwmQ=w258-h195
+categories: 
+- R
+thumbnailImage: https://lh3.googleusercontent.com/UrrvM2aSqKpt-kLI2PSzo5_ghVPqViZ5JoFw9fv8q8TaDoh-pJ3NwP6lstTNy9APJwRmqn9Lhks0eTAwmQ=w258-h195 
 thumbnailImagePosition: left
-summary: "La idea de este post es introducirlos a los gráficos en mapas con ggplot."
+summary: La idea de este post es introducirlos a los gráficos en mapas con ggplot.
 ---
+
 # Data
 
 Vamos a ver un ejemplo sencillo para representar información visualmente sobre mapas. En este caso un pequeño dataset de incendios forestales en Argentina de 2012 a 2015. La idea es usar ggplot y mantener el enfoque de gráficos por capas.
@@ -39,8 +38,9 @@ library(tidyverse)
 raw <- read.csv("../../static/post/2019-03-30-introducción-a-gráficos-en-mapas/focosincendio.csv", sep = ";")
 raw <- as.tibble(raw)
 ```
+
 ```{r}
-head(raw)
+glimpse(raw)
 ```
 
 
@@ -77,6 +77,7 @@ Lo descargué y deszipee en la computadora. Lo leemos con una librería particul
 
 dsn contiene la ruta a la carpeta con los archivos del shapefile.
 Layer apunta a al set de archivos que contiene la data que queremos. Generalmente hay otros sets con información no relevante al gráfico.
+
 ```{r}
 argentina <- rgdal::readOGR(dsn = "../../static/post/2019-03-30-introducción-a-gráficos-en-mapas/ARG_adm", layer = "ARG_adm1", use_iconv=TRUE, encoding='UTF-8')
 ```
