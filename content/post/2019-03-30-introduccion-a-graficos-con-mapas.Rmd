@@ -1,6 +1,6 @@
 ---
-title: "Introduccion a graficos con mapas"
-author: "FB"
+title: Introduccion a graficos con mapas
+author: 'FB'
 date: '2019-03-30'
 slug: introduccion-a-graficos-con-mapas
 tags:
@@ -8,7 +8,11 @@ tags:
 - mapas
 - R
 - tidyverse
-categories: R
+categories: 
+- R
+thumbnailImage: https://lh3.googleusercontent.com/UrrvM2aSqKpt-kLI2PSzo5_ghVPqViZ5JoFw9fv8q8TaDoh-pJ3NwP6lstTNy9APJwRmqn9Lhks0eTAwmQ=w258-h195
+thumbnailImagePosition: left
+summary: Introduccion a graficos en mapas con ggplot.
 ---
 
 
