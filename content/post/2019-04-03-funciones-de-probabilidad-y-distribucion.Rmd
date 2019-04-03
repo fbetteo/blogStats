@@ -1,0 +1,33 @@
+---
+title: Funciones de Probabilidad y Distribucion
+author: ''
+date: '2019-04-03'
+slug: funciones-de-probabilidad-y-distribucion
+categories:
+  - estadistica
+  - R
+tags:
+  - estadistica
+  - R
+---
+
+# Variables Aleatorias
+
+Consideremos un experimento cuyo espacio muestral denominaremos ` S `.   
+Una funcion valuada en el dominio de los reales definida en `S` es una variable aleatoria. 
+
+En otras palabras es una función que asigna a cada resultado posible de un experimento un valor real.
+
+Por ejemplo:
+
+>  Si el experimento es lanzar una moneda 10 veces hay 2^10^ combinaciones posibles de caras (o) y crux (x).
+>  Si definimos la variable aleatoria X como cantidad de caras entonces X(s) será la cantidad de caras del experimento.  
+>  Si s resulta ser la secuencia `ooxxxoxxxo` entonces X(s) = 4.
+
+
+# Distribucion de una variable aleatoria
+
+Si tenemos la distribución de probabilidad del espacio muestral del experimento podemos determinar la distribución de probabilidad de cualquier variable aleatoria válida.
+
+Volviendo al ejemplo de la moneda. Dijimos que hay 2^10^ combinaciones de cara o cruz.
+La cantidad de combinaciones de X caras en 10 lanzamientos es $\binom{n}{x} \frac{1}{2^{10}}$
