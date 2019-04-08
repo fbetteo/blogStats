@@ -20,7 +20,7 @@ En otras palabras es una función que asigna a cada resultado posible de un expe
 
 Por ejemplo:
 
->  Si el experimento es lanzar una moneda 10 veces hay 2^10^ combinaciones posibles de caras (o) y crux (x).
+>  Si el experimento es lanzar una moneda 10 veces hay 2^10^ combinaciones posibles de caras (o) y crux (x).  
 >  Si definimos la variable aleatoria X como cantidad de caras entonces X(s) será la cantidad de caras del experimento.  
 >  Si s resulta ser la secuencia `ooxxxoxxxo` entonces X(s) = 4.
 
@@ -30,4 +30,60 @@ Por ejemplo:
 Si tenemos la distribución de probabilidad del espacio muestral del experimento podemos determinar la distribución de probabilidad de cualquier variable aleatoria válida.
 
 Volviendo al ejemplo de la moneda. Dijimos que hay 2^10^ combinaciones de cara o cruz.
-La cantidad de combinaciones de X caras en 10 lanzamientos es $\binom{n}{x} \frac{1}{2^{10}}$
+La cantidad de combinaciones de X caras en 10 lanzamientos es $P(X = x) = \binom{n}{x} \frac{1}{2^{10}}$  para $x = 0,1,2,..,10$
+
+## Distribuciones Discretas
+
+Una variable aleatoria tiene una distribución discreta si solo puede tomar valores de una secuencia (generalmente finita pero puede no serlo). 
+
+* La función de probabilidad le otorga una probabilidad puntual a cada valor de esa secuencia.
+* Los valores por fuera de la secuencia tienen probabilidad  = 0
+* La suma de todas las probabilidades tiene que ser 1
+
+### Distribución Uniforme
+
+En el caso de la dsitribución uniforme, supongamos que la variable puede tomar valores de 1 a k.
+La función de probabilidad será $f(x) = \frac{1}{k}$ para x = 1,2,...,k. 
+Y 0 para todos los otros valores.
+
+> si k = 10  
+> Los valores de la variable serán cualquier entero entre 1 y 10  
+> Cada valor tendrá probabilidad $\frac{1}{10}$
+
+
+### Distribución Binomial
+
+En el caso de la dsitribución binomial se asumen dos posibles resultados, uno con probabilidad *p* y su contraparte con probabilidad *1-p*.  
+Por ejemplo la probabilidad p de que una máquina genere un producto defectuoso y 1-p de que sea no defectuoso.  
+Si una máquina produce *n* productos va a generar X productos defectuosos. La variable aleatoria X tendrá una distribución discreta y sus posibles valores irán de 0 a n.  
+Para cualquier valor de x (entre 0 y n), la probabilidad de que la máquina genere x productos defectuosos entre los n producidos (de una secuencia particular) es $p^{x}q^{(n-x)}$  
+Como existen $\binom{n}{x}$ distintas secuencias posibles con x defectuosos entre los n productos tenemos que:  
+$Pr(X = x) = \binom{n}{x}p^{x}q^{(n-x)}$  
+La función de probabilidad será $f(x) = \binom{n}{x}p^{x}q^{(n-x)}$ para x = 0,1,2,...,n. 
+Y 0 para todos los otros valores.
+
+Para usar esta distribución en R tenemos los siguientes comandos:
+
+* Para generar *n* escenarios al azar donde se producen *size* productos con probabilidad *p* de ser defectuosos.
+El resultado es la variable x para escanario. Es decir la cantidad de defectuosos.  
+En el primer escenario x = 0, en el segundo x = 1 y así.
+```{r}
+set.seed(1)
+rbinom(n = 10, size = 5, p = 0.2 )
+# random binomial
+```
+
+* Para saber la probabilidad de obtener *x* productos defectuosos si una máquina produce *size* productos y la probabilidad de que produzca un defectuoso es *prob*.  
+Hay probabilidad de 0.0264 de obtener 5 defectuosos si producimos 10 con probabilidad 0.2.
+
+```{r}
+dbinom(x = 5, size = 10, prob = 0.2)
+```
+
+* Para saber la probabilidad acumulada de obtener *q* **o menos** productos defectuosos si la máquina fabrica *size* objetos, con probabilidad de defecto *prob*.
+Hay probabiliad de 0.879 de obtener 3 o menos defectuosos si la máquina produce 10 objetos con probabilidad 0.2 de defecto.
+Es decir, es la suma de obtener exactamanete 0 defectuosos, más exactamente 1 defectuoso, más exactamnente 2 defectuosos, más exactamente 3 defectuosos.
+```{r}
+pbinom(q = 3, size = 10, prob = 0.2)
+```
+

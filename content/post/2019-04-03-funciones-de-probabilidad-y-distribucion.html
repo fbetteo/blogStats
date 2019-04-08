@@ -20,12 +20,61 @@ Una funcion valuada en el dominio de los reales definida en <code>S</code> es un
 <p>En otras palabras es una función que asigna a cada resultado posible de un experimento un valor real.</p>
 <p>Por ejemplo:</p>
 <blockquote>
-<p>Si el experimento es lanzar una moneda 10 veces hay 2<sup>10</sup> combinaciones posibles de caras (o) y crux (x). Si definimos la variable aleatoria X como cantidad de caras entonces X(s) será la cantidad de caras del experimento.<br />
+<p>Si el experimento es lanzar una moneda 10 veces hay 2<sup>10</sup> combinaciones posibles de caras (o) y crux (x).<br />
+Si definimos la variable aleatoria X como cantidad de caras entonces X(s) será la cantidad de caras del experimento.<br />
 Si s resulta ser la secuencia <code>ooxxxoxxxo</code> entonces X(s) = 4.</p>
 </blockquote>
 </div>
 <div id="distribucion-de-una-variable-aleatoria" class="section level1">
 <h1>Distribucion de una variable aleatoria</h1>
 <p>Si tenemos la distribución de probabilidad del espacio muestral del experimento podemos determinar la distribución de probabilidad de cualquier variable aleatoria válida.</p>
-<p>Volviendo al ejemplo de la moneda. Dijimos que hay 2<sup>10</sup> combinaciones de cara o cruz. La cantidad de combinaciones de X caras en 10 lanzamientos es <span class="math inline">\(\binom{n}{x} \frac{1}{2^{10}}\)</span></p>
+<p>Volviendo al ejemplo de la moneda. Dijimos que hay 2<sup>10</sup> combinaciones de cara o cruz. La cantidad de combinaciones de X caras en 10 lanzamientos es <span class="math inline">\(P(X = x) = \binom{n}{x} \frac{1}{2^{10}}\)</span> para <span class="math inline">\(x = 0,1,2,..,10\)</span></p>
+<div id="distribuciones-discretas" class="section level2">
+<h2>Distribuciones Discretas</h2>
+<p>Una variable aleatoria tiene una distribución discreta si solo puede tomar valores de una secuencia (generalmente finita pero puede no serlo).</p>
+<ul>
+<li>La función de probabilidad le otorga una probabilidad puntual a cada valor de esa secuencia.</li>
+<li>Los valores por fuera de la secuencia tienen probabilidad = 0</li>
+<li>La suma de todas las probabilidades tiene que ser 1</li>
+</ul>
+<div id="distribucion-uniforme" class="section level3">
+<h3>Distribución Uniforme</h3>
+<p>En el caso de la dsitribución uniforme, supongamos que la variable puede tomar valores de 1 a k. La función de probabilidad será <span class="math inline">\(f(x) = \frac{1}{k}\)</span> para x = 1,2,…,k. Y 0 para todos los otros valores.</p>
+<blockquote>
+<p>si k = 10<br />
+Los valores de la variable serán cualquier entero entre 1 y 10<br />
+Cada valor tendrá probabilidad <span class="math inline">\(\frac{1}{10}\)</span></p>
+</blockquote>
+</div>
+<div id="distribucion-binomial" class="section level3">
+<h3>Distribución Binomial</h3>
+<p>En el caso de la dsitribución binomial se asumen dos posibles resultados, uno con probabilidad <em>p</em> y su contraparte con probabilidad <em>1-p</em>.<br />
+Por ejemplo la probabilidad p de que una máquina genere un producto defectuoso y 1-p de que sea no defectuoso.<br />
+Si una máquina produce <em>n</em> productos va a generar X productos defectuosos. La variable aleatoria X tendrá una distribución discreta y sus posibles valores irán de 0 a n.<br />
+Para cualquier valor de x (entre 0 y n), la probabilidad de que la máquina genere x productos defectuosos entre los n producidos (de una secuencia particular) es <span class="math inline">\(p^{x}q^{(n-x)}\)</span><br />
+Como existen <span class="math inline">\(\binom{n}{x}\)</span> distintas secuencias posibles con x defectuosos entre los n productos tenemos que:<br />
+<span class="math inline">\(Pr(X = x) = \binom{n}{x}p^{x}q^{(n-x)}\)</span><br />
+La función de probabilidad será <span class="math inline">\(f(x) = \binom{n}{x}p^{x}q^{(n-x)}\)</span> para x = 0,1,2,…,n. Y 0 para todos los otros valores.</p>
+<p>Para usar esta distribución en R tenemos los siguientes comandos:</p>
+<ul>
+<li>Para generar <em>n</em> escenarios al azar donde se producen <em>size</em> productos con probabilidad <em>p</em> de ser defectuosos. El resultado es la variable x para escanario. Es decir la cantidad de defectuosos.<br />
+En el primer escenario x = 0, en el segundo x = 1 y así.</li>
+</ul>
+<pre class="r"><code>set.seed(1)
+rbinom(n = 10, size = 5, p = 0.2 )</code></pre>
+<pre><code>##  [1] 0 1 1 2 0 2 3 1 1 0</code></pre>
+<pre class="r"><code># random binomial</code></pre>
+<ul>
+<li>Para saber la probabilidad de obtener <em>x</em> productos defectuosos si una máquina produce <em>size</em> productos y la probabilidad de que produzca un defectuoso es <em>prob</em>.<br />
+Hay probabilidad de 0.0264 de obtener 5 defectuosos si producimos 10 con probabilidad 0.2.</li>
+</ul>
+<pre class="r"><code>dbinom(x = 5, size = 10, prob = 0.2)</code></pre>
+<pre><code>## [1] 0.02642412</code></pre>
+<ul>
+<li>Para saber la probabilidad acumulada de obtener <em>q</em> <strong>o menos</strong> productos defectuosos si la máquina fabrica <em>size</em> objetos, con probabilidad de defecto <em>prob</em>. Hay probabiliad de 0.879 de obtener 3 o menos defectuosos si la máquina produce 10 objetos con probabilidad 0.2 de defecto. Es decir, es la suma de obtener exactamanete 0 defectuosos, más exactamente 1 defectuoso, más exactamnente 2 defectuosos, más exactamente 3 defectuosos.</li>
+</ul>
+<pre class="r"><code>pbinom(q = 3, size = 10, prob = 0.2)</code></pre>
+<pre><code>## [1] 0.8791261</code></pre>
+</div>
+</div>
 </div>
