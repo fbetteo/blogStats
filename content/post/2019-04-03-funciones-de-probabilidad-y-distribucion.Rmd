@@ -131,7 +131,8 @@ Hay 93.31% de chances de obtener un valor inferior a 1.5 si tomamos una muestra 
 ```{r}
 qnorm(p = 0.9331, mean = 0, sd = 1)
 ```
-La diferencia respecto al código anterior es porque redondeamos.
+La diferencia respecto al código anterior es porque redondeamos la probabilidad.
+
  
 
  
