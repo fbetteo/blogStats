@@ -9,6 +9,9 @@ categories:
 tags:
   - estadistica
   - R
+thumbnailImage: https://lh3.googleusercontent.com/nhlc2ATujz4P9pWYNtDaIjekQkYVux3yLq9NLVo-768-FxONnhevkYazCYooWaNyjdusTUn7NEcYwIdigA=w287-h176
+thumbnailImagePosition: left
+summary: Acerca de variables aleatorias y sus distribuciones.
 ---
 
 # Variables Aleatorias
@@ -20,7 +23,7 @@ En otras palabras es una función que asigna a cada resultado posible de un expe
 
 Por ejemplo:
 
->  Si el experimento es lanzar una moneda 10 veces hay 2^10^ combinaciones posibles de caras (o) y crux (x).  
+>  Si el experimento es lanzar una moneda 10 veces hay 2^10^ combinaciones posibles de caras (o) y cruz (x).  
 >  Si definimos la variable aleatoria X como cantidad de caras entonces X(s) será la cantidad de caras del experimento.  
 >  Si s resulta ser la secuencia `ooxxxoxxxo` entonces X(s) = 4.
 
