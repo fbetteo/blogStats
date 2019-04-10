@@ -3,9 +3,6 @@ title: Funciones de Probabilidad y Distribucion
 author: ''
 date: '2019-04-03'
 slug: funciones-de-probabilidad-y-distribucion
-output:
-  blogdown::html_page:
-    highlight: tango
 categories:
   - estadistica
   - R
