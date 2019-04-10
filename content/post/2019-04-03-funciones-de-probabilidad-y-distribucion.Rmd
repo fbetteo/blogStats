@@ -3,6 +3,9 @@ title: Funciones de Probabilidad y Distribucion
 author: ''
 date: '2019-04-03'
 slug: funciones-de-probabilidad-y-distribucion
+output:
+  blogdown::html_page:
+    highlight: tango
 categories:
   - estadistica
   - R
@@ -87,3 +90,51 @@ Es decir, es la suma de obtener exactamanete 0 defectuosos, más exactamente 1 d
 pbinom(q = 3, size = 10, prob = 0.2)
 ```
 
+## Distribuciones Continuas
+
+Una variable aleatoria X tiene una distribución continua si existe una funcoin `f` definida en los reales tal que para algún intervalo A  
+$Pr(X \in A) = \int_{A} f(x)$  
+
+La función `f` es la *función de densidad de probabilidad*. PDF por sus siglas en inglés.  
+La probabilidad de que X tome algún valor en un intervalo se encuentra integrando `f` en ese rango.
+
+
+Por ejemplo para la distribución uniforme en un intervalo *(a,b)* podemos ver que su pdf (o función de densidad de probabilidad) es  
+$f(x) = \begin{cases}\frac{1}{b-a} & \text{para } a \leq x \leq b \\ 0 & \text{resto}\\  \end{cases}$
+
+### Distribución Normal
+
+Para la distribución Normal tenemos los siguientes comandos:  
+
+* Para obtener *n* variables aleatorias provenientes de una normal con media *mean* y desvío *sd*
+```{r}
+set.seed(1)
+rnorm(n = 5, mean = 10, sd = 2)
+```
+
+* Para obtener el valor de la pdf de la normal para algún valor de X en particular.
+Recuerden que no es una probabilidad, solo es el valor de la función. Las probabilidad se encuentra integrando la función en el intervalo deseado.  
+Si graficáramos los valores de dnorm para el intervalo -3,3 obtendríamos la forma típica de la normal.
+```{r}
+dnorm(0.5, mean = 0, sd = 1)
+```
+
+* Para obtener la probabilidad acumulada hasta determinado punto.  
+Por ejemplo, cual es la probabilidad de obtener un valor igual o menos a 1.5 si tomamos una muestra de una normal estándar 
+
+$N \sim (0,1)$
+```{r}
+pnorm(q = 1.5, mean = 0, sd = 1)
+```
+
+Hay 93.31% de chances de obtener un valor inferior a 1.5 si tomamos una muestra al azar de una normal con media 0 y desvío 1.
+
+* La inversa también se puede calcular facilmente en R. Que valor debe tomar la variable aleatoria normal si deseo tenes un 93.31% de chances de obtener un valor menor o igual a ese?
+
+```{r}
+qnorm(p = 0.9331, mean = 0, sd = 1)
+```
+La diferencia respecto al código anterior es porque redondeamos.
+ 
+
+ 
