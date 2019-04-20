@@ -68,7 +68,7 @@ Y 0 para todos los otros valores.
 Para usar esta distribución en R tenemos los siguientes comandos:
 
 * Para generar *n* escenarios al azar donde se producen *size* productos con probabilidad *p* de ser defectuosos.
-El resultado es la variable x para escanario. Es decir la cantidad de defectuosos.  
+El resultado es la variable x por escenario. Es decir la cantidad de defectuosos.  
 En el primer escenario x = 0, en el segundo x = 1 y así.
 ```{r}
 set.seed(1)
@@ -92,7 +92,7 @@ pbinom(q = 3, size = 10, prob = 0.2)
 
 ## Distribuciones Continuas
 
-Una variable aleatoria X tiene una distribución continua si existe una funcoin `f` definida en los reales tal que para algún intervalo A  
+Una variable aleatoria X tiene una distribución continua si existe una función `f` definida en los reales tal que para algún intervalo A  
 $Pr(X \in A) = \int_{A} f(x)$  
 
 La función `f` es la *función de densidad de probabilidad*. PDF por sus siglas en inglés.  
@@ -119,7 +119,7 @@ Si graficáramos los valores de dnorm para el intervalo -3,3 obtendríamos la fo
 dnorm(0.5, mean = 0, sd = 1)
 ```
 
-* Para obtener la probabilidad acumulada hasta determinado punto.  
+* Para obtener la probabilidad acumulada hasta determinado punto. También conocido como *Función de Distribución* o *Función de Distribución Acumulada* **C.D.F. por sus siglas en ingles**
 Por ejemplo, cual es la probabilidad de obtener un valor igual o menos a 1.5 si tomamos una muestra de una normal estándar 
 
 $N \sim (0,1)$

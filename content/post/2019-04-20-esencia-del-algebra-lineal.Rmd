@@ -1,0 +1,73 @@
+---
+title: Esencia del Algebra Lineal
+author: ''
+date: '2019-04-20'
+slug: esencia-del-algebra-lineal
+categories:
+  - matematica
+  - algebra
+tags:
+  - estadistica
+  - matematica
+  - algebra
+keywords:
+  - tech
+---
+
+
+El álgebra lineal está por todas partes en estadística y data science. Matrices, vectores y transformaciones son términos que se escuchan seguido y están detrás de muchos de los métodos y algoritmos que se usan hoy por hoy. Aunque no sea necesario saber del tema para correr un modelo empaquetado en una librería de R, es muy útil entender lo que hacemos realmente ya que nos permite ver a los modelos como algo lógico y no una caja negra mágica.
+
+Hay una serie de videos excelente en inglés que mediante visualizaciones y animaciones permite entender la intuición de muchos de los conceptos básicos, que solo con un libro puede ser medio críptico o poco imaginable.
+Para el que le interese: [ESSENCE OF LINEAR ALGEBRA](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) por 3Blue1Brown.
+
+Este post, aunque quizás medio desordenado y sin mucha prolijidad, es una recopilación de algunas notas. Puede que queden términos en inglés intercalados.
+
+## Matrices y vectores
+
+* Vector vive en *n* dimensiones.
+* Suma de vectores es combinación lineal
+* En $R^{2}$ $\hat \imath = \left< 1, 0 \right> \text{y} \hat \jmath = \left< 0, 1 \right>$ forman una base. Cualquier punto es una combinación lineal de ellos.     
+* Span es el espacio que pueden generar x vectores. $R^{2}$ es el span de  $\left< 1, 0 \right> \left< 0, 1 \right>$
+* Vector puede ser pensado como una flecha desde el origen (0,0) a las coordenadas que lo identifican. O como un punto directo en las coordenadas..
+* Matriz es una transformación. Lleva un vector a otro punto. Si transformamos cada posible vector de un espacio por la matriz podemos ver como el espacio es transformado. Ej: rotar, invertir, estirar.
+* Si transformamos una base, cada punto nuevo puede generarse transformando la nueva base.   
+Por ej: $z = \left< 3, 2 \right> \text{es } 3\begin{bmatrix} 1 \\ 0 \end{bmatrix} + 2\begin{bmatrix} 0 \\ 1 \end{bmatrix} = 3\hat \imath + 2\hat \jmath$  
+Aplicando la transformación de la matriz A = $\begin{pmatrix} A & B \\ C & D \end{pmatrix} \text{obtenemos los nuevos vectores base } \hat \imath^{*} \text{y } \hat \jmath^{*}$  
+$z^{*} = 3\hat \imath^{*} + 2\hat \jmath^{*}$ 
+* Multiplicar 2 matrices es transformar un espacio con la primera matriz ( desde la derecha) y luego transformar el resultado por la segunda matriz. Ej: Rotar un espacio y luego invertirlo.
+* AB != BA -> El orden de las transformaciones importa y se lee de derecha a izquierda.
+* La matriz (transformación) ya dice como van a ser las nuevas bases.  
+Si la matriz es $\begin{pmatrix} A & B \\ C & D \end{pmatrix}$, el nuevo $\hat \imath^{*}$ es $\begin{bmatrix} A \\ C \end{bmatrix}$ y $\hat \jmath^{*}$ es $\begin{bmatrix} B \\ D \end{bmatrix}$  
+Ej: $z = \left< 3, 2 \right>  z^{*} =  \begin{bmatrix} A & B \\ C & D \end{bmatrix}\begin{bmatrix} 3 \\ 2 \end{bmatrix} = \begin{bmatrix} 3A + 2B \\ 3C + 2D \end{bmatrix}$  
+Se puede ver también como:  $$z = 3\hat \imath + 2\hat \jmath \text{  }  z^{*} = 3\hat \imath^{*} + 2\hat \jmath^{*} = 3\begin{bmatrix} A \\ C \end{bmatrix} + 2\begin{bmatrix} B \\ D \end{bmatrix} = \begin{bmatrix} 3A + 2B \\ 3C + 2D \end{bmatrix}$$
+<\br>
+
+* !!!. Las transformaciones afectan el area (en R2, el volumen en R3..) de las figuras en el espacio (todas por igual). El *DETERMINANTE* de una matriz mide ese cambio.
+* Si el determinante **es 0** significa que se perdió una dimensión o que todo se comprimió. Pasa de $R^{2}$ a una recta (o a un punto!)
+* Si el determinante ** es < 0** significa que el espacio se invirtió (en sentido.. como dar vuelta una hoja) pero |DET| siguen siendo el cambio en el area.
+* A^-1^A = I -> una transformación que no hace nada.
+* Si DET(A) = 0 no existe la matriz inversa. Ej. $R^{2}$ -> si det(A) = 0 la transformación lleva el espacio a una recta. No hay función que lleve cada vector de la recta a un punto en $R{2}$. No hay vuelta atrás.
+<\br>
+<\br>
+
+* Si una transformación lleva todos los puntos a una recta tiene rango 1, si lleva a un plano rango 2, y así.. **RANGO** es el número de dimensiones del output. Rango completo es cuando mantiene las dimensiones del input.
+* El conjunto de posibles outputs de $A\vec v$ es el Column Space = Span de las columnas
+* Cuando perdés dimensiones por la transformación todo un conjunto de vectores pasa a ser (0,0). Eso se llama **Null Space** o **Kernel**
+* Matrices no cuadradas cambian la dimensión del espacio.  
+$$\begin{bmatrix} A & D \\ B & E \\ C & F \end{bmatrix} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} A + D \\ B + E \\ C + F \end{bmatrix}  
+Quedan todos los puntos de $R^{2}$ en un plano en el espacio $R^{3}$. De acá viene la restricción para multiplicar matrices. La cantidad de columnas de la transformación tiene que ser igual a la dimensión del input
+
+### DOT PRODUCTO o PRODUCTO INTERNO
+
+* Dot product entre dos vectores equivale a proyectar uno en el otro y multiplicar sus largos. $\vec A \cdot \vec B = |A^{*}| * |B|$  
+A^*^ es el vector A proyectado en B.
+* $\vec B$ es un vector 2D pero también se lo puede ver como una matriz 1x2 que lleva del 2D a la recta.  
+$\vec B \cdot \vec A = B \vec A \text{que sería llevar A al espacio transformado por B.}$  
+$B = \begin{bmatrix} B_x & B_y \end{bmatrix}$ tiene en sus columnas donde queda $\hat \imath \text{y } \hat \jmath$ (los vectores unitarios) al ser transformados o algun valor escalado de esto.  
+$\vec A \cdot \vec B$ es el valor de A en la recta a la que te lleva la transformación B.
+* Es equivalente proyecto B en A.
+* Si Dot Product > 0, tienen dirección similar.
+* Si Dot Product = 0, son ortogonales - proyección que cae en el origen.
+* Si Dot Product < 0, tienen direcciones opuestas.
+
+

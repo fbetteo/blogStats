@@ -60,7 +60,7 @@ Como existen <span class="math inline">\(\binom{n}{x}\)</span> distintas secuenc
 La función de probabilidad será <span class="math inline">\(f(x) = \binom{n}{x}p^{x}q^{(n-x)}\)</span> para x = 0,1,2,…,n. Y 0 para todos los otros valores.</p>
 <p>Para usar esta distribución en R tenemos los siguientes comandos:</p>
 <ul>
-<li>Para generar <em>n</em> escenarios al azar donde se producen <em>size</em> productos con probabilidad <em>p</em> de ser defectuosos. El resultado es la variable x para escanario. Es decir la cantidad de defectuosos.<br />
+<li>Para generar <em>n</em> escenarios al azar donde se producen <em>size</em> productos con probabilidad <em>p</em> de ser defectuosos. El resultado es la variable x por escenario. Es decir la cantidad de defectuosos.<br />
 En el primer escenario x = 0, en el segundo x = 1 y así.</li>
 </ul>
 <pre class="r"><code>set.seed(1)
@@ -82,7 +82,7 @@ Hay probabilidad de 0.0264 de obtener 5 defectuosos si producimos 10 con probabi
 </div>
 <div id="distribuciones-continuas" class="section level2">
 <h2>Distribuciones Continuas</h2>
-<p>Una variable aleatoria X tiene una distribución continua si existe una funcoin <code>f</code> definida en los reales tal que para algún intervalo A<br />
+<p>Una variable aleatoria X tiene una distribución continua si existe una función <code>f</code> definida en los reales tal que para algún intervalo A<br />
 <span class="math inline">\(Pr(X \in A) = \int_{A} f(x)\)</span></p>
 <p>La función <code>f</code> es la <em>función de densidad de probabilidad</em>. PDF por sus siglas en inglés.<br />
 La probabilidad de que X tome algún valor en un intervalo se encuentra integrando <code>f</code> en ese rango.</p>
@@ -104,8 +104,7 @@ Si graficáramos los valores de dnorm para el intervalo -3,3 obtendríamos la fo
 <pre class="r"><code>dnorm(0.5, mean = 0, sd = 1)</code></pre>
 <pre><code>## [1] 0.3520653</code></pre>
 <ul>
-<li>Para obtener la probabilidad acumulada hasta determinado punto.<br />
-Por ejemplo, cual es la probabilidad de obtener un valor igual o menos a 1.5 si tomamos una muestra de una normal estándar</li>
+<li>Para obtener la probabilidad acumulada hasta determinado punto. También conocido como <em>Función de Distribución</em> o <em>Función de Distribución Acumulada</em> <strong>C.D.F. por sus siglas en ingles</strong> Por ejemplo, cual es la probabilidad de obtener un valor igual o menos a 1.5 si tomamos una muestra de una normal estándar</li>
 </ul>
 <p><span class="math inline">\(N \sim (0,1)\)</span></p>
 <pre class="r"><code>pnorm(q = 1.5, mean = 0, sd = 1)</code></pre>

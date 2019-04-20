@@ -1,0 +1,73 @@
+---
+title: Esencia del Algebra Lineal
+author: ''
+date: '2019-04-20'
+slug: esencia-del-algebra-lineal
+categories:
+  - matematica
+  - algebra
+tags:
+  - estadistica
+  - matematica
+  - algebra
+keywords:
+  - tech
+---
+
+
+
+<p>El álgebra lineal está por todas partes en estadística y data science. Matrices, vectores y transformaciones son términos que se escuchan seguido y están detrás de muchos de los métodos y algoritmos que se usan hoy por hoy. Aunque no sea necesario saber del tema para correr un modelo empaquetado en una librería de R, es muy útil entender lo que hacemos realmente ya que nos permite ver a los modelos como algo lógico y no una caja negra mágica.</p>
+<p>Hay una serie de videos excelente en inglés que mediante visualizaciones y animaciones permite entender la intuición de muchos de los conceptos básicos, que solo con un libro puede ser medio críptico o poco imaginable. Para el que le interese: <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab">ESSENCE OF LINEAR ALGEBRA</a> por 3Blue1Brown.</p>
+<p>Este post, aunque quizás medio desordenado y sin mucha prolijidad, es una recopilación de algunas notas. Puede que queden términos en inglés intercalados.</p>
+<div id="matrices-y-vectores" class="section level2">
+<h2>Matrices y vectores</h2>
+<ul>
+<li>Vector vive en <em>n</em> dimensiones.</li>
+<li>Suma de vectores es combinación lineal</li>
+<li>En <span class="math inline">\(R^{2}\)</span> <span class="math inline">\(\hat \imath = \left&lt; 1, 0 \right&gt; \text{y} \hat \jmath = \left&lt; 0, 1 \right&gt;\)</span> forman una base. Cualquier punto es una combinación lineal de ellos.<br />
+</li>
+<li>Span es el espacio que pueden generar x vectores. <span class="math inline">\(R^{2}\)</span> es el span de <span class="math inline">\(\left&lt; 1, 0 \right&gt; \left&lt; 0, 1 \right&gt;\)</span></li>
+<li>Vector puede ser pensado como una flecha desde el origen (0,0) a las coordenadas que lo identifican. O como un punto directo en las coordenadas..</li>
+<li>Matriz es una transformación. Lleva un vector a otro punto. Si transformamos cada posible vector de un espacio por la matriz podemos ver como el espacio es transformado. Ej: rotar, invertir, estirar.</li>
+<li>Si transformamos una base, cada punto nuevo puede generarse transformando la nueva base.<br />
+Por ej: <span class="math inline">\(z = \left&lt; 3, 2 \right&gt; \text{es } 3\begin{bmatrix} 1 \\ 0 \end{bmatrix} + 2\begin{bmatrix} 0 \\ 1 \end{bmatrix} = 3\hat \imath + 2\hat \jmath\)</span><br />
+Aplicando la transformación de la matriz A = <span class="math inline">\(\begin{pmatrix} A &amp; B \\ C &amp; D \end{pmatrix} \text{obtenemos los nuevos vectores base } \hat \imath^{*} \text{y } \hat \jmath^{*}\)</span><br />
+<span class="math inline">\(z^{*} = 3\hat \imath^{*} + 2\hat \jmath^{*}\)</span></li>
+<li>Multiplicar 2 matrices es transformar un espacio con la primera matriz ( desde la derecha) y luego transformar el resultado por la segunda matriz. Ej: Rotar un espacio y luego invertirlo.</li>
+<li>AB != BA -&gt; El orden de las transformaciones importa y se lee de derecha a izquierda.</li>
+<li><p>La matriz (transformación) ya dice como van a ser las nuevas bases.<br />
+Si la matriz es <span class="math inline">\(\begin{pmatrix} A &amp; B \\ C &amp; D \end{pmatrix}\)</span>, el nuevo <span class="math inline">\(\hat \imath^{*}\)</span> es <span class="math inline">\(\begin{bmatrix} A \\ C \end{bmatrix}\)</span> y <span class="math inline">\(\hat \jmath^{*}\)</span> es <span class="math inline">\(\begin{bmatrix} B \\ D \end{bmatrix}\)</span><br />
+Ej: <span class="math inline">\(z = \left&lt; 3, 2 \right&gt; z^{*} = \begin{bmatrix} A &amp; B \\ C &amp; D \end{bmatrix}\begin{bmatrix} 3 \\ 2 \end{bmatrix} = \begin{bmatrix} 3A + 2B \\ 3C + 2D \end{bmatrix}\)</span><br />
+Se puede ver también como: <span class="math display">\[z = 3\hat \imath + 2\hat \jmath \text{  }  z^{*} = 3\hat \imath^{*} + 2\hat \jmath^{*} = 3\begin{bmatrix} A \\ C \end{bmatrix} + 2\begin{bmatrix} B \\ D \end{bmatrix} = \begin{bmatrix} 3A + 2B \\ 3C + 2D \end{bmatrix}\]</span> &lt;&gt;</p></li>
+<li>!!!. Las transformaciones afectan el area (en R2, el volumen en R3..) de las figuras en el espacio (todas por igual). El <em>DETERMINANTE</em> de una matriz mide ese cambio.</li>
+<li>Si el determinante <strong>es 0</strong> significa que se perdió una dimensión o que todo se comprimió. Pasa de <span class="math inline">\(R^{2}\)</span> a una recta (o a un punto!)</li>
+<li>Si el determinante ** es &lt; 0** significa que el espacio se invirtió (en sentido.. como dar vuelta una hoja) pero |DET| siguen siendo el cambio en el area.</li>
+<li>A<sup>-1</sup>A = I -&gt; una transformación que no hace nada.</li>
+<li><p>Si DET(A) = 0 no existe la matriz inversa. Ej. <span class="math inline">\(R^{2}\)</span> -&gt; si det(A) = 0 la transformación lleva el espacio a una recta. No hay función que lleve cada vector de la recta a un punto en <span class="math inline">\(R{2}\)</span>. No hay vuelta atrás. &lt;&gt; &lt;&gt;</p></li>
+<li>Si una transformación lleva todos los puntos a una recta tiene rango 1, si lleva a un plano rango 2, y así.. <strong>RANGO</strong> es el número de dimensiones del output. Rango completo es cuando mantiene las dimensiones del input.</li>
+<li>El conjunto de posibles outputs de <span class="math inline">\(A\vec v\)</span> es el Column Space = Span de las columnas</li>
+<li>Cuando perdés dimensiones por la transformación todo un conjunto de vectores pasa a ser (0,0). Eso se llama <strong>Null Space</strong> o <strong>Kernel</strong></li>
+<li>Matrices no cuadradas cambian la dimensión del espacio.<br />
+$$
+<span class="math display">\[\begin{bmatrix} A &amp; D \\ B &amp; E \\ C &amp; F \end{bmatrix}\]</span>
+<span class="math display">\[\begin{bmatrix} 1 \\ 1 \end{bmatrix}\]</span>
+=
+<span class="math display">\[\begin{bmatrix} A + D \\ B + E \\ C + F \end{bmatrix}\]</span>
+<p>Quedan todos los puntos de <span class="math inline">\(R^{2}\)</span> en un plano en el espacio <span class="math inline">\(R^{3}\)</span>. De acá viene la restricción para multiplicar matrices. La cantidad de columnas de la transformación tiene que ser igual a la dimensión del input</p></li>
+</ul>
+<div id="dot-producto-o-producto-interno" class="section level3">
+<h3>DOT PRODUCTO o PRODUCTO INTERNO</h3>
+<ul>
+<li>Dot product entre dos vectores equivale a proyectar uno en el otro y multiplicar sus largos. <span class="math inline">\(\vec A \cdot \vec B = |A^{*}| * |B|\)</span><br />
+A^*^ es el vector A proyectado en B.</li>
+<li><span class="math inline">\(\vec B\)</span> es un vector 2D pero también se lo puede ver como una matriz 1x2 que lleva del 2D a la recta.<br />
+<span class="math inline">\(\vec B \cdot \vec A = B \vec A \text{que sería llevar A al espacio transformado por B.}\)</span><br />
+<span class="math inline">\(B = \begin{bmatrix} B_x &amp; B_y \end{bmatrix}\)</span> tiene en sus columnas donde queda <span class="math inline">\(\hat \imath \text{y } \hat \jmath\)</span> (los vectores unitarios) al ser transformados o algun valor escalado de esto.<br />
+<span class="math inline">\(\vec A \cdot \vec B\)</span> es el valor de A en la recta a la que te lleva la transformación B.</li>
+<li>Es equivalente proyecto B en A.</li>
+<li>Si Dot Product &gt; 0, tienen dirección similar.</li>
+<li>Si Dot Product = 0, son ortogonales - proyección que cae en el origen.</li>
+<li>Si Dot Product &lt; 0, tienen direcciones opuestas.</li>
+</ul>
+</div>
+</div>
