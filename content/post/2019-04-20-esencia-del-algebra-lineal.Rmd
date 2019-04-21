@@ -12,6 +12,9 @@ tags:
   - algebra
 keywords:
   - tech
+thumbnailImage: https://lh3.googleusercontent.com/7v8rpcfaw-Y7EjY-FjEF2GsYzO9gTez_SHQoyfZYolaqKvOYnX6uM3xxYXPS2LfjcfuFc68FkMVKHvaEYw=w300-h168
+thumbnailImagePosition: left
+summary: Notas a modo de resumen de la serie de videos Essence Of Lineal Algebra.
 ---
 
 
