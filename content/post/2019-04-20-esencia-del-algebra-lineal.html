@@ -47,19 +47,14 @@ Se puede ver también como: <span class="math display">\[z = 3\hat \imath + 2\ha
 <li>Si una transformación lleva todos los puntos a una recta tiene rango 1, si lleva a un plano rango 2, y así.. <strong>RANGO</strong> es el número de dimensiones del output. Rango completo es cuando mantiene las dimensiones del input.</li>
 <li>El conjunto de posibles outputs de <span class="math inline">\(A\vec v\)</span> es el Column Space = Span de las columnas</li>
 <li>Cuando perdés dimensiones por la transformación todo un conjunto de vectores pasa a ser (0,0). Eso se llama <strong>Null Space</strong> o <strong>Kernel</strong></li>
-<li>Matrices no cuadradas cambian la dimensión del espacio.<br />
-$$
-<span class="math display">\[\begin{bmatrix} A &amp; D \\ B &amp; E \\ C &amp; F \end{bmatrix}\]</span>
-<span class="math display">\[\begin{bmatrix} 1 \\ 1 \end{bmatrix}\]</span>
-=
-<span class="math display">\[\begin{bmatrix} A + D \\ B + E \\ C + F \end{bmatrix}\]</span>
-<p>Quedan todos los puntos de <span class="math inline">\(R^{2}\)</span> en un plano en el espacio <span class="math inline">\(R^{3}\)</span>. De acá viene la restricción para multiplicar matrices. La cantidad de columnas de la transformación tiene que ser igual a la dimensión del input</p></li>
+<li><p>Matrices no cuadradas cambian la dimensión del espacio.<br />
+<span class="math display">\[ \begin{bmatrix} A &amp; D \\ B &amp; E \\ C &amp; F \end{bmatrix} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} A + D \\ B + E \\ C + F \end{bmatrix} \]</span> Quedan todos los puntos de <span class="math inline">\(R^{2}\)</span> en un plano en el espacio <span class="math inline">\(R^{3}\)</span>. De acá viene la restricción para multiplicar matrices. La cantidad de columnas de la transformación tiene que ser igual a la dimensión del input</p></li>
 </ul>
-<div id="dot-producto-o-producto-interno" class="section level3">
-<h3>DOT PRODUCTO o PRODUCTO INTERNO</h3>
+<div id="dot-product-o-producto-interno" class="section level3">
+<h3>DOT PRODUCT o PRODUCTO INTERNO</h3>
 <ul>
 <li>Dot product entre dos vectores equivale a proyectar uno en el otro y multiplicar sus largos. <span class="math inline">\(\vec A \cdot \vec B = |A^{*}| * |B|\)</span><br />
-A^*^ es el vector A proyectado en B.</li>
+<span class="math inline">\(A^{*}\)</span> es el vector A proyectado en B.</li>
 <li><span class="math inline">\(\vec B\)</span> es un vector 2D pero también se lo puede ver como una matriz 1x2 que lleva del 2D a la recta.<br />
 <span class="math inline">\(\vec B \cdot \vec A = B \vec A \text{que sería llevar A al espacio transformado por B.}\)</span><br />
 <span class="math inline">\(B = \begin{bmatrix} B_x &amp; B_y \end{bmatrix}\)</span> tiene en sus columnas donde queda <span class="math inline">\(\hat \imath \text{y } \hat \jmath\)</span> (los vectores unitarios) al ser transformados o algun valor escalado de esto.<br />
@@ -67,7 +62,36 @@ A^*^ es el vector A proyectado en B.</li>
 <li>Es equivalente proyecto B en A.</li>
 <li>Si Dot Product &gt; 0, tienen dirección similar.</li>
 <li>Si Dot Product = 0, son ortogonales - proyección que cae en el origen.</li>
-<li>Si Dot Product &lt; 0, tienen direcciones opuestas.</li>
+<li><p>Si Dot Product &lt; 0, tienen direcciones opuestas. &lt;&gt; &lt;&gt; ### CROSS PRODUCT</p></li>
+<li>Está definido para vectores en <span class="math inline">\(R^{3}\)</span></li>
+<li>El cross product <span class="math inline">\(\vec u \times \vec v\)</span> es el area del paralelograma que se puede imaginar con las paralelas de los vectores (imaginandolo en <span class="math inline">\(R^{2}\)</span>. El signo depende de la orientación de los vectores. El vector de la “derecha” tiene que estar primero para que el cross product sea &gt; 0.</li>
+<li><p>En realidad el paralelograma formado por dos vectores en R<sup>3</sup> tiene area equivalente al <strong>Largo</strong> del vector output de su cross product. Ese vector es ortogonal al paralelograma. &lt;&gt; &lt;&gt; ### CAMBIO DE BASE</p></li>
+<li>Distintos sistemas de coordenadas definen <span class="math inline">\(\hat \imath = \left&lt; 1, 0 \right&gt;, \hat \jmath \left&lt; 0, 1 \right&gt;\)</span> como algo distinto. <strong>NO</strong> hay una sola “grilla” válida. El espacio no tiene grilla predeterminada.</li>
+<li>Un mismo vector tiene distintas coordenadas según el sistema de bases desde donde se lo mire.</li>
+<li>Para pasar de una base a otra se aplica una transformación lineal.<br />
+Si <span class="math inline">\(\vec v\)</span> es un vector que queremos pasar de una base a otra, lo transformamos por la nueva base.<br />
+Y <span class="math inline">\(\hat \imath^{*} = \left&lt; \hat \imath^{*}_1, \hat \imath^{*}_2 \right&gt;, \hat \jmath^{*} = \left&lt; \hat \jmath^{*}_1, \hat \jmath^{*}_2 \right&gt;\)</span> Entonces: <span class="math display">\[\begin{bmatrix} \hat \imath^{*}_1 &amp; \hat \jmath^{*}_1 \\ \hat \imath^{*}_2 &amp; \hat \jmath^{*}_2 \end{bmatrix} \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \begin{bmatrix} v^{*}_1 \\ v^{*}_2 \end{bmatrix}\]</span><br />
+Donde <span class="math inline">\(\begin{bmatrix} v^{*}_1 \\ v^{*}_2 \end{bmatrix}\)</span> es el vector en la nueva base, es decir, serían las coordenadas del vector <span class="math inline">\(\vec v\)</span> en el nuevo sistema de coordenadas y representando ese punto bajo el sistema de coordenadas original. -&gt; Como se vería <span class="math inline">\(\vec v\)</span> en la nueva base? desde un punto de vista de la base original.<br />
+La matriz transforma un vector siguiendo en el lenguaje de la base original.<br />
+Ej: Si <span class="math inline">\(\vec v\)</span> es (1,2) en el sistema cartesiano típico y aplicamos la matriz de cambio de base, un vector (1,2) bajo otros ejes se ubicaría en otro punto del espacio. Qué punto es ese bajo el sistema cartesiano? Es (1,2) en el nuevo, pero queremos saber su equivalente en el sistema original.</li>
+<li>Por otra parte si queremos saber que coordenadas tomaría el vector <span class="math inline">\(\vec v\)</span> bajo otra base debemos multiplicar por la inversa de la transformación. Transforma el vector al lenguaje de la nueva base. Responde a la pregunta. Qué coordenadas toma el punto V_1, V_2 del espacio en el sistema nuevo? &lt;&gt;</li>
+<li><p>Para aplicar una transformación a otra base conviene llevar el vector a transformar a la base original, transformar y reconvertir a la nueva base. <span class="math display">\[ [A]^{-1}[T][A]\vec v = \vec v^{*}\]</span><br />
+A lo expresa en términos de la base original, luego se le aplica la transformación T y luego se lo devuelve al lenguaje de la nueva transformación. &lt;&gt; &lt;&gt; ### Eigenvalues y Eigenvectors (autovalores y autovectores)</p></li>
+<li>!!! Al aplicar una transformación lineal a un espacio algunos vectores no cambian de dirección, solo se estiran o contraen pero sobre la misma recta. El resto sí se mueve. Los que se mantienen son los eigenvectors, y su factor de expansión o contracción es su eigenvalue.<br />
+Si A es la matriz de transformación, <span class="math inline">\(\vec v\)</span> es un eigenvector y <span class="math inline">\(\lambda\)</span> su eigenvalue. <span class="math display">\[ A\vec v = \lambda \vec v\]</span><br />
+</li>
+<li>Si una transformación es una matriz diagonal, lo único que hace es estirar <span class="math inline">\(\hat \imath \text{y } \hat \jmath\)</span> por lo tanto los vectores base son eigenvectors y la diagonal son los eigenvalues.</li>
+<li><p>Si cambiamos la base a una formada por los eigenvectors (que spanean el espacio) de la matriz podemos aplicar la transformación (la matriz original de donde salieron los eigenvectors) a esta nueva base y solo la va a estirar, por lo tanto es una transformación diagonal, que permite calculos mucho más fácil. Después habría que volver a la base original.<br />
+A -&gt; Matriz de transformación E -&gt; Matriz de autovectores que forman la nueva base <span class="math inline">\(\begin{bmatrix} e_11 &amp; e_21 \\ e_12 &amp; e_22 \end{bmatrix}\)</span> D -&gt; Matriz Diagonal cuyos valores son los eigenvalues <span class="math display">\[ E^{-1}AE=D\]</span></p></li>
+</ul>
+<p>E cambia la base a eigenvectors (expresado en la base original), A aplica transformación y E<sup>-1</sup> lo lleva al lenguaje de la nueva base (queda expresado en las nuevas coordenadas) &lt;&gt; &lt;&gt; ### Espacios Vectoriales Abstractos</p>
+<ul>
+<li>!!! Ver <em>funciones</em> como un tipo especial de vectores.</li>
+<li>Las funciones se pueden sumar y escalar <span class="math inline">\(f(x) + g(x) \text{y } 2f(x)\)</span></li>
+<li>Existen transformaciones lineales de funciones, convierten una función en otra. También conocidas como “operadores”</li>
+<li>Para que una transformación sea lineal tiene que cumplir aditividad y mulitplicación por escalar<br />
+<span class="math display">\[ L(\vec v + \vec  w) = L(\vec v) + L(\vec w)\]</span> <span class="math display">\[ L(c\vec v) = cL(\vec v)\]</span></li>
+<li>En general cualquier espacio que cumpla los axiomas los espacios vectoriales puede ser considerado uno.</li>
 </ul>
 </div>
 </div>
