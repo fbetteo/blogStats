@@ -40,15 +40,15 @@ $z^{*} = 3\hat \imath^{*} + 2\hat \jmath^{*}$
 Si la matriz es $\begin{pmatrix} A & B \\ C & D \end{pmatrix}$, el nuevo $\hat \imath^{*}$ es $\begin{bmatrix} A \\ C \end{bmatrix}$ y $\hat \jmath^{*}$ es $\begin{bmatrix} B \\ D \end{bmatrix}$  
 Ej: $z = \left< 3, 2 \right>  z^{*} =  \begin{bmatrix} A & B \\ C & D \end{bmatrix}\begin{bmatrix} 3 \\ 2 \end{bmatrix} = \begin{bmatrix} 3A + 2B \\ 3C + 2D \end{bmatrix}$  
 Se puede ver también como:  $$z = 3\hat \imath + 2\hat \jmath \text{  }  z^{*} = 3\hat \imath^{*} + 2\hat \jmath^{*} = 3\begin{bmatrix} A \\ C \end{bmatrix} + 2\begin{bmatrix} B \\ D \end{bmatrix} = \begin{bmatrix} 3A + 2B \\ 3C + 2D \end{bmatrix}$$
-<\br>
+&nbsp;
 
 * !!!. Las transformaciones afectan el area (en R2, el volumen en R3..) de las figuras en el espacio (todas por igual). El *DETERMINANTE* de una matriz mide ese cambio.
 * Si el determinante **es 0** significa que se perdió una dimensión o que todo se comprimió. Pasa de $R^{2}$ a una recta (o a un punto!)
 * Si el determinante ** es < 0** significa que el espacio se invirtió (en sentido.. como dar vuelta una hoja) pero |DET| siguen siendo el cambio en el area.
 * A^-1^A = I -> una transformación que no hace nada.
 * Si DET(A) = 0 no existe la matriz inversa. Ej. $R^{2}$ -> si det(A) = 0 la transformación lleva el espacio a una recta. No hay función que lleve cada vector de la recta a un punto en $R{2}$. No hay vuelta atrás.
-<\br>
-<\br>
+&nbsp;
+&nbsp;
 
 * Si una transformación lleva todos los puntos a una recta tiene rango 1, si lleva a un plano rango 2, y así.. **RANGO** es el número de dimensiones del output. Rango completo es cuando mantiene las dimensiones del input.
 * El conjunto de posibles outputs de $A\vec v$ es el Column Space = Span de las columnas
@@ -69,15 +69,19 @@ $\vec A \cdot \vec B$ es el valor de A en la recta a la que te lleva la transfor
 * Si Dot Product > 0, tienen dirección similar.
 * Si Dot Product = 0, son ortogonales - proyección que cae en el origen.
 * Si Dot Product < 0, tienen direcciones opuestas.
-<\br>
-<\br>
+
+&nbsp;
+&nbsp;
+
 ### CROSS PRODUCT
 
 * Está definido para vectores en $R^{3}$
 * El cross product $\vec u \times \vec v$ es el area del paralelograma que se puede imaginar con las paralelas de los vectores (imaginandolo en $R^{2}$. El signo depende de la orientación de los vectores. El vector de la "derecha" tiene que estar primero para que el cross product sea > 0.
 * En realidad el paralelograma formado por dos vectores en R^3^ tiene area equivalente al **Largo** del vector output de su cross product. Ese vector es ortogonal al paralelograma.
-<\br>
-<\br>
+
+&nbsp;
+&nbsp;
+
 ### CAMBIO DE BASE
 
 * Distintos sistemas de coordenadas definen $\hat \imath = \left< 1, 0 \right>, \hat \jmath \left< 0, 1 \right>$ como algo distinto. **NO** hay una sola "grilla" válida. El espacio no tiene grilla predeterminada.
@@ -92,12 +96,14 @@ La matriz transforma un vector siguiendo en el lenguaje de la base original.
 Ej: Si $\vec v$ es (1,2) en el sistema cartesiano típico y aplicamos la matriz de cambio de base, un vector (1,2) bajo otros ejes se ubicaría en otro punto del espacio. Qué punto es ese bajo el sistema cartesiano? Es (1,2) en el nuevo, pero queremos saber su equivalente en el sistema original.
 * Por otra parte si queremos saber que coordenadas tomaría el vector $\vec v$ bajo otra base debemos multiplicar por la inversa de la transformación. Transforma el vector al lenguaje de la nueva base.
 Responde a la pregunta. Qué coordenadas toma el punto V_1, V_2 del espacio en el sistema nuevo?
-<\br>
+&nbsp;
 * Para aplicar una transformación a otra base conviene llevar el vector a transformar a la base original, transformar y reconvertir a la nueva base.
 $$ [A]^{-1}[T][A]\vec v = \vec v^{*}$$  
 A lo expresa en términos de la base original, luego se le aplica la transformación T y luego se lo devuelve al lenguaje de la nueva transformación.
-<\br>
-<\br>
+
+&nbsp;
+&nbsp;
+
 ### Eigenvalues y Eigenvectors (autovalores y autovectores)
 
 * !!! Al aplicar una transformación lineal a un espacio algunos vectores no cambian de dirección, solo se estiran o contraen pero sobre la misma recta. El resto sí se mueve. Los que se mantienen son los eigenvectors, y su factor de expansión o contracción es su eigenvalue.  
@@ -111,8 +117,8 @@ D -> Matriz Diagonal cuyos valores son los eigenvalues
 $$ E^{-1}AE=D$$
 
 E cambia la base a eigenvectors (expresado en la base original), A aplica transformación y E^-1^ lo lleva al lenguaje de la nueva base (queda expresado en las nuevas coordenadas)
-<\br>
-<\br>
+&nbsp;
+&nbsp;
 ### Espacios Vectoriales Abstractos
 
 * !!! Ver *funciones* como un tipo especial de vectores.
