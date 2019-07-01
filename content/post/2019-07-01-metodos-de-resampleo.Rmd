@@ -73,6 +73,7 @@ Generamos un ejemplo para ver cómo funciona.
 Empezamos generado una población de y que depende x con intercepto 5 y b1 = 5.
 ```{r message=FALSE, warning=FALSE}
 library(ggplot2)
+set.seed(1)
 x <-rnorm(10000, mean = 2, sd = 3)
 y <- 4 + 5*x + rnorm(10000,0,4)
 df <- cbind.data.frame(y,x)
@@ -105,7 +106,7 @@ ggplot(data = results_pop) +
 ```
 
 
-Vemos que estimando 1000 modelos a partir de 500 observaciones independientes de la población original obtenemos para b0 estimaciones centradas aproximadamente en el valor real (3.915) pero con un mínimo encontrado en 3.306 y un máximo en 4.600. El desvío estándar de la estimación es de 0.210.
+Vemos que estimando 1000 modelos a partir de 500 observaciones independientes de la población original obtenemos para b0 estimaciones centradas aproximadamente en el valor real (3.975) pero con un mínimo encontrado en 3.198 y un máximo en 4.615. El desvío estándar de la estimación es de 0.2078.
 A su vez mostramos un histograma de cómo se distribuye la estimación de b0.
 
 Ahora simulemos un caso real donde solo tenemos una muestra de 500 observaciones y es todo con lo que podemos trabajar.
@@ -125,7 +126,7 @@ knitr::kable(results_sample, caption = "Coefficients")
 ```
   
   
-Vemos que a partir de entrenar el modelo con las 500 observaciones obtenemos un intercepto de 3.751 y un b1 estimado de 5.028.
+Vemos que a partir de entrenar el modelo con las 500 observaciones obtenemos un intercepto de 3.896 y un b1 estimado de 5.026.
 Nosotros, como conocemos la población, sabemos que el intercepto no es del todo preciso ya que el real es 4 sin embargo en un caso real eso no lo sabríamos. Nos interesaría saber qué variabilidad tiene ese coeficiente para tener una medida de qué tan variable es nuestro resultado.  
 Para una regresión lineal eso se puede saber ya que no es difícil calcular la varianza de los estimadores, pero con modelos más complicados no siempre se puede y ahí es donde bootstrap ayuda realmente. Acá lo hacemos con la regresión lineal porque es lo más sencillo de mostrar.  
 Suponiendo que queremos obtener una estimaación de la variabilidad del coeficiente estimado b0 procedemos con bootstrap.
@@ -151,12 +152,12 @@ ggplot(data = results_bootstrap) +
   geom_vline( aes(xintercept = mean(b0)), colour = "blue", size = 1)
 ```
 
-Voilà. Corrimos 10000 iteraciones de nuestro modelo a partir de 10000 muestras de nuestra data original. El desvío estándar de b0 para bootstrap quedó de 0.2102. Que si comparamos con el de 1000 muestras independientes que era 0.2106 es prácticamente igual.
+Voilà. Corrimos 10000 iteraciones de nuestro modelo a partir de 10000 muestras de nuestra data original. El desvío estándar de b0 para bootstrap quedó de 0.2071. Que si comparamos con el de 1000 muestras independientes que era 0.2078 es prácticamente igual.
 A su vez, podemos calcular el desvío teórico de b0 a partir del modelo (la solución fácil).
 ```{r}
 summary(ml_train_sample)
 ```
 
-Vemos que desde R el modelo nos devuelve que b0 tiene un desvío de 0.20975. Prácticamente igual al desvío de las muestras independientes como al de bootstrap.
+Vemos que desde R el modelo nos devuelve que b0 tiene un desvío de 0.21607. Prácticamente igual al desvío de las muestras independientes como al de bootstrap.
 Por otra parte vemos que el promedio de b0 estimado en bootstrap es mucho más cercano a 4 que el estimado con una sola iteración y quedó mucho más cerca que el promedio de los estimados mediante muestras independientes.
 Nada mal no?

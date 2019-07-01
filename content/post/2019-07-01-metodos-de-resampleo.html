@@ -57,6 +57,7 @@ En el fondo lo que se hace es suponer que nuestra muestra es <em>representativa<
 <p>Generamos un ejemplo para ver cómo funciona.</p>
 <p>Empezamos generado una población de y que depende x con intercepto 5 y b1 = 5.</p>
 <pre class="r"><code>library(ggplot2)
+set.seed(1)
 x &lt;-rnorm(10000, mean = 2, sd = 3)
 y &lt;- 4 + 5*x + rnorm(10000,0,4)
 df &lt;- cbind.data.frame(y,x)
@@ -78,19 +79,19 @@ for (i in 1:1000){
 
 summary(results_pop)</code></pre>
 <pre><code>##        b0              b1       
-##  Min.   :3.421   Min.   :4.799  
-##  1st Qu.:3.890   1st Qu.:4.942  
-##  Median :4.038   Median :4.982  
-##  Mean   :4.034   Mean   :4.984  
-##  3rd Qu.:4.177   3rd Qu.:5.025  
-##  Max.   :4.633   Max.   :5.176</code></pre>
+##  Min.   :3.198   Min.   :4.804  
+##  1st Qu.:3.834   1st Qu.:4.969  
+##  Median :3.974   Median :5.005  
+##  Mean   :3.975   Mean   :5.004  
+##  3rd Qu.:4.115   3rd Qu.:5.043  
+##  Max.   :4.615   Max.   :5.169</code></pre>
 <pre class="r"><code>print(paste0(&quot;El desvío estándar de b0 a partir de 1000 modelos es &quot;, sd(x = results_pop$b0)))</code></pre>
-<pre><code>## [1] &quot;El desvío estándar de b0 a partir de 1000 modelos es 0.217782102801907&quot;</code></pre>
+<pre><code>## [1] &quot;El desvío estándar de b0 a partir de 1000 modelos es 0.207882713489026&quot;</code></pre>
 <pre class="r"><code>ggplot(data = results_pop) + 
   geom_histogram( aes( x = b0), fill = &quot;white&quot;, colour = &quot;black&quot;)  + 
   geom_vline( aes(xintercept = mean(b0)), colour = &quot;red&quot;, size = 1)</code></pre>
 <p><img src="/post/2019-07-01-metodos-de-resampleo_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Vemos que estimando 1000 modelos a partir de 500 observaciones independientes de la población original obtenemos para b0 estimaciones centradas aproximadamente en el valor real (3.915) pero con un mínimo encontrado en 3.306 y un máximo en 4.600. El desvío estándar de la estimación es de 0.210. A su vez mostramos un histograma de cómo se distribuye la estimación de b0.</p>
+<p>Vemos que estimando 1000 modelos a partir de 500 observaciones independientes de la población original obtenemos para b0 estimaciones centradas aproximadamente en el valor real (3.975) pero con un mínimo encontrado en 3.198 y un máximo en 4.615. El desvío estándar de la estimación es de 0.2078. A su vez mostramos un histograma de cómo se distribuye la estimación de b0.</p>
 <p>Ahora simulemos un caso real donde solo tenemos una muestra de 500 observaciones y es todo con lo que podemos trabajar. Como primera medida estimamos una regresión lineal y vemos qué parámetros ajustan mejor nuestros datos.</p>
 <pre class="r"><code># Muestras de la población
 results_sample &lt;- data.frame(b0 = double(), b1 = double())
@@ -112,12 +113,12 @@ knitr::kable(results_sample, caption = &quot;Coefficients&quot;)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">3.93326</td>
-<td align="right">4.950651</td>
+<td align="right">3.89621</td>
+<td align="right">5.025914</td>
 </tr>
 </tbody>
 </table>
-<p>Vemos que a partir de entrenar el modelo con las 500 observaciones obtenemos un intercepto de 3.751 y un b1 estimado de 5.028. Nosotros, como conocemos la población, sabemos que el intercepto no es del todo preciso ya que el real es 4 sin embargo en un caso real eso no lo sabríamos. Nos interesaría saber qué variabilidad tiene ese coeficiente para tener una medida de qué tan variable es nuestro resultado.<br />
+<p>Vemos que a partir de entrenar el modelo con las 500 observaciones obtenemos un intercepto de 3.896 y un b1 estimado de 5.026. Nosotros, como conocemos la población, sabemos que el intercepto no es del todo preciso ya que el real es 4 sin embargo en un caso real eso no lo sabríamos. Nos interesaría saber qué variabilidad tiene ese coeficiente para tener una medida de qué tan variable es nuestro resultado.<br />
 Para una regresión lineal eso se puede saber ya que no es difícil calcular la varianza de los estimadores, pero con modelos más complicados no siempre se puede y ahí es donde bootstrap ayuda realmente. Acá lo hacemos con la regresión lineal porque es lo más sencillo de mostrar.<br />
 Suponiendo que queremos obtener una estimaación de la variabilidad del coeficiente estimado b0 procedemos con bootstrap.</p>
 <p>Fijense que lo que hacemos es distinto al primer caso. Acá tomamos 10000 muestras no de la población sino de nuestro set de 500 observaciones. Estas muestras son también de 500 observaciones, la diferencia es que es con reposición por lo tanto una misma observación puede figurar más de una vez.</p>
@@ -134,37 +135,37 @@ for (i in 1:10000){
 
 summary(results_bootstrap)</code></pre>
 <pre><code>##        b0              b1       
-##  Min.   :3.173   Min.   :4.751  
-##  1st Qu.:3.865   1st Qu.:4.907  
-##  Median :4.013   Median :4.945  
-##  Mean   :4.013   Mean   :4.945  
-##  3rd Qu.:4.159   3rd Qu.:4.985  
-##  Max.   :4.827   Max.   :5.179</code></pre>
+##  Min.   :3.245   Min.   :4.791  
+##  1st Qu.:3.822   1st Qu.:4.982  
+##  Median :3.962   Median :5.020  
+##  Mean   :3.962   Mean   :5.019  
+##  3rd Qu.:4.100   3rd Qu.:5.057  
+##  Max.   :4.709   Max.   :5.205</code></pre>
 <pre class="r"><code>print(paste0(&quot;El desvío estándar de b0 a partir de 10000 modelos es &quot;, sd(x = results_bootstrap$b0)))</code></pre>
-<pre><code>## [1] &quot;El desvío estándar de b0 a partir de 10000 modelos es 0.218799909021541&quot;</code></pre>
+<pre><code>## [1] &quot;El desvío estándar de b0 a partir de 10000 modelos es 0.207126704818891&quot;</code></pre>
 <pre class="r"><code>ggplot(data = results_bootstrap) + 
   geom_histogram( aes( x = b0),fill = &quot;white&quot;, colour = &quot;black&quot;) + 
   geom_vline( aes(xintercept = mean(b0)), colour = &quot;blue&quot;, size = 1)</code></pre>
 <p><img src="/post/2019-07-01-metodos-de-resampleo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>Voilà. Corrimos 10000 iteraciones de nuestro modelo a partir de 10000 muestras de nuestra data original. El desvío estándar de b0 para bootstrap quedó de 0.2102. Que si comparamos con el de 1000 muestras independientes que era 0.2106 es prácticamente igual. A su vez, podemos calcular el desvío teórico de b0 a partir del modelo (la solución fácil).</p>
+<p>Voilà. Corrimos 10000 iteraciones de nuestro modelo a partir de 10000 muestras de nuestra data original. El desvío estándar de b0 para bootstrap quedó de 0.2071. Que si comparamos con el de 1000 muestras independientes que era 0.2078 es prácticamente igual. A su vez, podemos calcular el desvío teórico de b0 a partir del modelo (la solución fácil).</p>
 <pre class="r"><code>summary(ml_train_sample)</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ x, data = df_train_sample)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -14.543  -2.652  -0.184   2.494  12.069 
+##      Min       1Q   Median       3Q      Max 
+## -13.2193  -2.8265   0.0281   2.7421  10.7577 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  3.93326    0.22066   17.82   &lt;2e-16 ***
-## x            4.95065    0.06024   82.18   &lt;2e-16 ***
+## (Intercept)  3.89621    0.21607   18.03   &lt;2e-16 ***
+## x            5.02591    0.05902   85.16   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.916 on 498 degrees of freedom
-## Multiple R-squared:  0.9313, Adjusted R-squared:  0.9312 
-## F-statistic:  6753 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>Vemos que desde R el modelo nos devuelve que b0 tiene un desvío de 0.20975. Prácticamente igual al desvío de las muestras independientes como al de bootstrap. Por otra parte vemos que el promedio de b0 estimado en bootstrap es mucho más cercano a 4 que el estimado con una sola iteración y quedó mucho más cerca que el promedio de los estimados mediante muestras independientes. Nada mal no?</p>
+## Residual standard error: 3.98 on 498 degrees of freedom
+## Multiple R-squared:  0.9357, Adjusted R-squared:  0.9356 
+## F-statistic:  7252 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Vemos que desde R el modelo nos devuelve que b0 tiene un desvío de 0.21607. Prácticamente igual al desvío de las muestras independientes como al de bootstrap. Por otra parte vemos que el promedio de b0 estimado en bootstrap es mucho más cercano a 4 que el estimado con una sola iteración y quedó mucho más cerca que el promedio de los estimados mediante muestras independientes. Nada mal no?</p>
 </div>
