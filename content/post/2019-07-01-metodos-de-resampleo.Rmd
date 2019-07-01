@@ -18,7 +18,7 @@ thumbnailImagePosition: left
 
 Los métodos de resampleo son indispensables en la estadística moderna ya que permiten ajustar modelos a diferentes muestras de un mismo set de entrenamiento con el fin de obtener mayor información del modelo. Por ejemplo puede ser de utilidad para ver la variabilidad del modelo en distintas muestras. Los dos métodos que se presentan en el capítulo son *cross-validation* y *bootstrap*. A grandes rasgos CV puede servir para estimar el test error de un modelo o para ajustar hiperparámetros del modelo como el nivel de flexbilidad. Por su parte bootstrap puede usarse para medir la precisión de un parámetro estimado mediante un modelo estadístico.
 
-### Cross-Validation
+## Cross-Validation
 
 De los modelos que uno entrena es de sumo interés obtener el "test error" que sería el error promedio al predecir una nueva observación aplicando el modelo estadístico entrenado. Esto puede calcularse si tenemos un set de testeo puntualmente para ello pero no suele ser el caso lamentablemente.
 En general no se tienen tantos datos como para separar en sets como uno desearía y surgen distintas técnicas para estimar el test error basado solamente en los datos de entrenamiento. Algunas de estas técnicas estiman el test error ajustando el training error por algún factor mientras que otras separan el training set en subsets donde uno hace las veces de test set.
@@ -61,7 +61,7 @@ Al parecer en los últimos años se empezó a dudar de la universalidad de este 
 
 Los procedimientos vistos hasta ahora son útiles tanto para variables continuas como para problemas de clasificación. Vinimos usando ejemplos donde la medida del error era el MSE (variable dependiente continua) pero podemos aplicar todo de la misma manera utilizando alguna medida de clasificación como la cantidad de observaciones mal clasificadas. Todo el resto se mantiene y es válido, tanto sete de validación, como LOOCV o K-Fold.
 
-### Bootstrap
+## Bootstrap
 
 El _bootstrap_ es una herramienta estadística muy extendida que se utiliza para cuantificar la incertidumbre asociada a algún estimador o método de aprendizaje estadístico. Un ejemplo sencilla sería que se puede usar para estimar los errores estándar de los coeficientes de una regresión lineal. Sin embargo lo poderoso de esta herramienta es que es utilizable en muchísimos métodos de aprendizaje, incluso en algunos donde es difícil estimar la varianza o esta no es calculado por los paquetes estadísticos.  
 Idealmente para estimar la variabilidad de un estimador lo que uno haría es ajustar un modelo n veces y ver cómo varía el estimador a lo largo de esos n modelos utilizando n muestras. Sin embargo no es habitual tener tantos datos ni muestras disponibles. Mismo uno querría utilizar todos los datos en simultáneo posiblemente para reducir el sesgo. Acá es donde bootstrap se luce ya que permite emular el proceso de obtener nuevas muestras de datos a partir de nuestros datos de entrenamiento. **En vez de muestrear de manera independiente sobre la población lo que se hace es muestrear n veces con reposición de nuestro set de entrenamiento, generado n muestras a partir de nuestros datos originales**.

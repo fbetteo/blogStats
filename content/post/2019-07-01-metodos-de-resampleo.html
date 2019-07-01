@@ -19,8 +19,8 @@ thumbnailImagePosition: left
 
 
 <p>Los métodos de resampleo son indispensables en la estadística moderna ya que permiten ajustar modelos a diferentes muestras de un mismo set de entrenamiento con el fin de obtener mayor información del modelo. Por ejemplo puede ser de utilidad para ver la variabilidad del modelo en distintas muestras. Los dos métodos que se presentan en el capítulo son <em>cross-validation</em> y <em>bootstrap</em>. A grandes rasgos CV puede servir para estimar el test error de un modelo o para ajustar hiperparámetros del modelo como el nivel de flexbilidad. Por su parte bootstrap puede usarse para medir la precisión de un parámetro estimado mediante un modelo estadístico.</p>
-<div id="cross-validation" class="section level3">
-<h3>Cross-Validation</h3>
+<div id="cross-validation" class="section level2">
+<h2>Cross-Validation</h2>
 <p>De los modelos que uno entrena es de sumo interés obtener el “test error” que sería el error promedio al predecir una nueva observación aplicando el modelo estadístico entrenado. Esto puede calcularse si tenemos un set de testeo puntualmente para ello pero no suele ser el caso lamentablemente. En general no se tienen tantos datos como para separar en sets como uno desearía y surgen distintas técnicas para estimar el test error basado solamente en los datos de entrenamiento. Algunas de estas técnicas estiman el test error ajustando el training error por algún factor mientras que otras separan el training set en subsets donde uno hace las veces de test set.</p>
 <div id="validation-set" class="section level4">
 <h4>Validation Set</h4>
@@ -49,8 +49,8 @@ Al parecer en los últimos años se empezó a dudar de la universalidad de este 
 <p>Los procedimientos vistos hasta ahora son útiles tanto para variables continuas como para problemas de clasificación. Vinimos usando ejemplos donde la medida del error era el MSE (variable dependiente continua) pero podemos aplicar todo de la misma manera utilizando alguna medida de clasificación como la cantidad de observaciones mal clasificadas. Todo el resto se mantiene y es válido, tanto sete de validación, como LOOCV o K-Fold.</p>
 </div>
 </div>
-<div id="bootstrap" class="section level3">
-<h3>Bootstrap</h3>
+<div id="bootstrap" class="section level2">
+<h2>Bootstrap</h2>
 <p>El <em>bootstrap</em> es una herramienta estadística muy extendida que se utiliza para cuantificar la incertidumbre asociada a algún estimador o método de aprendizaje estadístico. Un ejemplo sencilla sería que se puede usar para estimar los errores estándar de los coeficientes de una regresión lineal. Sin embargo lo poderoso de esta herramienta es que es utilizable en muchísimos métodos de aprendizaje, incluso en algunos donde es difícil estimar la varianza o esta no es calculado por los paquetes estadísticos.<br />
 Idealmente para estimar la variabilidad de un estimador lo que uno haría es ajustar un modelo n veces y ver cómo varía el estimador a lo largo de esos n modelos utilizando n muestras. Sin embargo no es habitual tener tantos datos ni muestras disponibles. Mismo uno querría utilizar todos los datos en simultáneo posiblemente para reducir el sesgo. Acá es donde bootstrap se luce ya que permite emular el proceso de obtener nuevas muestras de datos a partir de nuestros datos de entrenamiento. <strong>En vez de muestrear de manera independiente sobre la población lo que se hace es muestrear n veces con reposición de nuestro set de entrenamiento, generado n muestras a partir de nuestros datos originales</strong>. Ya con nuestras nuevas muestras (provenientes todas del dataset original) podemos calcular n modelos y por ende n veces el mismo estimador, pudiendo estimar el desvío estándar de este.<br />
 En el fondo lo que se hace es suponer que nuestra muestra es <em>representativa</em> de la población y es nuestra mejor aproximación. Luego obtenemos muestras de estos datos que son nuestra versión reducida de la población. Posiblemente haya algún sesgo pero es una herramienta bastante útil para estimar la variabilidad de nuestros estimadores.</p>
@@ -78,14 +78,14 @@ for (i in 1:1000){
 
 summary(results_pop)</code></pre>
 <pre><code>##        b0              b1       
-##  Min.   :3.337   Min.   :4.788  
-##  1st Qu.:3.875   1st Qu.:4.961  
-##  Median :4.005   Median :4.999  
-##  Mean   :4.009   Mean   :4.998  
-##  3rd Qu.:4.142   3rd Qu.:5.036  
-##  Max.   :4.696   Max.   :5.161</code></pre>
+##  Min.   :3.421   Min.   :4.799  
+##  1st Qu.:3.890   1st Qu.:4.942  
+##  Median :4.038   Median :4.982  
+##  Mean   :4.034   Mean   :4.984  
+##  3rd Qu.:4.177   3rd Qu.:5.025  
+##  Max.   :4.633   Max.   :5.176</code></pre>
 <pre class="r"><code>print(paste0(&quot;El desvío estándar de b0 a partir de 1000 modelos es &quot;, sd(x = results_pop$b0)))</code></pre>
-<pre><code>## [1] &quot;El desvío estándar de b0 a partir de 1000 modelos es 0.209149528656483&quot;</code></pre>
+<pre><code>## [1] &quot;El desvío estándar de b0 a partir de 1000 modelos es 0.217782102801907&quot;</code></pre>
 <pre class="r"><code>ggplot(data = results_pop) + 
   geom_histogram( aes( x = b0), fill = &quot;white&quot;, colour = &quot;black&quot;)  + 
   geom_vline( aes(xintercept = mean(b0)), colour = &quot;red&quot;, size = 1)</code></pre>
@@ -112,8 +112,8 @@ knitr::kable(results_sample, caption = &quot;Coefficients&quot;)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">3.445822</td>
-<td align="right">5.061398</td>
+<td align="right">3.93326</td>
+<td align="right">4.950651</td>
 </tr>
 </tbody>
 </table>
@@ -134,14 +134,14 @@ for (i in 1:10000){
 
 summary(results_bootstrap)</code></pre>
 <pre><code>##        b0              b1       
-##  Min.   :2.983   Min.   :4.712  
-##  1st Qu.:3.751   1st Qu.:4.942  
-##  Median :3.903   Median :4.989  
-##  Mean   :3.902   Mean   :4.989  
-##  3rd Qu.:4.054   3rd Qu.:5.036  
-##  Max.   :4.709   Max.   :5.232</code></pre>
+##  Min.   :3.173   Min.   :4.751  
+##  1st Qu.:3.865   1st Qu.:4.907  
+##  Median :4.013   Median :4.945  
+##  Mean   :4.013   Mean   :4.945  
+##  3rd Qu.:4.159   3rd Qu.:4.985  
+##  Max.   :4.827   Max.   :5.179</code></pre>
 <pre class="r"><code>print(paste0(&quot;El desvío estándar de b0 a partir de 10000 modelos es &quot;, sd(x = results_bootstrap$b0)))</code></pre>
-<pre><code>## [1] &quot;El desvío estándar de b0 a partir de 10000 modelos es 0.22413085708339&quot;</code></pre>
+<pre><code>## [1] &quot;El desvío estándar de b0 a partir de 10000 modelos es 0.218799909021541&quot;</code></pre>
 <pre class="r"><code>ggplot(data = results_bootstrap) + 
   geom_histogram( aes( x = b0),fill = &quot;white&quot;, colour = &quot;black&quot;) + 
   geom_vline( aes(xintercept = mean(b0)), colour = &quot;blue&quot;, size = 1)</code></pre>
@@ -153,18 +153,18 @@ summary(results_bootstrap)</code></pre>
 ## lm(formula = y ~ x, data = df_train_sample)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -12.3804  -2.7041   0.0082   2.6758  11.3385 
+##     Min      1Q  Median      3Q     Max 
+## -14.543  -2.652  -0.184   2.494  12.069 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  3.44582    0.22020   15.65   &lt;2e-16 ***
-## x            5.06140    0.06334   79.90   &lt;2e-16 ***
+## (Intercept)  3.93326    0.22066   17.82   &lt;2e-16 ***
+## x            4.95065    0.06024   82.18   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.154 on 498 degrees of freedom
-## Multiple R-squared:  0.9276, Adjusted R-squared:  0.9275 
-## F-statistic:  6385 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 3.916 on 498 degrees of freedom
+## Multiple R-squared:  0.9313, Adjusted R-squared:  0.9312 
+## F-statistic:  6753 on 1 and 498 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Vemos que desde R el modelo nos devuelve que b0 tiene un desvío de 0.20975. Prácticamente igual al desvío de las muestras independientes como al de bootstrap. Por otra parte vemos que el promedio de b0 estimado en bootstrap es mucho más cercano a 4 que el estimado con una sola iteración y quedó mucho más cerca que el promedio de los estimados mediante muestras independientes. Nada mal no?</p>
 </div>
