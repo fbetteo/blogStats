@@ -94,6 +94,7 @@ $$ E(y_0 - \hat f(x_0))^2 = Var(\hat f(x_0)) + [Sesgo(\hat f(x_0))]^2 + Var(\eps
 El lado izquierdo de la ecuación es el MSE esperado y coresponde MSE de testeo promedio que obtendríamos si estimaramos f utilizando una gran cantidad de sets de entrenamiento y testearamos cada uno en $x_0$.
 
 Algunas observaciones:
+
 * El MSE nunca puede ser menor que la varianza de $\epsilon$. Es un término fijo y por eso se lo llama error irreducible.
 * La varianza es cuanto cambiar $\hat f$ si utilizamos otro set de entrenamiento. Siempre va a cambiar con otro set pero idealmente ese cambio no debería ser grande. Modelos muy flexibles tienden a cambiar más frente a distintos sets y son más inestables.
 * Sesgo es el error provocado por la diferencia entre el modelo elegido y el verdadero proceso generador de los datos. En general modelos más flexibles tienen menor sesgo ya que pueden ajustar mayor variedad de formas funcionales.
