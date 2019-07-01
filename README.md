@@ -13,3 +13,7 @@ https://fbetteo.netlify.com/
 * https://www.r-bloggers.com/
 
 * http://bjlkeng.github.io/
+
+* http://freerangestats.info/blog/most-popular.html
+
+* https://simplystatistics.org/
