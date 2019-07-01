@@ -11,6 +11,9 @@ tags:
 categories:
 - estadistica
 - R
+summary: Resumen y notas del famoso libro Introduction to Statistical Learning de Hastie, Tibshirani et al. Capítulo 5. Métodos de Resampleo. Incluye principalmente Cross-Validation y Bootstrap.
+thumbnailImage: https://lh3.googleusercontent.com/2blGTczcWJla4oNejmiPAyZgHVkHd3kNlBvJ-S7hdpgHRPn8M-KunLb3gf2Y9DuoOuIOL4UdMUcDwsC29A=w146-h220
+thumbnailImagePosition: left
 ---
 
 Los métodos de resampleo son indispensables en la estadística moderna ya que permiten ajustar modelos a diferentes muestras de un mismo set de entrenamiento con el fin de obtener mayor información del modelo. Por ejemplo puede ser de utilidad para ver la variabilidad del modelo en distintas muestras. Los dos métodos que se presentan en el capítulo son *cross-validation* y *bootstrap*. A grandes rasgos CV puede servir para estimar el test error de un modelo o para ajustar hiperparámetros del modelo como el nivel de flexbilidad. Por su parte bootstrap puede usarse para medir la precisión de un parámetro estimado mediante un modelo estadístico.
@@ -31,7 +34,7 @@ Es un método muy sencillo y suele ser eficaz pero tiene dos potenciales problem
 
 #### Leave-One-Out Cross-Validation
 
-LOOCV es un intento de solucionar los problemas del enfoque del set de validación [**SPOILER: No es recomendado pero vale la pena conocerlo**].
+LOOCV es un intento de solucionar los problemas del enfoque del set de validación [**SPOILER: No es recomendado pero vale la pena conocerlo**].  
 Este enfoque es llevar el set de validación al extremo. Lo que se hace es de nuevo separar nuestro training set en dos pero esta vez guardando una sola observación como validación y usando las n-1 restantes para entrenar el modelo. La idea es hacer esto n veces, dejando cada vez una observación distinta como validación.
 El test error estimado es el promedio de los MSE de cada predicción que se hizo de la observación de validación. 
 Pensando en los problemas del set de validación, con LOOCV logramos usar casi todos los datos disponibles para entrenar el modelo (n-1 observaciones) por lo tanto deberíamos tener modelos con menos sesgo y no sobreestimar tanto el test error como con el enfoque de set de validación.
@@ -48,7 +51,7 @@ Como mencionamos para el set de validación, K-fold también puede ser utilizado
 
 Otro punto muy importante de K-Fold, además de que requiere menos intensidad computacional que LOOCV, es que suele dar estimaciones más precisas del test error que LOOCV, y esto tiene que ver por el tradeoff entre sesgo y varianza.
 
-Vimos antes que LOOCV debería ser el estimar más insesgado del test error ya que utiliza casi todas las observaciones de entrenamiento cada vez sin embargo hay que ver que sucede con la varianza ya que es otro componente del MSE. (Más detalles en [ISLR Cap 2](https://fbetteo.netlify.com/2019/05/aprendizaje-estad%C3%ADstico-islr-capitulo-2/).  
+Vimos antes que LOOCV debería ser el estimar más insesgado del test error ya que utiliza casi todas las observaciones de entrenamiento cada vez sin embargo hay que ver que sucede con la varianza ya que es otro componente del MSE. (Más detalles en [ISLR Cap 2](https://fbetteo.netlify.com/2019/05/aprendizaje-estad%C3%ADstico-islr-capitulo-2/)).  
 Resulta que LOOCV tiene mayor varianza que K-Fold CV siempre que K sea menor que n. Esto sucede porque en LOOCV lo que hacemos es promediar el resultado de n modelos cuyos datos de entrenamiento son casi idénticos (salvo por una observación) y por ende los resultados están en gran medida correlacionados positivamente.  
 Por otro lado al hacer K-Fold CV se promedian _solo_ K resultados que están menos correlacionados entre sí ya que los datos de entrenamiento se solapan menos entre ellos. 
 La clave acá es que el promedio de muchos valores altamente correlacionados tiene mayor varianza que el promedio de muchos valores que no están tan correlacionados. Dado este escenario se hicieron pruebas que llegaron a la conclusión empírica de que K=5 y k = 10 son valores que no suelen tener excesivo sesgo ni varianza.  
@@ -97,7 +100,8 @@ summary(results_pop)
 print(paste0("El desvío estándar de b0 a partir de 1000 modelos es ", sd(x = results_pop$b0)))
 
 ggplot(data = results_pop) + 
-  geom_histogram( aes( x = b0))
+  geom_histogram( aes( x = b0), fill = "white", colour = "black")  + 
+  geom_vline( aes(xintercept = mean(b0)), colour = "red", size = 1)
 ```
 
 
@@ -143,7 +147,8 @@ summary(results_bootstrap)
 print(paste0("El desvío estándar de b0 a partir de 10000 modelos es ", sd(x = results_bootstrap$b0)))
 
 ggplot(data = results_bootstrap) + 
-  geom_histogram( aes( x = b0))
+  geom_histogram( aes( x = b0),fill = "white", colour = "black") + 
+  geom_vline( aes(xintercept = mean(b0)), colour = "blue", size = 1)
 ```
 
 Voilà. Corrimos 10000 iteraciones de nuestro modelo a partir de 10000 muestras de nuestra data original. El desvío estándar de b0 para bootstrap quedó de 0.2102. Que si comparamos con el de 1000 muestras independientes que era 0.2106 es prácticamente igual.
