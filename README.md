@@ -11,3 +11,9 @@ https://fbetteo.netlify.com/
 * https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab
 
 * https://www.r-bloggers.com/
+
+* http://bjlkeng.github.io/
+
+* http://freerangestats.info/blog/most-popular.html
+
+* https://simplystatistics.org/
