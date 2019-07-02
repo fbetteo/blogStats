@@ -17,3 +17,5 @@ https://fbetteo.netlify.com/
 * http://freerangestats.info/blog/most-popular.html
 
 * https://simplystatistics.org/
+
+* https://www.johnmackintosh.com/
