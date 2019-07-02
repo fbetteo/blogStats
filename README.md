@@ -19,3 +19,5 @@ https://fbetteo.netlify.com/
 * https://simplystatistics.org/
 
 * https://www.johnmackintosh.com/
+
+* https://m-clark.github.io/documents.html
