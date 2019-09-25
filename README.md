@@ -21,3 +21,5 @@ https://fbetteo.netlify.com/
 * https://www.johnmackintosh.com/
 
 * https://m-clark.github.io/documents.html
+
+* https://www.magesblog.com/post/2015-08-04-generalised-linear-models-in-r/
