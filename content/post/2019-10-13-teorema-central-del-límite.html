@@ -1,0 +1,82 @@
+---
+title: "Teorema Central del Limite"
+author: ''
+date: '2019-10-13'
+slug: teorema-central-del-limite
+tags:
+- estadistica
+- r
+- simulacion
+categories:
+- estadistica
+- R
+thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImagePosition: left
+summary: Explicación y diferencias de dos versiones del teorema central del Límite.
+---
+
+
+
+<p>El <a href="https://es.wikipedia.org/wiki/Teorema_del_l%C3%ADmite_central">teorema central del límite (TCL)</a>
+es fundamental en el desarrollo de la estadística y ha obtenido
+distintas variantes a lo largo de la historia. Veremos dos de las versiones más conocidas.</p>
+<div id="teorema-central-del-limite-para-media-muestral-lindeberg---levy" class="section level3">
+<h3>Teorema Central del Límite para Media Muestral (Lindeberg - Lévy)</h3>
+<blockquote>
+<p>Si las varaibles <span class="math inline">\(X_1 ... X_n\)</span> forman una muestra aleatoria de tamaño n proveniente de una
+distribución con media <span class="math inline">\(\mu\)</span> y varianza <span class="math inline">\(\sigma^2\)</span> (0 &lt; <span class="math inline">\(\sigma^2\)</span> &lt; <span class="math inline">\(\infty\)</span>), entonces para
+cualquier número fijo x.
+<span class="math display">\[  \lim_{n\to \infty} Pr\Big[\frac{n^{1/2}(\bar X_n - \mu)}{\sigma} &lt;= x\Big] = \Phi (x)\]</span></p>
+</blockquote>
+<p>Donde <span class="math inline">\(\Phi (x)\)</span> es la función de distribución de una Normal Estándar.</p>
+<p>El por qué de la convergencia del teorema no será probado acá pero no es díficil de encontrar.
+Por ejemplo <a href="https://www.uv.es/ceaces/tex1t/2%20conver/levi.htm">ACÁ</a></p>
+<p>Básicamente lo que dice el teorema, es que tomando una muestra grande de una población con media <span class="math inline">\(\mu\)</span> y
+varianza <span class="math inline">\(\sigma^2\)</span> definidas, entonces <span class="math inline">\(\frac{n^{1/2}(\bar X_n - \mu)}{\sigma}\)</span> va a tender a una normal estándar. Como consecuencia de eso podemos decir que <span class="math inline">\(\bar X_n\)</span> va a distribuirse
+aproximandamete como <span class="math inline">\(N(\mu, \sigma^2/n)\)</span>.</p>
+<p>El TCL nos dice cómo se distribuye la media muestral si tenemos una muestra grande.</p>
+<p>Análogamente, también podemos decir que <span class="math inline">\(\sum_{i=1}^n X_i\)</span> va a ser aproximadamente una normal
+<span class="math inline">\(N(n\mu, n\sigma^2)\)</span></p>
+<div id="ejemplo.-lanzar-una-moneda" class="section level4">
+<h4>Ejemplo. Lanzar una moneda</h4>
+<p>Si lanzamos una moneda 900 veces. Cuál es la probabilidad de obtener más de 495 caras?</p>
+<p><span class="math inline">\(X_i\)</span> = 1 si sale cara en el lanzamiento i, y 0 si sale cruz.<br />
+E(<span class="math inline">\(X_i\)</span>) = 1/2 y Var(<span class="math inline">\(X_i\)</span>) = 1/4. Esto se deduce de ser un experimento con distribución Bernouilli.</p>
+<p>Para llevarlo a los términos del TCL, tenemos una muestra de tamaño n = 900, con <span class="math inline">\(\mu\)</span> = 1/2 y
+<span class="math inline">\(\sigma^2\)</span> = 1/4.</p>
+<p>Por TCL tenemos que la distribución de la suma del número total de caras <span class="math inline">\(\sum_{i=1}^{900} X_i\)</span> se
+distribuye aproximádamente como una normal con media = 900 * (1/2) = 450,
+varianza = 900 * (1/4) = 225 y desvío estándar 225^(1/2) = 15.</p>
+<p>Por lo tanto la variable <span class="math inline">\(Z = \frac{H - 450}{15}\)</span> se dsitribuye aproximadamente como una normal
+estándar.
+<span class="math display">\[Pr( H &gt; 495) = Pr(\frac{H - 450}{15} &gt; \frac{495 - 450}{15}) = Pr(Z&gt;3) = 1 - \Phi(3) = 0.0013\]</span></p>
+<p>Podemos comparar contra el resultado que obtenemos al hacer el mismo ejercicio pero mirando
+directamente la distribución binomial (que es la que realmente genera el proceso de datos)</p>
+<pre class="r"><code>pbinom(495,900, 0.5, lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.001200108</code></pre>
+<p>Vemos que los resultados son muy similares.</p>
+</div>
+</div>
+<div id="teorema-central-del-limite-para-suma-de-variables-aleatorias-independientes-liapunov" class="section level3">
+<h3>Teorema Central del Límite para Suma de Variables Aleatorias Independientes (Liapunov)</h3>
+<p>Este TCL aplica a una secuencia de variables aleatorias independientes pero que no necesariamente
+tienen que provenir de una misma distribución. Todas deben tener una media y varianza definidas.</p>
+<p>La variable <span class="math display">\[Y_n = \frac{\sum_{i=1}^n X_i - \sum_{i=1}^2 \mu_i}{(\sum_{i=1}^n\sigma_i^2)^{1/2}}\]</span></p>
+<p>Entonces <span class="math inline">\(E(Y_n) = 0\)</span> y <span class="math inline">\(Var(Y_n)\)</span> = 1</p>
+<p>Siendo un poco más precisos veamos el teorema:</p>
+<blockquote>
+<p>Suponiendo que las variables aleatorias <span class="math inline">\(X_1. X_2, ...\)</span> son independientes y que
+<span class="math inline">\(E(|X_i - \mu_i|^3) &lt; \infty\)</span> para 1,2,…
+Y suponidendo que <span class="math display">\[\lim_{n\to \infty} \frac{\sum_{i=1}^n E(|X_i - \mu_i|^3)}{(\sum_{i=1}^n \sigma^2_i)^{3/2}} = 0\]</span>
+Entonces, utilizando la variable Y definida previamente tenemos que <span class="math display">\[\lim_{n \to \infty} Pr(Y_n &lt;= x) = \Phi(x)\]</span></p>
+</blockquote>
+<p>La interpretacaión del teorema es que si se cumple la condición de los 3eros momentos, entonces para valores grandes de n la distribución de <span class="math inline">\(\sum_{i=1}^n X_i\)</span> será aproximadamente normal con media <span class="math inline">\(\sum_{i=1}^n \mu_i\)</span> y varianza <span class="math inline">\(\sum_{i=1}^n \sigma^2_i\)</span>.</p>
+</div>
+<div id="diferencias-entre-lindeberg-levy-y-liapunov" class="section level3">
+<h3>Diferencias entre Lindeberg-Lévy y Liapunov</h3>
+<p>El teorema de Lindeberg-Lévy aplica para secuencias de variables aleatorias iid y solo requiere que la varianza de estas variables sea finita. En cambio el teorema de Liapunov aplica a secuencias de variables aleatorias independientes pero que no necesariamente provienen de una misma distribución. Requiere que el tercer momento de cada variable existe y cumple con la ecuación del teorema.</p>
+</div>
+<div id="efecto-de-tcl" class="section level3">
+<h3>Efecto de TCL</h3>
+<p>Más allá de la utilidad para aproximar distribuciones y medias mediante una normal, el TCL aporta una posible explicación a por qué tantas variables se distribuyen aproximadamante como normales. Si muchas de las variables a medir pueden pensarse como sumas de otras variables es lógico que tiendan a verse como normales aunque las variables que se suman para darle origen provengan de distintas distribuciones.</p>
+</div>
