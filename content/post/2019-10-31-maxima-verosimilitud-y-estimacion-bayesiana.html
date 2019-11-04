@@ -1,0 +1,133 @@
+---
+title: "Maxima Verosimilitud y estimacion bayesiana"
+author: ''
+date: '2019-10-31'
+keywords: tech
+slug: maxima-verosimilitud-y-estimacion-bayesiana
+tags:
+- estadistica
+- R
+categories:
+- estadistica
+- R
+thumbnailImage: https://lh3.googleusercontent.com/nhlc2ATujz4P9pWYNtDaIjekQkYVux3yLq9NLVo-768-FxONnhevkYazCYooWaNyjdusTUn7NEcYwIdigA=w287-h176
+thumbnailImagePosition: left
+summary: Acerca de MLE y Estimadores bayesianos para estimar un parámetro desconocido.
+---
+
+
+
+<div id="algunos-conceptos" class="section level1">
+<h1>Algunos conceptos</h1>
+<div id="distribucion-prior" class="section level2">
+<h2>Distribucion prior</h2>
+<p>A falta de una buena traducción usamos este término.</p>
+<p>Supongamos que se toman muestras aleatorias de una distribucion con <a href="https://fbetteo.netlify.com/2019/04/funciones-de-probabilidad-y-distribucion/">pdf (funcion de densidad de probabilidad)</a> <span class="math inline">\(f(x|\theta)\)</span>. Por ejemplo podrían provenir de una normal con media = <span class="math inline">\(\mu\)</span> y varianza = 4.<br />
+Nosotros no sabemos el valor de <span class="math inline">\(\mu\)</span> pero podemos tener una idea de qué valores puede tomar y tener en mente una distribución prior de este parámetro <span class="math inline">\(\epsilon(\theta)\)</span>. Para el ejemplo sería <span class="math inline">\(\epsilon(\mu)\)</span>. Podemos suponer que <span class="math inline">\(\mu\)</span> se distribuye como una uniforme (0,1) por decir algo.<br />
+El concepto radica en tener una distribución prior para los parámetros de la distribución de la cual tomamos muestras aleatorias.</p>
+</div>
+<div id="distribucion-posterior" class="section level2">
+<h2>Distribución Posterior</h2>
+<p>Volviendo a nuestra muestra <span class="math inline">\(X_1...X_n\)</span> proveniente de <span class="math inline">\(f(x|\theta)\)</span>, podemos decir, debido a que son observaciones aleatorias e independientes que su distribución conjunta es <span class="math inline">\(f_n(x_1...X_n|\theta) = f(x_1|\theta)...f(x_n|\theta)\)</span>, que lo podemos escribir como <span class="math inline">\(f_n(x|\theta)\)</span>.<br />
+Dado que suponemos que <span class="math inline">\(\theta\)</span> proviene de una distribución <span class="math inline">\(\epsilon(\theta)\)</span>, la pdf conjunta <span class="math inline">\(f_n(x|\theta)\)</span> tiene que ser vista como la pdf conjunta condicional de<span class="math inline">\(X_1...X_n\)</span> para un valor particular de <span class="math inline">\(\theta\)</span>.<br />
+Multiplicando la pdf conjunta condicional por la pdf <span class="math inline">\(\epsilon(\theta)\)</span> obtenemos la (n+1) distribución conjunta de <span class="math inline">\(X_1...X_n\)</span> y <span class="math inline">\(\theta\)</span> bajo la forma <span class="math inline">\(f_n(x|\theta)\epsilon(\theta)\)</span>. Sería la pdf de encontrar en simultáneo determinados valores para x y <span class="math inline">\(\theta\)</span>. La probabilidad conjunta marginal de <span class="math inline">\(X_1...X_n\)</span> se encuentra integrando la pdf conjunta con <span class="math inline">\(\theta\)</span> para todos los valores de <span class="math inline">\(\theta\)</span>. Sería la probabilidad marginal de encontrar determinados valores de x (sabiendo la distribución de <span class="math inline">\(\theta\)</span> pero sin saber el valor puntual que toma).</p>
+<p><span class="math inline">\(g_n(x) = \int_\Omega f_n(x|\theta)\epsilon(\theta) d\theta\)</span></p>
+<p>Por teorema de Bayes tenemos que la distribución posterior de <span class="math inline">\(\theta\)</span>, es decir, dados los x es:
+<span class="math display">\[\epsilon(\theta|x) = \frac{f_n(x|\theta)\epsilon(\theta)}{g_n(x)} \text{ para } \theta \in \Omega\]</span>
+Se dice que la distribución prior <span class="math inline">\(\epsilon(\theta)\)</span> representa la verosimilitud, antes de ver los valores de <span class="math inline">\(X_1...X_n\)</span>, de que el verdadero valor de <span class="math inline">\(\theta\)</span> se encuentre en cada una de las regiones de <span class="math inline">\(\Omega\)</span> y que la pdf de la distribución posterior <span class="math inline">\(\epsilon(\theta|x)\)</span> representa la verosimilitud después que los valores <span class="math inline">\(X_1 = x_1,...,X_n = x_n\)</span> hayan sido observados.</p>
+<p>## La funcion de Versoimilitud</p>
+<p>El denominador de la distribución posterior es básicamente la integral del numerador para todos los posibles valores de <span class="math inline">\(\theta\)</span>. Depende de los valores observados <span class="math inline">\(X_1...X_n\)</span> pero no de <span class="math inline">\(\theta\)</span>, por lo que puede considerarse constante en este contexto.<br />
+Dado que es una constante podemos quitarla de la distribución posterior que vimos y decir que
+<span class="math display">\[\epsilon(\theta|x) \propto f_n(x|\theta)\epsilon(\theta)\]</span></p>
+<p>Cuando se ve <span class="math inline">\(f_n(x|\theta)\)</span> para una muestra aleatoria como función de <span class="math inline">\(\theta\)</span>, se la suele llamar función de verosimilitud. En inglés: Likelihood function.</p>
+<p>Juntando estos términos podemos decir que la pdf posterior de <span class="math inline">\(\theta\)</span> es proporcional al producto de la función de verosimilitud y la pdf prior de <span class="math inline">\(\theta\)</span>.</p>
+<p>La idea de ver esta relación de proporcionalidad es para poder calcular la pdf posterior evitando calcular la integral del denomiador <span class="math inline">\(g_n(x)\)</span>. Si el numerador tiene la forma de alguna de las distribuciones conocidad (normal, beta, gamma, uniforme, etc) es posible calcular fácilmente el factor constante por el cual multiplicar esa pdf para llegar a la posterior.</p>
+</div>
+<div id="distribuciones-prior-conjugadas" class="section level2">
+<h2>Distribuciones prior Conjugadas</h2>
+<p>Este concepto refiere a que ciertas distribuciones son particularmente útiles para los cálculos cuando las variables aleatorias observadas provienen de alguna distribución específica.<br />
+Es decir que según la distribución de la que provienen las X puede que haya alguna distribución conjugada tal que al asumirla para la pdf prior <span class="math inline">\(\epsilon(\theta)\)</span> ya sabemos que la distribución posterior también será de esa familia.</p>
+<p>Un ejemplo ilustrador:<br />
+Supongamos que tomamos observaciones <span class="math inline">\(X_1...X_n\)</span> de una distribución Bernoulli de la cual no sabemos el parámetro <span class="math inline">\(\theta\)</span> (que debe estar entre 0 y 1). Supongamos además que la pdf prior de <span class="math inline">\(\theta\)</span> es una distribución beta con algúnos parámetros dados <span class="math inline">\(\alpha \text{ y } \beta\)</span>. En este caso sabemos que por ser un caso de distribución conjugada, la pdf posterior de <span class="math inline">\(\theta\)</span> dado <span class="math inline">\(X = x_i (i = 1,...,n)\)</span> es a su vez una distribución beta con parámetros <span class="math inline">\(\alpha + \sum_{i=1}^n x_i \text{ y } \beta + n - \sum_{i=1}^n x_i\)</span>.</p>
+<p>Según la distribución de la que provengan las observaciones hay distintas distribuciones conjugadas que son las más convenientes para ese caso.</p>
+</div>
+</div>
+<div id="estimacion-de-parametros" class="section level1">
+<h1>Estimación de parámetros</h1>
+<p>La idea es estimar algún parámetro de la distribución de la cual se obtienen los datos observados. El valor estimado del parámetro va a depender de dos cosas:</p>
+<ul>
+<li>Del <em>estimador</em> que hayamos elegido (es decir, la función de los datos elegida)</li>
+<li>De la muestra. El valor estimado va a depender de los datos aleatorios que tengamos de la distribución.</li>
+</ul>
+<p>Como el estimador depende de la muestra podemos verlo a su vez como una variable aleatoria.</p>
+<div id="funcion-de-perdida" class="section level2">
+<h2>Función de pérdida</h2>
+<p>Lo que queremos de un estimador es que devuelva un valor estimado “a” para el parámetro lo más cercano posible al verdadero valor de <span class="math inline">\(\theta\)</span>. La función de pérdida es una función que cuantifica esto.
+<span class="math display">\[ L(\theta,a)\]</span>
+Hay algunas funciones habituales pero pueden adecuarse según el problema.<br />
+Podemos decir que en general lo que se busca es encontrar una estimación para la cual la esperanza de la pérdida sea un mínimo.</p>
+</div>
+<div id="estimador-bayesiano" class="section level2">
+<h2>Estimador bayesiano</h2>
+<p>Si tenemos una muestra aleatoria y una pdf posterior para <span class="math inline">\(\theta\)</span> entonces el valor esperado de la pérdida para cualquier valor estimado “a” es:
+<span class="math display">\[E[L(\theta,a)|x] = \int_\Omega L(\theta,a)\epsilon(\theta,x)d\theta\]</span></p>
+<p>Lo que buscamos es encontrar un valor de a cuya pérdida esperada sea mínima. La función que genera un valor de a mínimo para cada posible valor de X será un estimador de <span class="math inline">\(\theta\)</span> y en particular se llamará <em>Estimador Bayesiano</em>.<br />
+El estimador bayesiano, que minimiza la pérdida esperada para cualquier set de datos X, va a depender de la función de pérdida que elijamos y de la pdf prior que se elija para <span class="math inline">\(\theta\)</span>.</p>
+<p>Por ejemplo,para la función de pérdida más utilizada, que es la de error cuadrático
+<span class="math display">\[L(\theta,a) = (\theta -a)^2\]</span>
+está demostrado que la pérdida es mínima cuando <span class="math inline">\(a\)</span> es la media de la distribución posterior <span class="math inline">\(E(\theta|x)\)</span>.</p>
+<p>Dijimos que el valor del estimador bayesiano va a depender de la distribución prior elegida. Esto es cierto, pero hay que tener en cuenta que para muestras grandes las diferencias empiezan a achicarse y los estimadores bayesianos provenientes de distintos priors empiezan a converger en la mayoría de los casos.</p>
+</div>
+<div id="estimadores-de-maxima-verosimilitud" class="section level2">
+<h2>Estimadores de Máxima Verosimilitud</h2>
+<p>Los estimadores de máxima verosimilitud (MLE) son muy comunmente usados para estimar parámetros desconocidos ya que más allá de la discusión casi filosófica de “bayesianos vs frecuentistas”, sirven para estimar sin tener que definir una función de pérdida ni una distribución prior para los parámetros. Esto último es importante ya que para casos donde se necesita estimar un vector de parámetros, la distribución prior debe ser una multivariada que englobe a todos y eleva la complejidad del proceso bayesiano ampliamente.<br />
+Para muestras chicas MLE suele hacer un trabajo decente y para muestras grandes suele ser excelente por lo que se llega a resultados muy similares a través de un proceso más directo y más sencillo.</p>
+<p>Para estimar mediante MLE lo único que necesitamos es la función de verosimilitud ya definida.
+<span class="math display">\[f_n(x_1...X_n|\theta)\]</span>
+Luego lo único que se hace es buscar el parámetro <span class="math inline">\(\hat \theta\)</span> (estimado) que maximice esa función. Básicamente es buscar qué parámetro hace que la probabilidad conjunta de obtener esos valores de X sea máxima? Ese es nuestro MLE.</p>
+<p>Para la gran mayoría de los casos esta metodología funciona pero hay que tener en cuenta que es posible que para algunos problemas no haya un máximo para la función de verosimilitud o que haya más de un punto, en cuyo caso hay que elegir alguno de ellos.</p>
+<div id="mle-en-bernoulli" class="section level3">
+<h3>MLE en Bernoulli</h3>
+<p>Supongamos que tomamos observaciones <span class="math inline">\(X_1...X_n\)</span> de una distribución Bernoulli de la cual no sabemos el parámetro <span class="math inline">\(\theta\)</span> (que debe estar entre 0 y 1).</p>
+<p>Para cualquier vector de observaciones <span class="math inline">\(X_1...X_n\)</span> la función de verosimilitud es:
+<span class="math display">\[ f_n(x|\theta) = \prod_{i = 1}^n \theta^{x_i}(1-\theta)^{1-x_i}\]</span>
+El valor de <span class="math inline">\(\theta\)</span> que maximice la función de verosimilitud es el mismo valor que maximiza <span class="math inline">\(log f_n(x|\theta)\)</span>, por lo que es conveniente encontrar tal valor buscando que maximice:
+<span class="math display">\[L(\theta) = log f_n(x|\theta) = \sum_{i=1}^n[x_i log \theta + (1 - x_i) log(1-\theta)] = (\sum_{i=1}^nx_i)log \theta + (n-\sum_{i=1}^n x_i) log (1-\theta)\]</span></p>
+<p>Si derivamos <span class="math inline">\(dL(\theta) / d\theta\)</span> e igualamos a 0, resolviendo esa ecuando para <span class="math inline">\(\theta\)</span> encontramos que <span class="math inline">\(\theta = \bar x_n\)</span>.<br />
+Este valor maximiza el logaritmo de la función de verosimilitud y por ende también de la función de verosimilitud en sí misma. Por lo tanto el MLE de <span class="math inline">\(\theta\)</span> es <span class="math inline">\(\hat \theta = \bar X_n\)</span></p>
+<pre class="r"><code># Generamos 100 observaciones de una Bernoulli
+set.seed(150)
+data = rbinom(100, 1, prob = 0.723)
+
+# Calculamos su promedio, que ya sabemos es la mejor estimación para p dados los datos
+mean(data)</code></pre>
+<pre><code>## [1] 0.68</code></pre>
+<pre class="r"><code># Definimos función de verosimilitud
+# Es la pdf de una Bernoulli para cada observación y sumamos sus logaritmos (en negativo porque 
+# el optimizador minimiza en vez de maximizar)
+LL = function( p){
+   R = dbinom(x = data, size = 1, prob = p)
+   
+   -sum(log(R))  # Negativo porque log de probabilidades es &lt;0.
+ }
+
+# Función que busca los parámetros que minimzan el negativo de la log verosimilitud
+# Elegimos un valor inicial de p en el medio.
+stats4::mle(LL, start = list(p = 0.5) )</code></pre>
+<pre><code>## 
+## Call:
+## stats4::mle(minuslogl = LL, start = list(p = 0.5))
+## 
+## Coefficients:
+##         p 
+## 0.6799996</code></pre>
+<p>Vemos que la estimación por MLE es <em>idéntica</em> a la media. No corresponde con el verdadero valor del parámetro poblacional p debido a la muestra particular que fue seleccionada.</p>
+<p>Algunos comentarios finales:</p>
+<ul>
+<li>En algunos casos no es posible encontrar la solución óptima si no es por métodos numéricos.</li>
+<li>Cuando <span class="math inline">\(n \to \infty\)</span> MLE converge en probabilidad al verdadero <span class="math inline">\(\theta\)</span>. Por ende cuando <span class="math inline">\(n \to \infty\)</span> el estimador bayesiano (que cumple la misma propiedad) y MLE serán muy parecidos entre sí y al verdadero <span class="math inline">\(\theta\)</span>.</li>
+<li>MLE solo depende de las observaciones y no de cómo y en qué orden fueron recolectadas.</li>
+</ul>
+</div>
+</div>
+</div>
