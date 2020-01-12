@@ -11,7 +11,7 @@ tags:
   - algebra
   - estadistica
   - r
-thumbnailImage: https://get.google.com/albumarchive/116958252984477585479/album/AF1QipMHASzsDfJ9OTzQtMIQYqCbfFGzp2GiTJ9F-qr8/AF1QipPPrKs_uv5L_RQAQvgHNr11qfpeuu0eVBXLUIH2
+thumbnailImage: https://lh3.googleusercontent.com/jV5Ey0SzOFx04v42l7o-o5hBXz39lfkg4RqE_UZ0EtVCtsHEgdcaZwtaINbJbrJLZ8UhU-nhaUZgadBT0w=w330-h220
 thumbnailImagePosition: left
 summary: Distintas medidas de distancia y similaridad.
 ---
