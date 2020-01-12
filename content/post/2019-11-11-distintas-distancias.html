@@ -1,0 +1,226 @@
+---
+title: 'Distintas Distancias'
+author: ''
+date: '2019-11-11'
+slug: distintas-distancias
+categories:
+  - algebra
+  - estadistica
+  - matematica
+tags:
+  - algebra
+  - estadistica
+  - r
+thumbnailImage: https://get.google.com/albumarchive/116958252984477585479/album/AF1QipMHASzsDfJ9OTzQtMIQYqCbfFGzp2GiTJ9F-qr8/AF1QipPPrKs_uv5L_RQAQvgHNr11qfpeuu0eVBXLUIH2
+thumbnailImagePosition: left
+summary: Distintas medidas de distancia y similaridad.
+---
+
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>Si tenemos un espacio euclideo, es decir, una linea, un plano o un hiperplano, que son los espacios
+típicos de la geometría clásica, podemos calcular la distancia entre dos puntos que se hayen en él.</p>
+<p>Es decir, cuál es la distancia entre los puntos A (1,1) y B (1,0) en un plano?
+Empecemos pensando en los casos donde todos los valores del vector son numéricos.</p>
+<pre class="r"><code>A = c(0,0,1,1)
+B = c(0,0,1,0)
+recta = c(1,1,1,0)
+df = as.data.frame(matrix(data = c(A,B, recta),
+                          nrow = 4, 
+                          ncol = 4,
+                          byrow = TRUE )) %&gt;%
+  rename( x0 = V1,
+          y0 = V2,
+          x1 = V3,
+          y1 = V4)
+
+
+ggplot(data=df[1:2,], aes(x=x0, y=y0)) + 
+  geom_segment(aes(xend=x1, yend=y1),
+               arrow = arrow(length = unit(0.3,&quot;cm&quot;))) + 
+  geom_point( aes(x = x1, y = y1), 
+              color = &quot;red&quot;, size = 2)</code></pre>
+<p><img src="/post/2019-11-11-distintas-distancias_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div id="distancia-euclideana" class="section level3">
+<h3>Distancia Euclideana</h3>
+<p>La métrica más habitual que se utiliza es la distancia euclideana, que consiste en la recta que une ambos puntos.</p>
+<pre class="r"><code>ggplot(data=df[1:2,], aes(x=x0, y=y0))+
+  geom_segment(aes(xend=x1, yend=y1),
+               arrow = arrow(length = unit(0.3,&quot;cm&quot;))) + 
+  geom_point(aes(x = x1, y = y1), 
+               color = &quot;red&quot;, size = 2) + 
+  geom_segment(data = df[3,], 
+               aes(xend=x1, yend=y1),
+               color = &quot;blue&quot;, 
+               arrow = arrow(length = unit(0.3,&quot;cm&quot;)))</code></pre>
+<p><img src="/post/2019-11-11-distintas-distancias_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Esta distancia se calcula con:<br />
+<span class="math display">\[d(A,B) = d(B,A) = \sqrt{(A_1 - B_1)^2 + (A_2 - B_2)^2 + ... + (A_n - B_n)^2}  
+= \sqrt{\sum_{i=1}^n (A_i - B_i)^2}\]</span></p>
+<p>Como se ve en la imagen, los puntos A y B pueden verse como vectores que inician en el origen (0,0). La distancia euclidea es a su vez la distancia entre sus puntas, que a su vez puede pensarse como un vector de desplazamiento (de A a B por ejemplo).</p>
+<p>En este caso la distancia euclidea es:
+<span class="math display">\[d(A,B) = \sqrt{ (1-1)^2 + (1 - 0)^2} = 1\]</span>
+Y que es algo visible en el gráfico.</p>
+<p>De manera más general, podemos definir toda una familia de distancias en el espacio euclideo.
+<em>Las distancias de Minkowsky.</em></p>
+<p>La distancia Minkowsky de orden p es:
+<span class="math display">\[d(A,B) = d(B,A) = \Bigg({\sum_{i=1}^n |A_i - B_i|^p}\Bigg)^{1/p}\]</span></p>
+<p>Vemos que si p = 2, entonces la distancia de Minkowsky no es otra que la distancia euclideana.</p>
+</div>
+<div id="distancia-de-manhattan" class="section level3">
+<h3>Distancia de Manhattan</h3>
+<p>Otro valor que suele tomarse para p es p = 1, y eso corresponde a la <em>distancia de Manhattan</em>.</p>
+<p>Esta distancia se calcula con:<br />
+<span class="math display">\[d(A,B) = d(B,A) =  |A_1 - B_1| + |A_2 - B_2| + ... + |A_n - B_n|  
+=\sum_{i=1}^n |A_i - B_i|\]</span></p>
+<p>Es básicamente la suma de las diferencias absolutas entre las distintas dimensiones de los vectores.</p>
+<p>Luce asi.</p>
+<pre class="r"><code>A = c(0,0,3,3)
+B = c(0,0,2,1)
+recta = c(2,1,3,3)
+manhattan1 = c(2,1,3,1)
+manhattan2 = c(3,1,3,3)
+
+df = as.data.frame(matrix(data = c(A,B, recta, manhattan1, manhattan2),
+                          nrow = 5, 
+                          ncol = 4,
+                          byrow = TRUE )) %&gt;%
+  rename( x0 = V1,
+          y0 = V2,
+          x1 = V3,
+          y1 = V4)
+
+
+ggplot(data=df[1:2,], aes(x=x0, y=y0)) + 
+    geom_point( aes(x = x1, y = y1), 
+              color = &quot;red&quot;, size = 2) + 
+      geom_segment(data = df[3,], 
+               aes(xend=x1, yend=y1, color = &quot;blue&quot;),
+               #color = &quot;blue&quot;, 
+               arrow = arrow(length = unit(0.3,&quot;cm&quot;))) +
+      geom_segment(data = df[4,], 
+               aes(xend=x1, yend=y1,  color = &quot;green&quot;,),
+               #color = &quot;green&quot;, 
+               arrow = arrow(length = unit(0.3,&quot;cm&quot;))) + 
+      geom_segment(data = df[5,], 
+               aes(xend=x1, yend=y1),
+               color = &quot;green&quot;, 
+               arrow = arrow(length = unit(0.3,&quot;cm&quot;))) +
+      scale_colour_manual(name = &#39;the colour&#39;, 
+         values =c(&#39;blue&#39;=&#39;blue&#39;,&#39;green&#39;=&#39;green&#39;),
+         labels = c(&#39;Euclideana&#39;,&#39;Manhattan&#39;))</code></pre>
+<p><img src="/post/2019-11-11-distintas-distancias_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Vemos como el valor abosluto imposibilita ir en dirección diagonal. Lo que se logra es medir la distancia como si hubiera una grilla como la del gráfico. Su nombre proviene de su utilización para medir distancias al interior de una ciudad (uno no puede cruzar las manzanas por el medio!).</p>
+<p>Para saber cual conviene utilizar hay que pensar en el problema en cuestión.</p>
+<ul>
+<li>Ya sea medir distancias en ciudades o donde haya restricciones de ese tipo puede que Manhattan sea más apropiado.<br />
+</li>
+<li>Por otra parte al no elevar al cuadrado le da menos pesos a las grandes distancias o mismo outliers por lo que puede ser otro motivo válido.<br />
+</li>
+<li>Por último, algunos trabajos argumentan que es más adecuada en problema de alta dimensionalidad (o mismo valores menores a 1 en el exponente de la formula de Minkowsky)</li>
+</ul>
+</div>
+<div id="similaridad-coseno" class="section level3">
+<h3>Similaridad coseno</h3>
+<p>La similaridad coseno se utiliza cuando se quiere ver la similitud “angular” entre dos observaciones y no la distancia en el plano. Es decir, vemos la dirección pero no la magnitud</p>
+<pre class="r"><code>A = c(0,0,1,1)
+B = c(0,0,2,2)
+C = c(0,0,5,0)
+
+df = as.data.frame(matrix(data = c(A,B,C),
+                          nrow = 3, 
+                          ncol = 4,
+                          byrow = TRUE )) %&gt;%
+  rename( x0 = V1,
+          y0 = V2,
+          x1 = V3,
+          y1 = V4)
+
+
+ggplot(data=df[1:3,], aes(x=x0, y=y0 )) + 
+  geom_segment(aes(xend=x1, yend=y1),
+               arrow = arrow(length = unit(0.3,&quot;cm&quot;))) + 
+  geom_point( aes(x = x1, y = y1), 
+              color = &quot;red&quot;, size = 2) + 
+  geom_text(aes(x=x1, y = y1, label = c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;)),
+            vjust = -0.5)</code></pre>
+<p><img src="/post/2019-11-11-distintas-distancias_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Si hicieramos la distancia euclideando entre A y B obtendriamos el valor de la distancia en el plano, sin embargo podemos ver que se encuentran sobre la misma recta y por lo tanto su dirección es la misma. La similaridad coseno mide el ángulo entre dos puntos. En este caso el ángulo entre A y B es 0, y por ende su similaridad coseno es 1. Ambas tendrían la misma similaridad con cualquier otro punto de la misma recta, por más alejado que esté.
+Respecto a C, tanto A y B tiene comparten el ángulo por lo tanto la similaridad coseno entre A y C será la misma que entre B y C.</p>
+<pre class="r"><code>cosA = c(1,1)
+cosB = c(2,2)
+cosC = c(5,0)
+
+# Similaridad coseno entre A y B
+lsa::cosine(cosA, cosB)[[1]]</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code># Similaridad coseno entre A y C
+lsa::cosine(cosA, cosC)[[1]]</code></pre>
+<pre><code>## [1] 0.7071068</code></pre>
+<pre class="r"><code># Similaridad coseno entre B y C
+lsa::cosine(cosC, cosB)[[1]]</code></pre>
+<pre><code>## [1] 0.7071068</code></pre>
+<p>Hay que tener en cuenta el contexto de nuestro problema para decidir qué medida de distancia usar. Por ejemplo la similaridad coseno se usa de manera estándar en análisis de texto (text mining).</p>
+</div>
+<div id="distancia-de-mahalanobis" class="section level3">
+<h3>Distancia de Mahalanobis</h3>
+<p>La distancia de Mahalanobis tiene la particularidad que mide la distancia entre un punto (P) y una distribución de datos (D). Si tenemos una nube de puntos correspondiente a una distribución D, cuanto más cerca esté P del centro de masa (o “promedio”) más cerca se encuetran P y D. Intuitivamente sirve para pensar si P puede pertenecer a D o no.<br />
+Dado que la nube de puntos no tiene por qué ser una esfera (donde cada dirección tiene la misma cantidad de puntos), hay que tener en cuenta cómo se dispersan los puntos alrededor del centro de masa.</p>
+<p>No es lo mismo,</p>
+<pre class="r"><code>esfera = as.data.frame(MASS::mvrnorm(1000, mu = c(3,3), 
+                                     Sigma = matrix(c(1,0,0,1),
+                                                    nrow = 2,
+                                                    ncol = 2)))
+
+ggplot(data = esfera, aes(x = V1, y = V2)) + 
+  geom_point() + 
+  geom_point(data = as.data.frame(matrix(c(6,2),ncol = 2)), 
+             aes(x = V1, y = V2), color = &quot;red&quot;) + 
+  geom_text(data = as.data.frame(matrix(c(6,2),ncol = 2)),
+            aes(x = V1, y = V2,label = &quot;P&quot;),
+            vjust = 1.5, color = &quot;blue&quot;) +
+  labs(title = &quot;Distribución esférica&quot;)</code></pre>
+<p><img src="/post/2019-11-11-distintas-distancias_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>que,</p>
+<pre class="r"><code>elipse = as.data.frame(MASS::mvrnorm(1000, mu = c(3,3), 
+                                     Sigma = matrix(c(1,0.6,0.6,1),
+                                                    nrow = 2,
+                                                    ncol = 2)))
+
+
+
+ggplot(data = elipse, aes(x = V1, y = V2)) + 
+  geom_point() + 
+  geom_point(data = as.data.frame(matrix(c(6,2),ncol = 2)), 
+             aes(x = V1, y = V2), color = &quot;red&quot;) + 
+  geom_text(data = as.data.frame(matrix(c(6,2),ncol = 2)),
+            aes(x = V1, y = V2,label = &quot;P&quot;),
+            vjust = 1.5, color = &quot;blue&quot;) +
+  labs(title = &quot;Distribución Elíptica&quot;)</code></pre>
+<p><img src="/post/2019-11-11-distintas-distancias_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Los centros de masa son los mismos y lo único que cambia es la matriz de variancias y covarianzas (o como se correlacionan las variables). La distancia de P al centro es la misma, pero está claro que en el caso esférico P se encuentra más cerca de la distribución que en el caso elíptico.</p>
+<p>Mahalanobis tiene en cuenta este aspecto ya que involucra la matriz de varianzas y covarianzas.</p>
+<p>La distancia entre el punto x y la distribución con vector de medias <span class="math inline">\(\vec{\mu}\)</span> y matriz de covarianzas S es:
+<span class="math display">\[ D_M(\vec{x}) = \sqrt{(\vec{x} - \vec{\mu})^TS^{-1}(\vec{x} - \vec{\mu})})\]</span></p>
+<p>Tanto el vector <span class="math inline">\(\vec{x}\)</span> como la distribución pueden ser multivariadas (como se ve en los gráficos de arriba).</p>
+<p>Tener en cuenta que si tenemos dos puntos provenientes de la misma distribución, podemos usar la distancia de Mahalanobis como una medida de disimilaridad:
+<span class="math display">\[ D_M(\vec{x},\vec{y}) = \sqrt{(\vec{x} - \vec{y})^TS^{-1}(\vec{x} - \vec{y})})\]</span>
+Veamos por ejemplo como queda la distancia de P a las distribuciones esféricas y elípticas graficadas.</p>
+<pre class="r"><code># Caso Esférico
+
+mahalanobis(x = c(6,2), 
+            center = c(3,3), 
+            cov = matrix(c(1,0,0,1),
+                         nrow = 2,
+                         ncol = 2))</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code># Caso Elíptico
+mahalanobis(x = c(6,2), 
+            center = c(3,3), 
+            cov = matrix(c(1,0.6,0.6,1),
+                         nrow = 2,
+                         ncol = 2))</code></pre>
+<pre><code>## [1] 21.25</code></pre>
+<p>Queda claro que P es más cercano a la distribución esférica que a la elíptica.</p>
+</div>
