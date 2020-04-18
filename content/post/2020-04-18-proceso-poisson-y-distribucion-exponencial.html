@@ -1,0 +1,111 @@
+---
+title: Proceso Poisson y distribucion exponencial
+author: ''
+date: '2020-04-18'
+slug: proceso-poisson-y-distribucion-exponencial
+categories:
+  - estadistica
+tags:
+  - R
+  - estadistica
+  - Poisson
+  - Exponencial
+thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImagePosition: left
+summary: Procesos Poisson y la relación entre distribución poisson y exponencial
+---
+
+
+
+<p>Basado en:<br />
+<a href="https://stats.stackexchange.com/questions/2092/relationship-between-poisson-and-exponential-distribution" class="uri">https://stats.stackexchange.com/questions/2092/relationship-between-poisson-and-exponential-distribution</a><br />
+<a href="https://towardsdatascience.com/the-poisson-distribution-and-poisson-process-explained-4e2cb17d459" class="uri">https://towardsdatascience.com/the-poisson-distribution-and-poisson-process-explained-4e2cb17d459</a></p>
+<p>Un proceso que sigue un <em>proceso de Poisson</em> es aquel que tiene un cantidad de eventos promedio cada determinada unidad de medida (generalmente tiempo). Estos sucesos deben ser independientes y aleatorios pero la cantidad debe estar centrada alrededor del promedio ya mencionado. Una última condición es que dos sucesos no pueden suceder en simultáneos.</p>
+<p>Para ejemplificar, podemos suponer que la cantidad de pacientes que llegan a la guardia de un hospital sigue un proceso de Poisson.</p>
+<p>Un proceso Poisson se puede “descomponer” en 2 conceptos.</p>
+<ul>
+<li>Una disitribución <strong>Poisson (no proceso!)</strong> que provee la función de densidad de la cantidad de pacientes que ingresan al hospital. (Discreta)</li>
+<li>Una distribución <strong>exponencial</strong> que modela el tiempo que transcurre entre cada paciente. (Continua)</li>
+</ul>
+<div id="distribucion-poisson" class="section level3">
+<h3>Distribución Poisson</h3>
+<p>Esta distribución sirve para modelar la cantidad de pacientes. Digamos que ingresan en promedio <span class="math inline">\(\lambda\)</span> pacientes por <em>hora</em>.</p>
+<p>La función de probabilidad (probability mass function en inglés ya que es discreta) es:
+<span class="math display">\[P(K) = e^{-\lambda}\frac{\lambda^k}{k!}\]</span></p>
+<p>Donde K es la cantidad de pacientes en una hora y <span class="math inline">\(\lambda\)</span> es como dijimos, la cantidad promedio que ingresa por hora.
+La función nos dice qué probabilidad hay de recibir K pacientes en una hora si en general llegan <span class="math inline">\(\lambda\)</span>.</p>
+<p>Distintos <span class="math inline">\(\lambda\)</span> devuelven obviamente distintas probabilidades para cada valor de K. Vemos que a medida que crece <span class="math inline">\(\lambda\)</span> la densidad se parece cada vez más a una normal.</p>
+<pre class="r"><code>lambda = c(1,2,4,6,10)
+k = seq(0,max(lambda)*1.5)
+df &lt;- expand.grid(lambda = as.factor(lambda), k = k) %&gt;%
+  mutate(poisson = dpois(k, as.numeric(as.character(lambda))))
+
+ggplot(data = df, aes(x = k, y =poisson, colour = lambda)) + 
+  geom_line() + 
+  geom_point() + 
+  ggtitle(&quot;Probabilidad por intervalo (1 hora)&quot;) +
+  xlab(&quot;Cantidad K de pacientes&quot;) + 
+  ylab(&quot;&quot;)</code></pre>
+<p><img src="/post/2020-04-18-proceso-poisson-y-distribucion-exponencial_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><span class="math inline">\(\lambda\)</span> determina la forma de la dsitribución y como es de esperar, esta se centra alrededor del parámetro ya que es la cantidad promedio en el intervalo. Una propiedad interesante es que la varianza de la disitribución también es <span class="math inline">\(\lambda\)</span>.<br />
+Los pacientes que llegan al hospital siguen una distribución <span class="math inline">\(\sim P(\lambda)\)</span>.</p>
+<p>Otra caracterísica es que uno puede escalar la distribución para cualquier intervalo. Es decir que si nuestro modelo era para cantidad de pacientes por hora, uno puede multiplicar <span class="math inline">\(\lambda\)</span> por 3 si quiere la distribución cada 3 horas, o dividir por 6 si la quiere cada 10 minutos por ejemplo. Esto es asi porque en realidad en la función de probabilidad de la distribución Poisson, <span class="math inline">\(lambda\)</span> está multiplicado por el intervalo <em>t</em>,pero se simplifica y se lo asume 1. Luego uno puede derivar para el lapso que desee multiplicando.</p>
+</div>
+<div id="distribucion-exponencial" class="section level3">
+<h3>Distribución Exponencial</h3>
+<p>Sabemos que llegan <span class="math inline">\(\lambda\)</span> pacientes por hora. Nos gustaría ahora saber la distribución para el tiempo de espera hasta que llegue el próximo paciente. Es decir, parados en el momento <em>t</em>, qué probabilidad hay de tener que esperar un minuto, 2, 10 hasta el próximo paciente?</p>
+<p>El concepto es el siguiente. Si queremos saber la probabilidad de que haya que esperar al menos X minutos, es lo mismo que calcular la probabilidad de que la cantidad de pacientes en el momento t+x sea igual a la cantidad de momento t. <span class="math inline">\(N_{t+x} = N_{t}\)</span>.
+Podemos calcular eso con la distribución Poisson. Es simplemente la probabilidad de 0 pacientes en un intervalo x.</p>
+<p><span class="math display">\[P(N_{t+x} - N_t = 0) = e^{-\lambda x}\frac{\lambda x^0}{0!} = e^{-\lambda x} \]</span>
+La probabilidad de obtener un nuevo paciente en el intervalo x es 1 menos la probabilidad de no obtener ninguno, por lo tanto:
+<span class="math display">\[ P(X_t \leq x) = 1 -  P(N_{t+x} - N_t = 0) = 1 - e^{-\lambda x}\]</span>
+Este último resultado es la <strong>función de probabilidad acumulada de la exponencial</strong>. La probabilidad de tener que esperar X o menos minutos depende de <span class="math inline">\(\lambda\)</span> and x.</p>
+<p>Con la derivada obtenemos la <strong>Función de distribución de la exponencial</strong>.
+<span class="math display">\[f(x, \lambda) = \lambda e^{-\lambda x}\]</span></p>
+<p>Si al hospital llegaran 10 personas por hora a la guardia, tendríamos la siguiente función de densidad de la exponencial.
+Tener en cuenta que <span class="math inline">\(\lambda\)</span> = 10 en la poisson (10 casos por unidad de tiempo (hora)), sin embargo, en la exponencial queremos medirlo en minutos, por lo que usamos un <span class="math inline">\(\lambda\)</span> de 10/60.</p>
+<pre class="r"><code>lambda = c(10)
+t = seq(0,30, by = 1)
+df2 &lt;- expand.grid(lambda = as.factor(lambda), t = t) %&gt;%
+  mutate(exponencial = dexp(t, as.numeric(as.character(lambda))/60))
+
+ggplot(data = df2, aes(x = t, y =exponencial)) + 
+  geom_line(colour = &quot;red&quot;) + 
+  geom_point(colour = &quot;red&quot;) + 
+  ggtitle(&quot;Función de densidad de distribución exponencial: lambda = 10/60&quot;) +
+  xlab(&quot;Minutos&quot;) +
+  ylab(&quot;Densidad&quot;) +
+  scale_x_continuous(breaks = seq(0,30, by = 5))</code></pre>
+<p><img src="/post/2020-04-18-proceso-poisson-y-distribucion-exponencial_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Por otro lado podemos ver la probabilidad acumulada hasta determinado minuto. Siguiendo el mismo ejemplo de 10 pacientes por hora (Poisson con <span class="math inline">\(\lambda = 10\)</span>), la acumulado de la distribución exponencial tiene la siguiente forma.</p>
+<p><em>Hay alrededor de 80% de chances que un paciente llegue en los próximos 10 minutos.</em></p>
+<pre class="r"><code>lambda = c(10)
+t = seq(0,max(lambda)*3, by = 1)
+df2 &lt;- expand.grid(lambda = as.factor(lambda), t = t) %&gt;%
+  mutate(exponencial = pexp(t, as.numeric(as.character(lambda))/60))
+
+ggplot(data = df2, aes(x = t, y =exponencial)) + 
+  geom_line(colour = &quot;blue&quot;) + 
+  geom_point() + 
+  ggtitle(&quot;Probabilidad de tener que esperar X minutos o menos&quot;) +
+  xlab(&quot;Minutos&quot;) + 
+  ylab(&quot;&quot;) +
+  scale_x_continuous(breaks = seq(0,30, by = 5))</code></pre>
+<p><img src="/post/2020-04-18-proceso-poisson-y-distribucion-exponencial_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Por último, si lo quieren ver al revés. Podemos ver la probabilidad de tener que esperar al menos X minutos para que llegue el próximo.</p>
+<p><em>Hay alrededor de 5% de chances de tener que esperar 20 minutos hasta el próximo paciente</em></p>
+<pre class="r"><code>lambda = c(10)
+t = seq(0,max(lambda)*3, by = 1)
+df2 &lt;- expand.grid(lambda = as.factor(lambda), t = t) %&gt;%
+  mutate(exponencial = pexp(t, as.numeric(as.character(lambda))/60, lower.tail = FALSE))
+
+ggplot(data = df2, aes(x = t, y =exponencial)) + 
+  geom_line(colour = &quot;darkgreen&quot;) + 
+  geom_point() + 
+  ggtitle(&quot;Probabilidad de tener que esperar X minutos o menos&quot;) +
+  xlab(&quot;Minutos&quot;) + 
+  ylab(&quot;&quot;) +
+  scale_x_continuous(breaks = seq(0,30, by = 5)) + 
+  scale_y_continuous(breaks = seq(0,1, by = 0.1))</code></pre>
+<p><img src="/post/2020-04-18-proceso-poisson-y-distribucion-exponencial_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
