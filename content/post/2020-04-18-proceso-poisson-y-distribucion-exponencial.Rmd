@@ -140,7 +140,7 @@ df2 <- expand.grid(lambda = as.factor(lambda), t = t) %>%
 ggplot(data = df2, aes(x = t, y =exponencial)) + 
   geom_line(colour = "darkgreen") + 
   geom_point() + 
-  ggtitle("Probabilidad de tener que esperar X minutos o menos") +
+  ggtitle("Probabilidad de tener que esperar al menos X minutos") +
   xlab("Minutos") + 
   ylab("") +
   scale_x_continuous(breaks = seq(0,30, by = 5)) + 
