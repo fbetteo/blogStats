@@ -87,7 +87,7 @@ canonifyurls = true
 [[menu.links]]
   weight = 2
   identifier = "paypal"
-  name = "Donate! :)"
+  name = "Buy Me a Coffee :)"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-paypal\"></i>"
   url = "https://paypal.me/fbetteo"
 
