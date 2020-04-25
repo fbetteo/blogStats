@@ -1,0 +1,109 @@
+---
+title: Distribucion Gamma
+author: ''
+date: '2020-04-25'
+slug: distribucion-gamma
+categories:
+  - estadistica
+  - R
+tags:
+  - estadistica
+  - Poisson
+  - R
+  - gamma
+thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImagePosition: left
+summary: Distribución Gamma y su relación con procesos Poisson
+---
+
+
+
+<div id="origen-y-uso-habitual" class="section level3">
+<h3>Origen y uso habitual</h3>
+<p>La distribución Gamma es continua y siempre positiva. Se parametriza con dos parámetros que deben ser positivos.</p>
+<p>Lamentablemente no hay un consenso sobre cómo llamar a los parámetros y prevalecen dos formas, bastante similares pero con distinto origen.</p>
+<ul>
+<li>La primera es con los parámetros shape <span class="math inline">\(k\)</span> y scale <span class="math inline">\(\theta\)</span>.</li>
+<li>La segunda es con los parámetros shape <span class="math inline">\(\alpha\)</span> y rate <span class="math inline">\(\beta\)</span>.</li>
+</ul>
+<p>La relación entre ambas es <span class="math inline">\(k = \alpha\)</span> y <span class="math inline">\(\theta = 1/\beta\)</span>.<br />
+Obviamente cualquiera que se use va a resultar en los mismos resultados, pero hay que estar atento para lograr la parametrización adecuada.</p>
+<p>Yo prefiero la segunda opción, donde el rate <span class="math inline">\(\beta\)</span> puede relacionarse al rate <span class="math inline">\(\lambda\)</span> de una <a href="https://fbetteo.netlify.app/2020/04/proceso-poisson-y-distribucion-exponencial">poisson</a>.</p>
+</div>
+<div id="por-que-nos-interesa-relacionarla-con-la-poisson" class="section level3">
+<h3>Por qué nos interesa relacionarla con la Poisson?</h3>
+<p>Uno de los usos habituales y que resulta fácil de entender es que si nos encontramos en un <em>Proceso de Poisson</em> (si no se recuerda ver <a href="https://fbetteo.netlify.app/2020/04/proceso-poisson-y-distribucion-exponencial">ACA</a>), suceden <span class="math inline">\(\lambda\)</span> eventos por período en promedio (la distribución poisson nos ayuda con eso), el tiempo (medido en períodos) entre un evento y otro se puede modelar con una exponencial con parámetro rate = <span class="math inline">\(\lambda\)</span> (el mismo de la poisson), y ahora adicionamos que el tiempo medido en períodos hasta que suceda el k-ésimo evento, se puede modelar con la distribución gamma, parametrizada con shape = <span class="math inline">\(k\)</span> (cantidad de eventos) y rate = <span class="math inline">\(\lambda\)</span> (el mismo de la poisson nuevamente.)</p>
+<p>Por ejemplo:</p>
+<p>Si podemos modelar la cantidad de veces que vamos por semana a comprar cerveza como una poisson con <span class="math inline">\(\lambda\)</span> = 2, es decir en promedio dos veces por semana, tendremos la siguiente distribución.</p>
+<pre class="r"><code>set.seed(1)
+ggplot() +
+  geom_bar(aes(x = rpois(10000,2)), fill = &quot;lightgreen&quot;, color = &quot;black&quot;) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;&quot;) + 
+  ggtitle(&quot;Simulación de 10000 variables Poisson con rate = 2&quot;) +
+  scale_x_continuous(breaks = seq(0,9)) + 
+  theme_minimal()</code></pre>
+<p><img src="/post/2020-04-25-distribucion-gamma_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+Donde la mayoría de las semanas vamos alrededor de 2 veces.</p>
+<p>Podemos a su vez, modelar el tiempo entre cada evento con una exponencial. Se lo puede pensar como ¿cuánto tiempo falta para que vaya de nuevo a comprar cerveza a partir del momento en que estoy parado?</p>
+<p>Usaremos una exponencial, pero para verlo en días, que sería lo apropiado, cambiamos <span class="math inline">\(\lambda = 2\)</span> por <span class="math inline">\(\lambda = 2/7\)</span>, que sería el rate por día.</p>
+<pre class="r"><code>set.seed(2)
+ggplot() +
+  geom_histogram(aes(x = rexp(10000, 2/7)),bins = 100, fill =&quot;darkgreen&quot;, color = &quot;black&quot;) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;&quot;) + 
+  ggtitle(&quot;Simulación de 10000 variables Exponenciales con rate = 2/7&quot;) +
+  scale_x_continuous(breaks = c(seq(0,10),15,20,25,30,35,40)) + 
+  theme_minimal()</code></pre>
+<p><img src="/post/2020-04-25-distribucion-gamma_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+Vemos que en general faltan 1 o 2 días para que tengamos que ir de nuevo, aunque si tomamos el promedio veremos que es 3.5 dias, lo cuales lógico porque venimos de una poisson con rate de 2 veces por semana.</p>
+<p>Si ahora queremos ver en cuantos días habremos ido 5 veces, podemos usar la distribución gamma, con <span class="math inline">\(shape = 5\)</span> (porque queremos ver el 5 evento), y <span class="math inline">\(rate = 2/7\)</span> porque es el rate diario.</p>
+<pre class="r"><code>set.seed(3)
+ggplot() +
+  geom_histogram(aes(x = rgamma(10000, shape = 5, rate =  2/7)),bins = 100, fill = &quot;darkred&quot;, color =&quot;black&quot;) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;&quot;) + 
+  ggtitle(&quot;Simulación de 10000 variables Gamma con shape = 5  y rate = 2/7&quot;) +
+  scale_x_continuous(breaks = seq(0,60, by = 5)) + 
+  theme_minimal()</code></pre>
+<p><img src="/post/2020-04-25-distribucion-gamma_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Podemos ver que la distribución gamma es asimétrica en este caso y en general faltan unos 12-16 días. Si tomamos el promedio vemos que es de 17.5 días, lo cual tiene sentido ya que es 5 veces el tiempo promedio de espera, que era 3.5 días.</p>
+<p>La media de una gamma puede calcularse rápidamente como <span class="math inline">\(media = \frac{shape}{rate} = \frac{5}{2/7} = 17.5\)</span></p>
+<p>Hay una clara relación entre la distribución Exponencial y la Gamma.<br />
+Primero, como ya vimos, la exponencial modela el tiempo hasta el próximo evento en un proceso Poisson y la Gamma hasta el k-ésimo evento.<br />
+Podemos pensar a la distribución Gamma como la suma de K distribuciones Exponenciales con un mismo rate!</p>
+<p>Yendo más allá, en realidad, la distribución Gamma es una familia de distribuciones, y la Exponencial no es más que un caso particular de la Gamma con k = 1.<br />
+Si Gamma nos permite saber el tiempo hasta el k-esimo evento, y la Exponencial es hasta el primer evento, entonces la Exponencial como caso particular de la Gamma parece obvio.</p>
+</div>
+<div id="un-poco-de-formulas" class="section level3">
+<h3>Un poco de formulas</h3>
+<p>La función de densidad de la distribución Gamma, utilizando <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span> es:
+<span class="math display">\[\frac{\beta^{\alpha}}{\Gamma (\alpha)}x^{\alpha - 1}e^{-\beta x}\]</span></p>
+<p>donde <span class="math inline">\(\Gamma (\alpha)\)</span> = <span class="math inline">\((\alpha - 1)!\)</span></p>
+<p>Cuidado con las distintas maneras de nombrar a los parámetros. En la literatura posiblemente vean <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta\)</span> cuando usen shape y rate. Aquí para el ejemplo de las cervezas reemplazamos <span class="math inline">\(\alpha\)</span> por <span class="math inline">\(k\)</span> y <span class="math inline">\(\beta\)</span> por <span class="math inline">\(\lambda\)</span> para relacionarlo con la distribución Poisson.</p>
+<p>El equivalente con esa notación sería:
+<span class="math display">\[\frac{\lambda^{k}}{\Gamma (k)}x^{k - 1}e^{-\lambda x}\]</span></p>
+<p>Como dijimos si reemplazamos k por 1, obtenemos la función de densidad de la Exponencial.</p>
+<p>Otras distribuciones que son casos particulares de la Gamma son la Erlang (es Gamma pero con valores discretos de K, la exponencial también es un caso particular de Erlang con k= 1) y la Chi-Cuadrado</p>
+</div>
+<div id="desestimar-el-significado-de-shape-y-scale" class="section level3">
+<h3>Desestimar el significado de Shape y Scale</h3>
+<p>Ya sea que prefiramos shape y scale o shape y rate como parametrización, sus nombres en inglés llevan a pensar que la dsitribución varía su forma con shape y su escala con scale. Eso no es tan así y puede llevar más a confusiones que otra cosa. Ambos parámetros pueden afectar tanto la forma y escala, por eso me parece más sencillo pensarlo con <span class="math inline">\(k\)</span> Y <span class="math inline">\(\lambda\)</span>, al menos en el ámbito de los procesos Poisson.<br />
+Igualmente, no olvidar que la distribcuión Gamma se puede usar para otros campos que no son situaciones de un Proceso de Poisson y esa interpretación de los parámetros puede ser poco apropiada.</p>
+<pre class="r"><code>k = c(2,9)
+rate = c(1,2)
+x= seq(0,10, by = 0.1)
+
+df &lt;- expand.grid(lambda = as.factor(rate), k = k, x = x) %&gt;%
+  mutate(gamma = dgamma(x,k, as.numeric(as.character(lambda))),
+         combination = as.factor(paste0(&quot;k = &quot;,k,&quot;, lambda = &quot;,lambda)))
+
+ggplot(data = df, aes(x = x, y =gamma, color = combination)) + 
+  geom_line() + 
+  #geom_point() + 
+  ggtitle(&quot;Función de Densidad para distintos parámetros de una Distribución Gamma&quot;) +
+  xlab(&quot;Períodos&quot;) + 
+  ylab(&quot;&quot;) + 
+  scale_color_brewer(palette = &quot;Set1&quot;)</code></pre>
+<p><img src="/post/2020-04-25-distribucion-gamma_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
