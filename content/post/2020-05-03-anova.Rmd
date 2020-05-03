@@ -1,0 +1,183 @@
+---
+title: ANOVA
+author: ''
+date: '2020-05-03'
+slug: anova
+categories:
+  - estadistica
+tags:
+  - estadistica
+  - anova
+  - R
+thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImagePosition: left
+summary: ANOVA para comparar medias entre grupos
+---
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(patchwork)
+```
+
+ANOVA refiere a "Analysis of Variance" en inglés y corresponde a una serie de procedimientos estadísiticos que permiten estudiar diferencias de medias poblacionales, basado en muestras.   
+Es una técnica muy difundida para comparar medias de 2 o más grupos. Específicamente queremos ver
+si todos los grupos comparten media o al menos uno difiere. En el caso más simple, de comparar dos medias, el resultado es equivalente al *test t de comparación de medias*  por lo que ANOVA se considera una generalización de este.
+
+El test de hipótesis sería:
+$$H_0: \mu_1 = ... = \mu_k$$
+$$H_1: \text{las medias no son iguales}$$
+ANOVA tiene también una serie de supuestos que hay que tener en cuenta.  
+
+* Independencia de las observaciones.
+* Normalidad en los residuos. Podemos pensarlo como normalidad dentro de cada grupo, siendo el residuo la parte no explicada por la media del grupo. En muestras chicas puede ser problemático si no se cumple (reduce la potencia del test). Con muestras grandes debería cumplirse por Teorema Central del Límite.
+* Homocedasticidad. Se supone que cada grupo tiene misma varianza. Si la muestra no es muy chica ANOVA es bastante robusto con este supuesto, si no, hay alternativas no parámetricas por ejemplo.
+
+### Un ejemplo simulado
+
+Generamos primero un set de datos donde la media de 3 grupos es distinta y vamos paso a paso con los cálculos.
+```{r message=FALSE, warning=FALSE}
+set.seed(24)
+df = data.frame(grupo1 = rnorm(n = 35, mean = 3, sd = 1),
+                grupo2 = rnorm(n = 35, mean = 6, sd = 1),
+                grupo3 = rnorm(n = 35, mean = 9, sd = 1))
+```
+
+Tenemos 3 grupos de 35 observaciones, cada uno proveniente de poblaciones con medias notoriamente distintas.  
+Veamos como resultaron las medias muestrales.
+
+```{r}
+sapply(df, FUN = mean)
+```
+
+Viédolo gráficamente vemos que son muy dispares y ANOVA debería captar estas diferencias.  
+En el segundo gráfico, la linea vertical represnta la media general del dataset
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+df_long = df %>%
+  pivot_longer(cols = starts_with("grupo"), names_to = "grupo", values_to = "valor")
+
+general_mean = mean(df_long$valor)
+
+p1 = ggplot(data = df_long, aes(x = grupo, y = valor,color = grupo )) + 
+  geom_boxplot() + 
+  scale_color_brewer(palette = "Set1")
+  xlab("")
+
+p2 = ggplot(data = df_long, aes(x = valor, color = grupo, fill = grupo)) + 
+  geom_density(alpha = 0.15) +
+   scale_color_brewer(palette = "Set1") +
+  xlab("") + 
+  geom_vline(xintercept =  general_mean)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p1 / p2
+```
+Veamos como resulta analizar esto con ANOVA.  
+
+### Cálculos.
+
+Obviamente existen paquetes estadísticos para realizar este análisis rapidamente pero iremos paso por paso.  
+La lógica es comparar la media de las poblaciones y para ello nos basamos en la varianza. Más precisamente en la descomposición de la varianza.
+
+$$SC_{Total} = SC_{Entre} +  SC_{Dentro}$$
+La suma de errores cuadrados de TODO el dataset se puede descomponer entre el desvío cuadrado de cada grupo frente a la media general (Entre) más el desvío cuadrado de cada observación respecto a su media grupal.
+
+Siendo más intuitivos. Los suma de los desvíos cuadrados de cada observación respecto a la media general `r round(mean(df_long$valor),2)` pueden ser vistos como la diferencia entre medias grupales (qué tan lejos está cada pico del gráfico de la media grupal) más qué tan dispersos están los datos dentro de cada grupo.  
+
+Cuanto más grande sea la brecha entre la variabilidad entre grupos y la variabilidad al interior de los grupos, más probable es que las medias poblacionales sean distintas. Es decir, si la variabilidad total se explica más por la diferencia entre medias grupales que por la diferencia entre desviós al interior, entonces más evidencia en favor de distintas medias grupales. Si el ratio no es tan grande, entonces tenemos menos fuerza para afirmar tal cosa.
+
+Para poder comparar correctamente, no se mira directamente $SC_{Entre}$ vs $SC_{Dentro}$ ya que estos dependen del tamaño de la muestra, sino que se los normaliza primero.  $SC_{Entre}$ se normaliza por sus grados de libertad siendo *k-1* (cantidad de grupos menos 1) y  $SC_{Dentro}$ se normaliza con *N-K* (observaciones totales menos cantidad de grupos).
+
+>#### Detalle técnico
+Como asumimos que los residuos son normales, entonces elevarlos al cuadrado nos devuelve una distribución *Chi-Cuadrado*. Las sumas de residuos al cuadrado son entones Chi-Cuadrado con los grados de libertad que mencionamos.
+Si dividimos dos distribuciones Chi-Cuadrado, normalizadas por sus grados de libertad, obtenemos una distribución F con grados de libertad equivalentes a los de ambas Chi-Cuadrado.
+
+Ese estadístico F, que sigue la distribución recién mencionada sera nuestro estádistico para testear la Hipótesis.
+
+$$F = \frac{\frac{SC_{Entre}}{K-1}}{\frac{SC_{Dentro}}{N-K}}$$
+
+Donde:
+$$SC_{Entre} = \sum_{i=1}^k{n_i (\bar{x}_i} - \bar{x})^2$$
+$$SC_{Dentro} = \sum_{i=1}^K\sum_{j=1}^{n_k}{(x_j - \bar{x}_i)^2}$$
+Luego como en cualquier test de hipótesis, comparamos el estadístico F con la distribución teórica si la hipótesis nula fuera cierto y según el valor de alfa que hayamos elegido, rechazamos o no la hipótesis nula.  
+Para ilustrar, la dsitribución F tiene la siguiente forma con los grados de libertad de nuestro ejemplo.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+alpha = qf(0.95, 2, 102)
+f_dist = data.frame(x = seq(0,7, length.out = 1000), f = df(seq(0,7, length.out = 1000), 2, 102)) %>%
+  mutate(rejection = ifelse(x > alpha, 1, 0 ))
+
+
+ggplot(data = f_dist, aes(x = x, y=f)) + 
+  geom_line() +
+  geom_ribbon(data = f_dist %>% filter(rejection ==1),
+              aes(x = x, ymin = 0, ymax = f), fill = "red") +
+  theme_light() +
+  geom_segment(x = alpha, y = 0, xend= alpha, yend = df(alpha, 2, 102), color = "red")
+```
+
+Donde la región en rojo es el area de la curva posterior al 95% de la distribución. Si nuestro estadístico cae en la zona rojo podemos rechazar la hipótesis nula con alfa =0.05
+
+Obtengamos los números con la función aov.
+```{r}
+res = aov(valor ~ grupo, data = df_long)
+summary(res)
+```
+
+La tabla que devuelve la función es justamente todo lo que fuimos viendo.  
+Sum Sq es la suma de desvíos cuadrados. La fila de grupo corresponde a *Entre* y Residuals corresponde a *Dentro*.  
+DF son los grados de libertad (K-1) y (N-K).  
+Mean Sq es la división de Sum Sq por sus grados de libertad. Serían el numerador y denominador del estadístico F.  
+F value es simplemente la división de los Mean Sq. Obtenemos un estadístico de 326(!). A partir de 3 aprox ya podíamos rechazar la hipótesis nula. El p-value (la última columna) es virtualmente 0.
+
+Dado este resultado, podemos rechazar la hipótesis nula y asegurar con el 95% de confianza que las medias poblacionales no son iguales.  
+Era un caso medio extremo pero sirve de ejemplo.
+
+Lo que no nos dice ANOVA es si todas son distintas o cuál es diferente al resto. Para ello hay que hacer estudios posteriores pero no entramos en detalles acá.
+
+### Un caso de medias iguales
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+set.seed(24)
+df2 = data.frame(grupo1 = rnorm(n = 35, mean = 10, sd = 1),
+                grupo2 = rnorm(n = 35, mean = 10, sd = 1),
+                grupo3 = rnorm(n = 35, mean = 10, sd = 1))
+```
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+df2_long = df2 %>%
+  pivot_longer(cols = starts_with("grupo"), names_to = "grupo", values_to = "valor")
+
+general_mean = mean(df2_long$valor)
+
+p1 = ggplot(data = df2_long, aes(x = grupo, y = valor,color = grupo )) + 
+  geom_boxplot() + 
+  scale_color_brewer(palette = "Set1")
+  xlab("")
+
+p2 = ggplot(data = df2_long, aes(x = valor, color = grupo, fill = grupo)) + 
+  geom_density(alpha = 0.15) +
+   scale_color_brewer(palette = "Set1") +
+  xlab("") + 
+  geom_vline(xintercept =  general_mean)
+```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+p1 / p2
+```
+
+
+```{r}
+
+res2 = aov(valor ~ grupo, data = df2_long)
+
+summary(res2)
+```
+
+Aquí es el otro extremo. El valor del estadístico F es casi 0, por lo tanto el p-value es casi 1. No hay evidencia para rechazar la hipótesis nula.
+
+### Conclusiones
+
+ANOVA cómo método para comparar medias poblacionales es muy sencillo de aplicar y bastante robusto frente a inconsistencias en los supuestos. Permite dar una medida objetiva de si es posible o no rechazar la hipótesis nula, más allá de que uno pueda tener una primera impresión visual.
+
+Para ir un paso más allá, ANOVA se puede relacionar directamnte con las regresiones lineales. Anova tal como lo presentamos es equivalente a correr una regresión donde la variable independiente es el grupo al que pertenece la observación. Las generalizaciones como ANCOVA, MANOVA, etc, también tienen su correlato en regresión. Esto sucede porque según el campo de estudio se eligieron caminos y convenciones distintos de análisis, llevando a distintas ramas que al final hacen lo mismo, pero genera confusión al intentar entender la estadística como un todo.
