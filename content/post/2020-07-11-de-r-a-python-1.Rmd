@@ -179,7 +179,7 @@ Como el bygroup de tidyverse.
 min_qualy_by_race = qualifying.groupby('raceId')['best_qualy_ms'].min()
 ```
 
-### By Group más complejo, con calculo acumulado hasta cada fila
+### By Group más complejo, con calculo acumulado en determinada ventana de obs. por cada fila
 ```{python}
 # suma acumulada de los ultimos 4 periodos (rolling)
 # luego el gorupby(level = 0).shift() es para lagearlo por grupo
