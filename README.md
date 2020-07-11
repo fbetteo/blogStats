@@ -3,6 +3,8 @@ Blog about statistics and ML
 
 https://fbetteo.netlify.com/
 
+Link to Google Permanent Links
+https://get.google.com/albumarchive/
 
 # Useful Links and Blogs. Someday a RSS/Feed/BlogRoll
 
