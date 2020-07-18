@@ -1,5 +1,5 @@
 ---
-title: "Disitribucion Dirichlet como prior de Multinomial"
+title: "Distribucion Dirichlet como prior de Multinomial"
 author: ''
 date: '2020-07-18'
 output: pdf_document
