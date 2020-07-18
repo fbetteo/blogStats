@@ -1,0 +1,73 @@
+---
+title: "Disitribucion Dirichlet como prior de Multinomial"
+author: ''
+date: '2020-07-18'
+output: pdf_document
+slug: disitrbucion-dirichlet-como-prior-de-mulitnomial
+tags:
+- estadistica
+- binomial
+- multinomial
+- dirichlet
+categories:
+- estadistica
+- R
+thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImagePosition: left
+summary: Utilizando priors para una distribución multinomial, partiendo de una Dirichlet. Cómo actualizar nuestras estimaciones a partir de los datos.
+---
+
+
+
+<p>Basado en:
+<a href="http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week6.pdf" class="uri">http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week6.pdf</a><br />
+<a href="http://www.inf.ed.ac.uk/teaching/courses/mlpr/assignments/multinomial.pdf" class="uri">http://www.inf.ed.ac.uk/teaching/courses/mlpr/assignments/multinomial.pdf</a></p>
+<p>La distribución Dirichlet es una distribución multivariada para un conjunto de cantidades <span class="math inline">\(\theta_i,...,\theta_m\)</span> donde <span class="math inline">\(\theta_i &gt;= 0\)</span> y <span class="math inline">\(\sum_{i=1}^m \theta_i = 1\)</span>. Esto la hace una candidata útil para modelar un conjunto de probabilidades de una partición (un un conjunto de eventos mutuamente excluyentes). Es decir, un grupo de probabilides de eventos excluyentes, que sumen 1.<br />
+Podemos remplazar los <span class="math inline">\(\alpha\)</span> por <span class="math inline">\(p\)</span> si es más claro que hablamos de probabilidades luego.</p>
+<p>La PDF es:</p>
+<p><span class="math display">\[f(\theta_i,...,\theta_m; \alpha_i.., \alpha_m) =   \frac{\Gamma(\sum_i{\alpha_i})}{\prod_{i=1}^m \Gamma(\alpha_i)}\prod_{i = 1}^m \theta_i^{(\alpha_1-1)}\]</span></p>
+<p>Donde la función <span class="math inline">\(\Gamma\)</span> es <span class="math inline">\(\Gamma(\alpha) = (\alpha -1)!\)</span>. Para más detalles ver <a href="https://en.wikipedia.org/wiki/Gamma_function">acá</a>.<br />
+Los <span class="math inline">\(\alpha_i\)</span> son parámetros de la distribución y deben ser mayores a 0.<br />
+Cuando m = 2, obtenemos una función <span class="math inline">\(beta(\alpha_1, \alpha_2)\)</span> como caso particular de la Dirichlet.</p>
+<div id="dirichtlet-en-inferencia-bayesiana." class="section level3">
+<h3>Dirichtlet en Inferencia Bayesiana.</h3>
+<p>De la misma manera que la distribución Beta suele usarse como prior de la Distribución Binomial ya que es una distribución conjugada para ese caso, la distribución Dirichlet suele usarse para distribuciones <strong>Multinomiales</strong>, es decir donde hay más de 2 categorías posibles (más de 2 <span class="math inline">\(p_i\)</span>). También es distribución conjugada. Es simplemente la versión multinomial de la beta.</p>
+<p>La distribución multinomial es la siguiente:</p>
+<p><span class="math display">\[\frac{n!}{\prod_{i = 1}^m x_i!}\prod_{i=1}^m p_i^{x_i}\]</span></p>
+<p>Cuando m = 2, es la distribución binomial.</p>
+<p>Si tuvieramos un experimento que se puede modelar como una multinomial y queremos estimar los <span class="math inline">\(p_i\)</span> podemos utilizar los estimadores de máxima verosimilitud (frecuentista) o ir por el camino de bayesiano donde comenzamos con un prior para cada p, que modelaremos con la Dirichlet. El prior de cada <span class="math inline">\(p_i\)</span> va a ser definido con la elección de los <span class="math inline">\(\alpha\)</span>.</p>
+<p>Yendo por el camino bayesiano vamos a tener nuestra distribución posterior:
+<span class="math display">\[ P(p | x) \propto P(x|p) * P(p)\]</span>
+donde <span class="math inline">\(P(x|p)\)</span> no es otra cosa que la distribución multinomial y <span class="math inline">\(P(p)\)</span> es nuestro prior de <span class="math inline">\(p\)</span> dado por la Dirichlet. Omitimon el denominador que es normalizador ya que es una constante.</p>
+<p>Multiplicamos entonces la PDF multinomial por la Dirichlet y obtenemos:</p>
+<p><em>Importante notar que efectivamente cambiamos <span class="math inline">\(\theta\)</span> por <span class="math inline">\(p\)</span> en la Dirichlet para que sea consistente con la multinomial.</em></p>
+<p><span class="math display">\[\frac{n!}{\prod_{i = 1}^m x_i!}\prod_{i=1}^m p_i^{x_i} * \frac{\Gamma(\sum_i{\alpha_i})}{\prod_{i=1}^m \Gamma(\alpha_i)}\prod_{i = 1}^m p_i^{(\alpha_1-1)} \\ \propto \prod_i p_i^{\alpha_i + x_i -1}\]</span></p>
+<p>Para la propcionalidad, quitamos todo lo que es factorial (y <span class="math inline">\(\Gamma\)</span>) ya que es constante y combinamos los exponentes de base <span class="math inline">\(p_i\)</span>.</p>
+<p>Vemos entonces que nuestra distribución posterior es propocional a ese término, que si vemos, es una Dirichlet para la cual nos falta el término constante! Por eso se dice que es una prior conjugada, ya que la posterior es de la misma familia que la prior (con otros valores claro.)<br />
+Es entonces una Dirichlet con parámetros <span class="math inline">\(\alpha_i + x_i\)</span> y podemos completar el término faltante obteniendo:
+<span class="math display">\[ \frac{\Gamma(\sum_i{\alpha_i + x_i})}{\prod_{i=1}^m \Gamma(\alpha_i + x_i)}\prod_{i=1}^m p_i^{(\alpha_i + x_i-1)}\]</span></p>
+<p>He ahí nuestra distribución posterior para los valores de <span class="math inline">\(p\)</span> de la multinomial.</p>
+<p>Para calcular rápidamente la esperanza de cada <span class="math inline">\(p_i\)</span> hacemos simplemente:
+<span class="math display">\[E(p_i) = \frac{\alpha_i + x_i}{\sum (\alpha_i +  x_i)}\]</span></p>
+<p>Si obtenemos nueva información podemos repetir el proceso, pero nuestra nueva prior debería ser la posterior previamente calculada. Y así vamos agregando información a medida que se recolecta y actualizando nuestra inferencia acerca de <span class="math inline">\(p_i\)</span></p>
+<p><strong>Aclaración</strong>: La proporción de cada <span class="math inline">\(\alpha_i\)</span> iniciales en la Dirichlet prior sobre la suma de todos los <span class="math inline">\(\alpha_i\)</span> es nuestro prior de <span class="math inline">\(p_i\)</span>. A mayores valores absolutos, mayor peso al prior respecto a los datos, ya que nuestro nuevo <span class="math inline">\(p_i\)</span> es función del <span class="math inline">\(alpha_i\)</span> y <span class="math inline">\(x_i\)</span>. Revisar bien como ajustar los <span class="math inline">\(alpha\)</span> según la magnitud de <span class="math inline">\(x\)</span>, si es que hay que hacerlo.</p>
+</div>
+<div id="ejemplo" class="section level3">
+<h3>Ejemplo</h3>
+<p>Queremos modelar la compra de remeras de basquet en una tienda. Entra un cliente al azar y tiene determinadas probabilidades de comprar una remera de los Lakers, una de los Celtics, una de San Antonio o cualquier otro equipo.</p>
+<p>En un primer momento no sabemos las proporciones y empezamos con unos priors <span class="math inline">\(\alpha_1 : \alpha_4 = [8,6,4,2]\)</span> que corresponde a 40%, 30%, 20% y 10% respectivamente.</p>
+<p>Recolectamos los datos de 100 clientes y vemos que las ventas fueron las siguientes:<br />
+Lakers : 45<br />
+Celtics: 22<br />
+Spurs: 27<br />
+Otros: 6</p>
+<p>Calculando rapidamente con la fórmula de la Esperanza las probabildades que se derivan de nuestra posterior obtenemos:</p>
+<p>Lakers = 0.442<br />
+Celtic = 0.233<br />
+Spurs = 0.258<br />
+Otro = 0.067</p>
+<p>Para ser más prolijos habría que agregar la varianza de cada <span class="math inline">\(p\)</span>. A agregar en un futuro..</p>
+<p>Si hubieramos calculado los p de máxima verosimilitud no sería más que la proporción de cada equipo en los datos, sin tener en cuenta nuestro prior.</p>
+<p>En ML es bastante útil para el caso donde una nueva categoría aparece en el test set. Si no fue vista en el training le va a dar probabilidad 0 mientras que con un prior podemos salvar ese problema.<br />
+En NLP es bastante habitual usar la distribución Dirichlet como prior. Investigar por ese lado.</p>
+</div>
