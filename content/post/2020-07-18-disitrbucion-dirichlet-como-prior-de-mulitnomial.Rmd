@@ -17,7 +17,7 @@ thumbnailImagePosition: left
 summary: Utilizando priors para una distribución multinomial, partiendo de una Dirichlet. Cómo actualizar nuestras estimaciones a partir de los datos.
 ---
 
-Basado en:
+Basado en:  
 http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week6.pdf  
 http://www.inf.ed.ac.uk/teaching/courses/mlpr/assignments/multinomial.pdf
 
@@ -49,7 +49,7 @@ Si tuvieramos un experimento que se puede modelar como una multinomial y queremo
 
 Yendo por el camino bayesiano vamos a tener nuestra distribución posterior:
 $$ P(p | x) \propto P(x|p) * P(p)$$
-donde $P(x|p)$ no es otra cosa que la distribución multinomial y $P(p)$ es nuestro prior de $p$ dado por la Dirichlet. Omitimon el denominador que es normalizador ya que es una constante.
+donde $P(x|p)$ no es otra cosa que la distribución multinomial y $P(p)$ es nuestro prior de $p$ dado por la Dirichlet. Omitimos el denominador que es normalizador ya que es una constante.
 
 Multiplicamos entonces la PDF multinomial por la Dirichlet y obtenemos:
 
@@ -57,7 +57,7 @@ Multiplicamos entonces la PDF multinomial por la Dirichlet y obtenemos:
 
 $$\frac{n!}{\prod_{i = 1}^m x_i!}\prod_{i=1}^m p_i^{x_i} * \frac{\Gamma(\sum_i{\alpha_i})}{\prod_{i=1}^m \Gamma(\alpha_i)}\prod_{i = 1}^m p_i^{(\alpha_1-1)} \\ \propto \prod_i p_i^{\alpha_i + x_i -1}$$
 
-Para la propcionalidad, quitamos todo lo que es factorial (y $\Gamma$) ya que es constante y combinamos los exponentes de base $p_i$.
+Para la proporcionalidad, quitamos todo lo que es factorial (y $\Gamma$) ya que es constante y combinamos los exponentes de base $p_i$.
 
 Vemos entonces que nuestra distribución posterior es propocional a ese término, que si vemos, es una Dirichlet para la cual nos falta el término constante! Por eso se dice que es una prior conjugada, ya que la posterior es de la misma familia que la prior (con otros valores claro.)  
 Es entonces una Dirichlet con parámetros $\alpha_i + x_i$ y podemos completar el término faltante obteniendo: 
@@ -71,7 +71,7 @@ $$E(p_i) = \frac{\alpha_i + x_i}{\sum (\alpha_i +  x_i)}$$
 Si obtenemos nueva información podemos repetir el proceso, pero nuestra nueva prior debería ser la posterior previamente calculada. Y así vamos agregando información a medida que se recolecta y actualizando nuestra inferencia acerca de $p_i$
 
 
-**Aclaración**: La proporción de cada $\alpha_i$ iniciales en la Dirichlet prior sobre la suma de todos los $\alpha_i$ es nuestro prior de $p_i$. A mayores valores absolutos, mayor peso al prior respecto a los datos, ya que nuestro nuevo $p_i$ es función del $alpha_i$ y $x_i$. Revisar bien como ajustar los $alpha$ según la magnitud de $x$, si es que hay que hacerlo.
+**Aclaración**: La proporción de cada $\alpha_i$ iniciales en la Dirichlet prior sobre la suma de todos los $\alpha_i$ es nuestro prior de $p_i$. A mayores valores absolutos, mayor peso al prior respecto a los datos, ya que nuestro nuevo $p_i$ es función del $\alpha_i$ y $x_i$. Revisar bien como ajustar los $alpha$ según la magnitud de $x$, si es que hay que hacerlo.
 
 ### Ejemplo
 
@@ -94,7 +94,7 @@ Otro   = `r round((6 + 2)/120,3)`
 
 Para ser más prolijos habría que agregar la varianza de cada $p$. A agregar en un futuro..
 
-Si hubieramos calculado los p  de máxima verosimilitud no sería más que la proporción de cada equipo en los datos, sin tener en cuenta nuestro prior.  
+Si hubieramos calculado los p  de máxima verosimilitud no sería más que la proporción de cada equipo en los datos, sin tener en cuenta nuestro prior. Vemos que acá están obviamente cercanos a la proporción en los datos pero se inclinan hacia el prior. Recordar que el peso de los priors va a verse afectar por los $\alpha$ elegidos y por la cantidad de datos recolectados.
 
 
 En ML es bastante útil para el caso donde una nueva categoría aparece en el test set. Si no fue vista en el training le va a dar probabilidad 0 mientras que con un prior podemos salvar ese problema.  
