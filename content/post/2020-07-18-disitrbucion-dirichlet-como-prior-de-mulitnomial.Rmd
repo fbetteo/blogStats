@@ -22,7 +22,7 @@ http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week6.pdf
 http://www.inf.ed.ac.uk/teaching/courses/mlpr/assignments/multinomial.pdf
 
 La distribución Dirichlet es una distribución multivariada para un conjunto de cantidades $\theta_i,...,\theta_m$ donde $\theta_i >= 0$ y $\sum_{i=1}^m \theta_i = 1$. Esto la hace una candidata útil para modelar un conjunto de probabilidades de una partición (un un conjunto de eventos mutuamente excluyentes). Es decir, un grupo de probabilides de eventos excluyentes, que sumen 1.  
-Podemos remplazar los $\alpha$ por $p$ si es más claro que hablamos de probabilidades luego.
+Podemos remplazar los $\theta$ por $p$ si es más claro que hablamos de probabilidades luego.
 
 La PDF es:
 

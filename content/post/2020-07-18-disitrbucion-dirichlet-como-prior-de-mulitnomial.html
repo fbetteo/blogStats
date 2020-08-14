@@ -23,7 +23,7 @@ summary: Utilizando priors para una distribución multinomial, partiendo de una 
 <a href="http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week6.pdf" class="uri">http://www.mas.ncl.ac.uk/~nmf16/teaching/mas3301/week6.pdf</a><br />
 <a href="http://www.inf.ed.ac.uk/teaching/courses/mlpr/assignments/multinomial.pdf" class="uri">http://www.inf.ed.ac.uk/teaching/courses/mlpr/assignments/multinomial.pdf</a></p>
 <p>La distribución Dirichlet es una distribución multivariada para un conjunto de cantidades <span class="math inline">\(\theta_i,...,\theta_m\)</span> donde <span class="math inline">\(\theta_i &gt;= 0\)</span> y <span class="math inline">\(\sum_{i=1}^m \theta_i = 1\)</span>. Esto la hace una candidata útil para modelar un conjunto de probabilidades de una partición (un un conjunto de eventos mutuamente excluyentes). Es decir, un grupo de probabilides de eventos excluyentes, que sumen 1.<br />
-Podemos remplazar los <span class="math inline">\(\alpha\)</span> por <span class="math inline">\(p\)</span> si es más claro que hablamos de probabilidades luego.</p>
+Podemos remplazar los <span class="math inline">\(\theta\)</span> por <span class="math inline">\(p\)</span> si es más claro que hablamos de probabilidades luego.</p>
 <p>La PDF es:</p>
 <p><span class="math display">\[f(\theta_i,...,\theta_m; \alpha_i.., \alpha_m) =   \frac{\Gamma(\sum_i{\alpha_i})}{\prod_{i=1}^m \Gamma(\alpha_i)}\prod_{i = 1}^m \theta_i^{(\alpha_1-1)}\]</span></p>
 <p>Donde la función <span class="math inline">\(\Gamma\)</span> es <span class="math inline">\(\Gamma(\alpha) = (\alpha -1)!\)</span>. Para más detalles ver <a href="https://en.wikipedia.org/wiki/Gamma_function">acá</a>.<br />
