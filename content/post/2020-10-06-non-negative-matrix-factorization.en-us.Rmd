@@ -1,0 +1,19 @@
+---
+title: Non Negative Matrix Factorization
+author: ''
+date: '2020-10-06'
+slug: non-negative-matrix-factorization.en-us
+categories:
+  - estadistica
+  - R
+tags:
+  - estadistica
+  - nnmf
+  - nba
+thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImagePosition: left
+summary: Non Negative Matrix Factorization of NBA shooting data for the 2018-2019 season.
+---
+
+
+- Please follow this [link](/flex/flex.html) 
