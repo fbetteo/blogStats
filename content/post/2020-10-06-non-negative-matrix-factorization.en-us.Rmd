@@ -16,4 +16,4 @@ summary: Non Negative Matrix Factorization of NBA shooting data for the 2018-201
 ---
 
 
-- Please follow this [link](/flex/flex.html) 
+- Please follow this [link](/flexdashboard/nnmf_nba.html) 
