@@ -47,7 +47,7 @@ player_nmf = cbind.data.frame(row_byplayer, w) %>%
 
 plots = vector(mode = "list")
 for (i in 1:14){
-  plots[[i]] = plot_structure(structure, as.name(glue::glue("V",i))) + guides(colour = "none") 
+  plots[[i]] = plot_structure(structure, as.name(glue::glue("V",i))) #+ guides(colour = "none") 
 }
 plots[[15]] = plot_structure(structure, as.name("V15"))
 
@@ -61,8 +61,8 @@ Column {data-width=600}
 ### SHOT PATTERNS  {.no-padding}
 
 ```{r, fig.height=10, fig.width=10}
-wrap_plots(plots, ncol = 3, nrow = 5)  & 
-        theme(legend.position = 'bottom')
+wrap_plots(plots, ncol = 3, nrow = 5) # & 
+        # theme(legend.position = 'bottom')
 ```
 
 Column {data-width=400 }
