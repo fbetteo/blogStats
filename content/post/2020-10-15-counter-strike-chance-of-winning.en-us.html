@@ -1,0 +1,45 @@
+---
+title: 'Counter Strike: chance of winning'
+author: ''
+date: '2020-10-15'
+slug: counter-strike-chance-of-winning.en-us
+categories:
+  - R
+  - estadistica
+tags:
+  - english
+  - estadistica
+  - statistics
+  - xgboost
+thumbnailImage: https://lh3.googleusercontent.com/w3kpK9Fh5M19Fkf2Il0hX99svIij4Pf56TMz5xxOvsEHWsl3qXqWRquACTpBBOQh7ljNqykGB5b00KPkyg=w317-h159-rw
+thumbnailImagePosition: left
+summary: Xgboost to quickly model winning probabilities with monotonic constraints.
+---
+
+
+
+<p>This <a href="https://www.kaggle.com/skihikingkevin/csgo-matchmaking-damage">CS GO Kaggle link</a> has data about several competitive CS GO matches.
+In a few words:</p>
+<ul>
+<li>those are 5 vs 5 matches where each team tries to kill the other or complete a task (planting or defusing the bomb depending the role you are playing) before the time expires.<br />
+</li>
+<li>The goal is to win 16 rounds before the other team.<br />
+</li>
+<li>After 15 rounds both teams switch sides/role.</li>
+</ul>
+<p>The data has mostly information about each time a player damages another one (and eventually kills it), some grenades usage and some general data of each round as the amount of money spent by each team and the result of that round.</p>
+<p>In here I have followed <a href="https://www.youtube.com/watch?v=_UVN1fwkjaU&amp;ab_channel=LanderAnalytics">Namita Nandakumar hockey example</a> to obtain and model some basic winning probability based on the lead and how many rounds have been played so far.</p>
+<p>This is how probability of winning looks as the game progresses, grouped by how much the current winner is leading. (Averaging leads greater than 4 to keep it clean ).<br />
+The thin line is the <em>empirical probability</em>, based solely on segmenting the data.<br />
+The thick line is a local regression with its standard deviation.
+<img src="/post/2020-10-15-counter-strike-chance-of-winning.en-us_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>So, as we see there is some noise around the trend and the approximation wiggles a bit as you go through X. We would like to have a model where winning by some amount is always better if you are closer to 16. Let’s say it is not crazy to assume that if you are winning by 3, 15 to 12, you should always have higher chances to win than if you are leading 6-3.</p>
+<p>Namita shows that xgboost is a nice tool to impose that kind of constraint to a simple model using the monotone constraint parameter.</p>
+<pre class="r"><code>params = list(objective = &quot;binary:logistic&quot;,
+              eval_metric = &quot;logloss&quot;,
+              max_depth = 2,
+              eta = 0.1,
+              monotone_constraints = c(1,1)) </code></pre>
+<p>What we get is a model that follows the constraints, although has some bias for the lower leading categories. Nevertheless is a quick approach to approximate the probabilities in a credible way.<br />
+You could use the dataset to explore other stuff since it has some rich information about locations.</p>
+<p><img src="/post/2020-10-15-counter-strike-chance-of-winning.en-us_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
