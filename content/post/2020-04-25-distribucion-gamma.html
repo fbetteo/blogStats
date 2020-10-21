@@ -11,7 +11,7 @@ tags:
   - Poisson
   - R
   - gamma
-thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImage: https://lh3.googleusercontent.com/Jn2i1YphKhAbS_1w3KSotp7L0BZA3GguSSAEUCCyH9V4g2PtunCuoE0GlY-PkdrsLERb08KiSsNvIMPqpQ=w260-h173-rw
 thumbnailImagePosition: left
 summary: Distribución Gamma y su relación con procesos Poisson
 ---
@@ -30,7 +30,7 @@ summary: Distribución Gamma y su relación con procesos Poisson
 Obviamente cualquiera que se use va a resultar en los mismos resultados, pero hay que estar atento para lograr la parametrización adecuada.</p>
 <p>Yo prefiero la segunda opción, donde el rate <span class="math inline">\(\beta\)</span> puede relacionarse al rate <span class="math inline">\(\lambda\)</span> de una <a href="https://fbetteo.netlify.app/2020/04/proceso-poisson-y-distribucion-exponencial">poisson</a>.</p>
 </div>
-<div id="por-que-nos-interesa-relacionarla-con-la-poisson" class="section level3">
+<div id="por-qué-nos-interesa-relacionarla-con-la-poisson" class="section level3">
 <h3>Por qué nos interesa relacionarla con la Poisson?</h3>
 <p>Uno de los usos habituales y que resulta fácil de entender es que si nos encontramos en un <em>Proceso de Poisson</em> (si no se recuerda ver <a href="https://fbetteo.netlify.app/2020/04/proceso-poisson-y-distribucion-exponencial">ACA</a>), suceden <span class="math inline">\(\lambda\)</span> eventos por período en promedio (la distribución poisson nos ayuda con eso), el tiempo (medido en períodos) entre un evento y otro se puede modelar con una exponencial con parámetro rate = <span class="math inline">\(\lambda\)</span> (el mismo de la poisson), y ahora adicionamos que el tiempo medido en períodos hasta que suceda el k-ésimo evento, se puede modelar con la distribución gamma, parametrizada con shape = <span class="math inline">\(k\)</span> (cantidad de eventos) y rate = <span class="math inline">\(\lambda\)</span> (el mismo de la poisson nuevamente.)</p>
 <p>Por ejemplo:</p>

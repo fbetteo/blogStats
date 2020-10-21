@@ -7,7 +7,7 @@ categories:
 - estadistica
 tags: 
 - estadistica
-thumbnailImage: https://lh3.googleusercontent.com/Li2LJpOPHk4FZ1qjrz61Uu5AmwJMScC3uQj6riIQ_MhOPw69gEGhYMTNu92mmUVUMQKqnPEotAxCeNZkCA=w391-h220
+thumbnailImage: https://lh3.googleusercontent.com/AmqQCEfpjp8gRRtsLEwVZH3txNfRwEkRUKAWTgFEcNRnRtwl5z3m2hO7G4ByW_LwtTzEHMoGY7kPaHIBZg=w391-h220-rw
 thumbnailImagePosition: left
 summary: Tipos de variables más comunes en los datasets y ejemplos sencillos de ellos.
 ---

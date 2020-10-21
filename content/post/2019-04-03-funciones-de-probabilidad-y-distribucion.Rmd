@@ -9,7 +9,7 @@ categories:
 tags:
   - estadistica
   - R
-thumbnailImage: https://lh3.googleusercontent.com/nhlc2ATujz4P9pWYNtDaIjekQkYVux3yLq9NLVo-768-FxONnhevkYazCYooWaNyjdusTUn7NEcYwIdigA=w287-h176
+thumbnailImage: https://lh3.googleusercontent.com/5h93ms-7zsiAIgfCwUz2BKGQ1YoLgrvd-IegYZOmqZeVA6hy4RBnP8lc_CEgQLNdWwwT-a60CwwiW2RJ6A=w287-h176-rw
 thumbnailImagePosition: left
 summary: Acerca de variables aleatorias y sus distribuciones.
 ---

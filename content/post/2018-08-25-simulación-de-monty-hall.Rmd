@@ -8,7 +8,7 @@ tags:
 - simulacion
 categories: 
 - R
-thumbnailImage: https://lh3.googleusercontent.com/gUN2g5rzhaBIHzGxhZXsoqYLRaxVwWP9-bNxI6GVCkoa56rHv1LmzPhfR-l7quXIhnoGTRVOAWFtCj9uaA=w396-h220
+thumbnailImage: https://lh3.googleusercontent.com/D-QmS4wFc2c3gXqiGF1L4_xxptUgOAUbAUGaRoFEnt-DrtsnHbWUODROqIk1xfus8YwTi5wujcn57MoLAA=w396-h220-rw
 thumbnailImagePosition: left
 summary: Simulación en R del famoso problema de Monty Hall. Ejemplo útil para ver el potencial de R y todo de manera sencilla.
 ---

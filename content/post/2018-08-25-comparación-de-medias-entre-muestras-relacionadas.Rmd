@@ -10,7 +10,7 @@ tags:
 - estadistica
 output:
   highlight: github
-thumbnailImage: https://lh3.googleusercontent.com/G-tmnSALJel8vYa-2eO_5icarEa0z3K5nehA7Lp_P03iVt2NkDhfeEAnEcjDjtWB_kFgsE3BlacuHyCknQ=w297-h220
+thumbnailImage: https://lh3.googleusercontent.com/QZxNWTKWE2hzgUbepcfr_6AtaVkU67X---MGXuQEUIwVvb4aIcKbHjIroux5O4DD55bJM3HE5BXnALCmJA=w297-h220-rw
 thumbnailImagePosition: left
 summary: Cómo hacer en R una comparación de medias entre muestras relacionadas, con gráficos y análsis de resultados.
 ---

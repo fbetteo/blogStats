@@ -10,7 +10,7 @@ tags:
 categories:
 - estadistica
 - R
-thumbnailImage: https://lh3.googleusercontent.com/nhlc2ATujz4P9pWYNtDaIjekQkYVux3yLq9NLVo-768-FxONnhevkYazCYooWaNyjdusTUn7NEcYwIdigA=w287-h176
+thumbnailImage: https://lh3.googleusercontent.com/Jn2i1YphKhAbS_1w3KSotp7L0BZA3GguSSAEUCCyH9V4g2PtunCuoE0GlY-PkdrsLERb08KiSsNvIMPqpQ=w260-h173-rw
 thumbnailImagePosition: left
 summary: Acerca de MLE y Estimadores bayesianos para estimar un parámetro desconocido.
 ---

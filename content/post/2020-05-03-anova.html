@@ -9,7 +9,7 @@ tags:
   - estadistica
   - anova
   - R
-thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImage: https://lh3.googleusercontent.com/Jn2i1YphKhAbS_1w3KSotp7L0BZA3GguSSAEUCCyH9V4g2PtunCuoE0GlY-PkdrsLERb08KiSsNvIMPqpQ=w260-h173-rw
 thumbnailImagePosition: left
 summary: ANOVA para comparar medias entre grupos
 ---
@@ -47,7 +47,7 @@ En el segundo gráfico, la linea vertical represnta la media general del dataset
 <p><img src="/post/2020-05-03-anova_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 Veamos como resulta analizar esto con ANOVA.</p>
 </div>
-<div id="calculos." class="section level3">
+<div id="cálculos." class="section level3">
 <h3>Cálculos.</h3>
 <p>Obviamente existen paquetes estadísticos para realizar este análisis rapidamente pero iremos paso por paso.<br />
 La lógica es comparar la media de las poblaciones y para ello nos basamos en la varianza. Más precisamente en la descomposición de la varianza.</p>
@@ -57,7 +57,7 @@ La suma de errores cuadrados de TODO el dataset se puede descomponer entre el de
 <p>Cuanto más grande sea la brecha entre la variabilidad entre grupos y la variabilidad al interior de los grupos, más probable es que las medias poblacionales sean distintas. Es decir, si la variabilidad total se explica más por la diferencia entre medias grupales que por la diferencia entre desviós al interior, entonces más evidencia en favor de distintas medias grupales. Si el ratio no es tan grande, entonces tenemos menos fuerza para afirmar tal cosa.</p>
 <p>Para poder comparar correctamente, no se mira directamente <span class="math inline">\(SC_{Entre}\)</span> vs <span class="math inline">\(SC_{Dentro}\)</span> ya que estos dependen del tamaño de la muestra, sino que se los normaliza primero. <span class="math inline">\(SC_{Entre}\)</span> se normaliza por sus grados de libertad siendo <em>k-1</em> (cantidad de grupos menos 1) y <span class="math inline">\(SC_{Dentro}\)</span> se normaliza con <em>N-K</em> (observaciones totales menos cantidad de grupos).</p>
 <blockquote>
-<h4 id="detalle-tecnico">Detalle técnico</h4>
+<h4 id="detalle-técnico">Detalle técnico</h4>
 <p>Como asumimos que los residuos son normales, entonces elevarlos al cuadrado nos devuelve una distribución <em>Chi-Cuadrado</em>. Las sumas de residuos al cuadrado son entones Chi-Cuadrado con los grados de libertad que mencionamos.
 Si dividimos dos distribuciones Chi-Cuadrado, normalizadas por sus grados de libertad, obtenemos una distribución F con grados de libertad equivalentes a los de ambas Chi-Cuadrado.</p>
 </blockquote>

@@ -9,7 +9,7 @@ tags:
 - r
 - matematica
 - cadenas de Markov
-thumbnailImage: https://lh3.googleusercontent.com/kO7jtw5g1yUVg0hSYV0OpWMLn2XBqmE53hX4R-9KW_51bYPwyMPKyMyVGcSdXMGGjaDDUI9VvkV8reCwPw=w447-h220
+thumbnailImage: https://lh3.googleusercontent.com/s7OEWbiAksJIlBfh1h3Lv5qu3yjL8hfM3d_-INh41ZYLC5I4Q3ti9UbjZp7BlYElBd4NXc_3bloR2Z9Bog=w447-h220-rw
 thumbnailImagePosition: bottom
 summary: Introducción a las cadenas de Markov. Ejemplo ilustrativo para ver su gran potencial.
 ---

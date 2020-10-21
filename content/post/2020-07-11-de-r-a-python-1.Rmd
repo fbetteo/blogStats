@@ -12,7 +12,7 @@ tags:
 categories:
 - R
 - Python
-thumbnailImage: https://lh3.googleusercontent.com/f7uoZeNfyE1QhvX_84hm9fJcmulJCq1OzSKOcW6GaiTJNyOBrgoFUMp_WBFCIbOdhwIhSOUzbcH64ZcHlQ=w328-h153-rw
+thumbnailImage: https://lh3.googleusercontent.com/nfHMd9voBvXDKziowr-dYKDIPTQwb0og9vQ3GUdbEyIt95UTfag3ajjsGJcoB-HCC2tt683hiZ8Xo2vVEw=w328-h153-rw
 thumbnailImagePosition: left
 summary: Aprendizajes y recordatorios de la transicion de R a Python.
 ---

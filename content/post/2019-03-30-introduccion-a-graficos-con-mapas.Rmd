@@ -10,7 +10,7 @@ tags:
 - tidyverse
 categories: 
 - R
-thumbnailImage: https://lh3.googleusercontent.com/UrrvM2aSqKpt-kLI2PSzo5_ghVPqViZ5JoFw9fv8q8TaDoh-pJ3NwP6lstTNy9APJwRmqn9Lhks0eTAwmQ=w258-h195
+thumbnailImage: https://lh3.googleusercontent.com/VgGzoDts-2BBUgLrNH9tsnMvt23QHKhK0IBimzLr6BpFCHIs7siXVuRCbso953Tpi6n_4pWIgdpqKi0qqQ=w258-h195-rw
 thumbnailImagePosition: left
 summary: Introduccion a graficos en mapas con ggplot.
 ---

@@ -11,7 +11,7 @@ tags:
   - nnmf
   - nba
   - english
-thumbnailImage: https://lh3.googleusercontent.com/LXmk3nsLpR3aYkazSNxjWjJTs3mFvZ9fC-Nq7EBXJqbzeUnagppCoFcj1gsLUbgvJlTxgwYZRjewgO9rWw=w300-h168-rw
+thumbnailImage: https://lh3.googleusercontent.com/Hz7KLksdwUZE6HfiPz2vC3N_-xaiW0pubLXTgP3fais47d1s6cN64G_7r4IWh68Czyd11vaM6WeEH6vOvg=w300-h168-rw
 thumbnailImagePosition: left
 summary: Non Negative Matrix Factorization of NBA shooting data for the 2018-2019 season.
 ---

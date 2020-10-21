@@ -8,7 +8,7 @@ categories:
 tags:
   - R
   - Cloud
-thumbnailImage: https://lh3.googleusercontent.com/Jcx9JBr2MRA9mDwumsGc7bJDHGFc5E55q0t7gYKxavFVSKSZD3H0ai6JtFIOuD0HZZKapuZ-4h7wgXBGgg=s192
+thumbnailImage: https://lh3.googleusercontent.com/IUeGbzdC2T2IIb_vrvmq3DOxtNOGnNafX0nYEmJhQktWDVn0Ej3MxaWEXqOKMm_WMnO50137sajv42E-lw=s192-rw
 thumbnailImagePosition: left
 summary: Post sobre como crear máquinas virtuales en Google Cloud y correr scripts de R en servidores alrededor del mundo!
 ---

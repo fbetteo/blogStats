@@ -13,7 +13,7 @@ tags:
 categories:
 - R
 coverImage: https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/images/649694main_pia15417-43_full.jpg
-thumbnailImage: https://lh3.googleusercontent.com/iAbeDudWjqCRe2WIRN6Z9UQFLtGfEXSCevQjT8p13BBYx5eXYw7ThHbsXL-gdE_VnUjZ5QjeLcN4mETILw=w191-h220
+thumbnailImage: https://lh3.googleusercontent.com/LMR8eyUF0ocCRmnCsqfcD_z2JM1YH78BZkkh-Rza3-S3irCmThYSMC_n3wTbyTenXn74_AOSnZJjS5INCg=w191-h220-rw
 thumbnailImagePosition: left
 summary: "La idea de este post es introducirlos a la familia de funciones **MAP**, propias de [tidyverse](https://www.tidyverse.org/)."
 ---

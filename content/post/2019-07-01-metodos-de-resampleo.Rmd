@@ -12,7 +12,7 @@ categories:
 - estadistica
 - R
 summary: Resumen y notas del famoso libro Introduction to Statistical Learning de Hastie, Tibshirani et al. Capítulo 5. Métodos de Resampleo. Incluye principalmente Cross-Validation y Bootstrap.
-thumbnailImage: https://lh3.googleusercontent.com/2blGTczcWJla4oNejmiPAyZgHVkHd3kNlBvJ-S7hdpgHRPn8M-KunLb3gf2Y9DuoOuIOL4UdMUcDwsC29A=w146-h220
+thumbnailImage: https://lh3.googleusercontent.com/QUaX5TXvmk8N-uml7F_cponp-S1krhmSkhZJOVGJgj0bIAy-ZxcOHwwAX_eO3IYH1juyezDhDda9XFMlVw=w146-h220-rw
 thumbnailImagePosition: left
 ---
 

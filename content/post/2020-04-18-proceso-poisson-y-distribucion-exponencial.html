@@ -10,7 +10,7 @@ tags:
   - estadistica
   - Poisson
   - Exponencial
-thumbnailImage: https://lh3.googleusercontent.com/YlPH-JgW51OVbX0o9qQQviaUy0syk9-xDk7NuTwNa1ySUWtfFERNJtmPsO2SHUGymvNUS9byNhHwt8M6tw=w260-h173
+thumbnailImage: https://lh3.googleusercontent.com/Jn2i1YphKhAbS_1w3KSotp7L0BZA3GguSSAEUCCyH9V4g2PtunCuoE0GlY-PkdrsLERb08KiSsNvIMPqpQ=w260-h173-rw
 thumbnailImagePosition: left
 summary: Procesos Poisson y la relación entre distribución poisson y exponencial
 ---
@@ -27,7 +27,7 @@ summary: Procesos Poisson y la relación entre distribución poisson y exponenci
 <li>Una disitribución <strong>Poisson (no proceso!)</strong> que provee la función de densidad de la cantidad de pacientes que ingresan al hospital. (Discreta)</li>
 <li>Una distribución <strong>exponencial</strong> que modela el tiempo que transcurre entre cada paciente. (Continua)</li>
 </ul>
-<div id="distribucion-poisson" class="section level3">
+<div id="distribución-poisson" class="section level3">
 <h3>Distribución Poisson</h3>
 <p>Esta distribución sirve para modelar la cantidad de pacientes. Digamos que ingresan en promedio <span class="math inline">\(\lambda\)</span> pacientes por <em>hora</em>.</p>
 <p>La función de probabilidad (probability mass function en inglés ya que es discreta) es:
@@ -51,7 +51,7 @@ ggplot(data = df, aes(x = k, y =poisson, colour = lambda)) +
 Los pacientes que llegan al hospital siguen una distribución <span class="math inline">\(\sim P(\lambda)\)</span>.</p>
 <p>Otra caracterísica es que uno puede escalar la distribución para cualquier intervalo. Es decir que si nuestro modelo era para cantidad de pacientes por hora, uno puede multiplicar <span class="math inline">\(\lambda\)</span> por 3 si quiere la distribución cada 3 horas, o dividir por 6 si la quiere cada 10 minutos por ejemplo. Esto es asi porque en realidad en la función de probabilidad de la distribución Poisson, <span class="math inline">\(\lambda\)</span> está multiplicado por el intervalo <em>t</em>,pero se simplifica y se lo asume 1. Luego uno puede derivar para el lapso que desee multiplicando.</p>
 </div>
-<div id="distribucion-exponencial" class="section level3">
+<div id="distribución-exponencial" class="section level3">
 <h3>Distribución Exponencial</h3>
 <p>Sabemos que llegan <span class="math inline">\(\lambda\)</span> pacientes por hora. Nos gustaría ahora saber la distribución para el tiempo de espera hasta que llegue el próximo paciente. Es decir, parados en el momento <em>t</em>, qué probabilidad hay de tener que esperar un minuto, 2, 10 hasta el próximo paciente?</p>
 <p>El concepto es el siguiente. Si queremos saber la probabilidad de que haya que esperar al menos X minutos, es lo mismo que calcular la probabilidad de que la cantidad de pacientes en el momento t+x sea igual a la cantidad de momento t. Es decir, que no haya llegado nadie.<br />
