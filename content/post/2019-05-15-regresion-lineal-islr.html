@@ -12,62 +12,87 @@ tags:
   - ISLR
   - R
 summary: Resumen y notas del famoso libro Introduction to Statistical Learning de Hastie, Tibshirani et al. Capítulo 3. Regresión Lineal
-thumbnailImage: https://lh3.googleusercontent.com/2blGTczcWJla4oNejmiPAyZgHVkHd3kNlBvJ-S7hdpgHRPn8M-KunLb3gf2Y9DuoOuIOL4UdMUcDwsC29A=w146-h220
+thumbnailImage: https://lh3.googleusercontent.com/QUaX5TXvmk8N-uml7F_cponp-S1krhmSkhZJOVGJgj0bIAy-ZxcOHwwAX_eO3IYH1juyezDhDda9XFMlVw=w146-h220-rw
 thumbnailImagePosition: left
 ---
 
 
 
-<p>La regresión lineal simple es un método muy directo para estimar una variable cuantitativa Y en base a un solo predictor X. Asume que hay una relación lineal entre X e Y. <span class="math display">\[ Y \approx \beta_0 + \beta_1X\]</span> <span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span> son dos constantes desconocidas que representan al <em>intercepto</em> y a la <em>pendiente</em> del modelo lineal. Son los coeficientes o parámetros. Con nuestros datos podemos estimar coeficientes para predecir futuros valores de Y basados en X y nuestro modelo.</p>
-<div id="estimacion-de-coeficientes" class="section level3">
+<p>La regresión lineal simple es un método muy directo para estimar una variable cuantitativa Y en base a un solo predictor X. Asume que hay una relación lineal entre X e Y.
+<span class="math display">\[ Y \approx \beta_0 + \beta_1X\]</span>
+<span class="math inline">\(\beta_0\)</span> y <span class="math inline">\(\beta_1\)</span> son dos constantes desconocidas que representan al <em>intercepto</em> y a la <em>pendiente</em> del modelo lineal. Son los coeficientes o parámetros. Con nuestros datos podemos estimar coeficientes para predecir futuros valores de Y basados en X y nuestro modelo.</p>
+<div id="estimación-de-coeficientes" class="section level3">
 <h3>Estimación de Coeficientes</h3>
 <p>Los coeficientes que buscamos son <span class="math inline">\(\hat \beta_0\)</span> y <span class="math inline">\(\hat \beta_1\)</span> (estimados, por eso el sombrero) son aquellos que generen una recta que pase lo más cerca posible de todos nuestros datos de entrenamiento. Hay varias manera de definir “cerca” pero la más usada es el enfoque de <em>mínimos cuadrados</em>.</p>
 <p>Supongamos un ejemplo donde tenemos datos de horas trabajadas por ciertos individuos y la paga que reciben. Supongamos a fines del ejemplo que la relación entre salario y horas es lineal (sabemos que no es real…)</p>
-<p>Cuando estimemos <span class="math inline">\(\hat \beta_0\)</span> y <span class="math inline">\(\hat \beta_1\)</span> obtendremos después un valor <span class="math inline">\(\hat y_i\)</span> para cada valor de <span class="math inline">\(x_i\)</span> (cada observación), que será el resultado de la predicción de nuestro modelo para ese valor de horas trabajadas. <span class="math display">\[ \hat y_i = \hat \beta_0 + \hat \beta_1 x_i\]</span> Luego <span class="math inline">\(e_i = y_i - \hat y_i\)</span> representa el <em>residuo</em>, que es la diferencia entre el valor real del salario para esa observación y el valor que predice nuestro modelo.<br />
-Una métrica importante a saber es la <em>suma de resiudos al cuadrado</em> (RSS por siglas en inglés) que es: <span class="math display">\[ RSS = e_1^2 + e_2^2 + ... + e_n^2\]</span> o de manera equivalente: <span class="math display">\[ RSS = (y_1 - \hat \beta_0 - \hat \beta_1x_1) ^2 +  (y_2 - \hat \beta_0 - \hat \beta_1x_2) ^2  + ... + (y_n - \hat \beta_0 - \hat \beta_1x_n) ^2 \]</span></p>
+<p>Cuando estimemos <span class="math inline">\(\hat \beta_0\)</span> y <span class="math inline">\(\hat \beta_1\)</span> obtendremos después un valor <span class="math inline">\(\hat y_i\)</span> para cada valor de <span class="math inline">\(x_i\)</span> (cada observación), que será el resultado de la predicción de nuestro modelo para ese valor de horas trabajadas.
+<span class="math display">\[ \hat y_i = \hat \beta_0 + \hat \beta_1 x_i\]</span>
+Luego <span class="math inline">\(e_i = y_i - \hat y_i\)</span> representa el <em>residuo</em>, que es la diferencia entre el valor real del salario para esa observación y el valor que predice nuestro modelo.<br />
+Una métrica importante a saber es la <em>suma de resiudos al cuadrado</em> (RSS por siglas en inglés) que es:
+<span class="math display">\[ RSS = e_1^2 + e_2^2 + ... + e_n^2\]</span>
+o de manera equivalente:
+<span class="math display">\[ RSS = (y_1 - \hat \beta_0 - \hat \beta_1x_1) ^2 +  (y_2 - \hat \beta_0 - \hat \beta_1x_2) ^2  + ... + (y_n - \hat \beta_0 - \hat \beta_1x_n) ^2 \]</span></p>
 <p>Que basicamente es la suma de todas las diferencias entre lo predicho por nuestro modelo y el dato real de nuestro set, elevadas al cuadrado. Esto último es principalmente para evitar que se compensen los errores. Sobreestimar por 10 y luego subestimar por 10 tiene como suma de errores 0. Si elevamos esas diferencias al cuadrado, todos los errores serán positivos y se acumularán. En este caso seria <span class="math inline">\(10^2\)</span> + <span class="math inline">\((-10)^2\)</span>, que es 200.<br />
 El enfoque de mínimos cuadrados estima <span class="math inline">\(\hat \beta_0\)</span> y <span class="math inline">\(\hat \beta_1\)</span> de tal manera que el RSS sea el mínimo posible dados los datos.</p>
-<p>Usando un poco de cálculo se puede demostrar que los parámetros que minimizan RSS son: <span class="math display">\[ \hat \beta_1 = \frac{\sum_{i = 1}^n (x_i - \bar{x}) (y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2}\]</span> <span class="math display">\[ \hat \beta_0 = \bar{y} - \hat \beta_1\bar{x}\]</span> donde <span class="math inline">\(\bar{y}\)</span> y <span class="math inline">\(\bar{x}\)</span> son las respectivas medias muestrales.</p>
+<p>Usando un poco de cálculo se puede demostrar que los parámetros que minimizan RSS son:
+<span class="math display">\[ \hat \beta_1 = \frac{\sum_{i = 1}^n (x_i - \bar{x}) (y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2}\]</span>
+<span class="math display">\[ \hat \beta_0 = \bar{y} - \hat \beta_1\bar{x}\]</span>
+donde <span class="math inline">\(\bar{y}\)</span> y <span class="math inline">\(\bar{x}\)</span> son las respectivas medias muestrales.</p>
 <p><img src="/post/2019-05-15-regresion-lineal-islr_files/figure-html/reg1-1.png" width="672" /></p>
 <p>En nuesto caso usando este set de datos generado ficticiamente obtenemos <span class="math inline">\(\hat \beta_0\)</span> = 2.00071310^{4}<br />
 y <span class="math inline">\(\hat \beta_1\)</span> = 299.82</p>
 <p>Recordemos que esta es una estimación en base a los datos y no sabemos los verdaderos parámetros de la DGP real(proceso generador de datos). En este caso yo si lo sé porque generé los datos pero en la vida real es inaccesible.<br />
 Lo que hicimos fue estimar, a partir de un set de datos, ciertos coeficientes o característica de una población mucho más amplia. (Todos los trabajadores del país..)</p>
 </div>
-<div id="precision-de-nuestros-estimadores" class="section level3">
+<div id="precisión-de-nuestros-estimadores" class="section level3">
 <h3>Precisión de nuestros estimadores</h3>
 <p>En este caso teníamos una sola muestra pero podríamos haber tenido muchas muestras (K) de la misma población (muchos sets de datos con horas trabajadas y salarios).<br />
 Si estimáramos los coeficientes para cada uno de esos sets obtendríamos K pares de coeficientes, cada uno calculado con las particularidades de esos sets.<br />
 Se puede demostrar que el promedio de una cantidad grande de estimadores provenientes de muchas muestras se centra en el verdadero valor poblacional (si el modelo es correcto). Es decir que el promedio de los K <span class="math inline">\(\hat \beta_1\)</span> va a centrarse en el verdadero valor poblacional de <span class="math inline">\(\beta_1\)</span> ( y lo mismo para <span class="math inline">\(\beta_0\)</span>).<br />
 Pero estos K parámetros centrados en el verdadero valor van a tener cierta dispoersión, es decir, pueden estar todos muy cerca del verdadero o estar muy dispersos pero que en promedio si quede centrado. Esto determina que tan preciso es el coeficiente que estimemos de una muestra. Este desvío estándar de los parámetros (SE) puede estimarse y depende de la varianza del error del modelo.</p>
-<p>Puede ser útil para calcular los <em>intervalos de confianza</em> de los parámetros. Estos son intervalos que con X% de probabilidad contienen al verdadero valor del parámetro poblacional. Lo más habitual es calcular el intervalo de confianza al 95%. Para <span class="math inline">\(\hat \beta_1\)</span> esto es aproximadamente: <span class="math display">\[ \hat \beta_1 \pm 2 \cdot SE(\hat \beta_1)\]</span> La interpretación sería que de 100 intervalos que construya de esta manera (de 100 muestras distintas), 95 van a tener al verdadero valor de <span class="math inline">\(\beta_1\)</span>.</p>
+<p>Puede ser útil para calcular los <em>intervalos de confianza</em> de los parámetros. Estos son intervalos que con X% de probabilidad contienen al verdadero valor del parámetro poblacional. Lo más habitual es calcular el intervalo de confianza al 95%.
+Para <span class="math inline">\(\hat \beta_1\)</span> esto es aproximadamente:
+<span class="math display">\[ \hat \beta_1 \pm 2 \cdot SE(\hat \beta_1)\]</span>
+La interpretación sería que de 100 intervalos que construya de esta manera (de 100 muestras distintas), 95 van a tener al verdadero valor de <span class="math inline">\(\beta_1\)</span>.</p>
 <p>Por otra parte podemos realizar un test de hipotésis de los coeficientes. El más común es testear la siguiente hipótesis nula:<br />
 <em>H_0</em> : No hay relación entre X e Y<br />
 contra la hipótesis alternativa<br />
 <em>H_1</em> : Hay alguna relación entre X e Y<br />
-Lo cual se traduce en: <span class="math display">\[ H_0 : \beta_1 = 0 \]</span> <span class="math display">\[ H_1 : \beta_1 \neq 0\]</span></p>
+Lo cual se traduce en:
+<span class="math display">\[ H_0 : \beta_1 = 0 \]</span>
+<span class="math display">\[ H_1 : \beta_1 \neq 0\]</span></p>
 <p>Lo que se hace es determinar si <span class="math inline">\(\hat \beta_1\)</span> está lo suficientemente lejos de 0 como para rechazar la hipótesis nula. Qué tan lejos es suficiente depende en gran parte del desvío estándar (SE) del coeficiente. Si el SE es grande , necesitaremos valores elevado de <span class="math inline">\(\hat \beta_1\)</span> para estar tranquilos con que el valor real no puede ser 0.<br />
-Para esto lo que se hace es calcular el estadístico <em>t</em>: <span class="math display">\[ t = \frac{\hat \beta_1 - 0}{SE(\hat \beta_1)}\]</span> Que mide cuantos desvíos estándar <span class="math inline">\(\hat \beta_1\)</span> está alejado de 0. Si no hay relación entre X e Y se espera que el estadístico tenga una distribución t con n - 2 grados de libertad. Dado ese supuesto, lo que se hace es calcular la probabilidad de obtener un valor de t como el de nuestro estadístico, si este proviene de una distribución t con n-2 grados de libertad. Esta probabilidad se la conoce como <em>p valor</em>. Sería qué tan probable es encontrar un valor al menos tan grande como el de t si este proviniera de la distribución t con n-2 grados de libertad. Si esta probabilidad es muy chica (el umbral habitual es 0.05 pero depende del trabajo) uno rechaza la hipótesis nula en favor de la alternativa, suponiendo que sí hay una relación entre X e Y.</p>
+Para esto lo que se hace es calcular el estadístico <em>t</em>:
+<span class="math display">\[ t = \frac{\hat \beta_1 - 0}{SE(\hat \beta_1)}\]</span>
+Que mide cuantos desvíos estándar <span class="math inline">\(\hat \beta_1\)</span> está alejado de 0. Si no hay relación entre X e Y se espera que el estadístico tenga una distribución t con n - 2 grados de libertad. Dado ese supuesto, lo que se hace es calcular la probabilidad de obtener un valor de t como el de nuestro estadístico, si este proviene de una distribución t con n-2 grados de libertad. Esta probabilidad se la conoce como <em>p valor</em>.
+Sería qué tan probable es encontrar un valor al menos tan grande como el de t si este proviniera de la distribución t con n-2 grados de libertad. Si esta probabilidad es muy chica (el umbral habitual es 0.05 pero depende del trabajo) uno rechaza la hipótesis nula en favor de la alternativa, suponiendo que sí hay una relación entre X e Y.</p>
 </div>
-<div id="precision-del-modelo." class="section level3">
+<div id="precisión-del-modelo." class="section level3">
 <h3>Precisión del modelo.</h3>
 <p>Naturalmente a uno le interesa saber qué tan bien ajusta nuestro modelo a los datos.</p>
 <p>El método más habitual para regresión lineal es el R^2. Toma valores entre 0 y 1 porque es la proporción de la varianza de Y explicada por nuestro modelo.</p>
 <p><span class="math display">\[ R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{RSS}{TSS}\]</span></p>
 <p>donde $TSS = (y_i -{y})^2 $ es la suma de cuadrados totales y RSS es la suma de errores cuadrados que ya definimos antes. TSS mide la varianza total de Y y representa la variabilidad total inherent de la variable dependiente <em>antes</em> de correr la regresión. Por el contrario RSS mide la variabilidad que queda sin explicar por nuestro modelo (recuerden que proviene de los residuos). Por lo tanto el numerador TSS - RSS mide la parte de la variabilidad de Y que sí pudo ser explicada por el modelo, y lo divide por la variabilidad total. <span class="math inline">\(R^2\)</span> mide entonces la proporción de la variablidad que pudo ser explicada usando X. Cuanto más cerca de 1, mejor.</p>
 </div>
-<div id="regresion-con-multiples-predictores" class="section level3">
+<div id="regresión-con-múltiples-predictores" class="section level3">
 <h3>Regresión con Múltiples Predictores</h3>
-<p>Suena mucho más lógico tratar de explicar una variable dependiente no solo por una independiente si no por varias. La regresión lineal simple puede ampliarse a regresión lineal múltiple donde nuestro modelo pasa a ser: <span class="math display">\[ \hat y_i = \hat \beta_0 + \hat \beta_1 x_i + ... + \hat \beta_p x_p\]</span> Y mantenemos un término de error con distribución normal y media 0.</p>
-<p>En esencia la idea es la misma, explicar la variabilidad de Y basado en la variabilidad de nuestros predictores. La metodología para estimar los coeficientes suele ser Mínimos Cuadrados como vimos antes, sin embargo la solución no suele ser tan fácil de expresar y es más sencillo verlo en términos matriciales o simplemente ver los resultados desde el programa estadístico que estemos usando. No olvidar que varias regresiones simples no pueden sumarse en una resgresión múltiple, es decir, los coeficientes de las regresiones simples no tienen por que ser los mismos ni por qué mantener el signo cuando se juntan todas las variables en un solo modelo. Esto sucede porque la regresión múltiple estima coeficientes <em>controlando</em> por todas las otras variables, es decir, quitando el efecto de las otras. Por eso es que por separado quizás dos variables son significativas pero en una regresión múltiple solo una de ellas lo es. En general esto viene dado porque están correlacionadas y se comportan de manera similar. Al final del día no es fácilmente distinguible cuál es realmente la que lidera el efecto.</p>
-<div id="hay-relacion-entre-la-dependiente-y-los-predictores-test-f" class="section level4">
+<p>Suena mucho más lógico tratar de explicar una variable dependiente no solo por una independiente si no por varias. La regresión lineal simple puede ampliarse a regresión lineal múltiple donde nuestro modelo pasa a ser:
+<span class="math display">\[ \hat y_i = \hat \beta_0 + \hat \beta_1 x_i + ... + \hat \beta_p x_p\]</span>
+Y mantenemos un término de error con distribución normal y media 0.</p>
+<p>En esencia la idea es la misma, explicar la variabilidad de Y basado en la variabilidad de nuestros predictores. La metodología para estimar los coeficientes suele ser Mínimos Cuadrados como vimos antes, sin embargo la solución no suele ser tan fácil de expresar y es más sencillo verlo en términos matriciales o simplemente ver los resultados desde el programa estadístico que estemos usando.
+No olvidar que varias regresiones simples no pueden sumarse en una resgresión múltiple, es decir, los coeficientes de las regresiones simples no tienen por que ser los mismos ni por qué mantener el signo cuando se juntan todas las variables en un solo modelo. Esto sucede porque la regresión múltiple estima coeficientes <em>controlando</em> por todas las otras variables, es decir, quitando el efecto de las otras. Por eso es que por separado quizás dos variables son significativas pero en una regresión múltiple solo una de ellas lo es. En general esto viene dado porque están correlacionadas y se comportan de manera similar. Al final del día no es fácilmente distinguible cuál es realmente la que lidera el efecto.</p>
+<div id="hay-relación-entre-la-dependiente-y-los-predictores-test-f" class="section level4">
 <h4>Hay relación entre la dependiente y los predictores? (test F)</h4>
 <p>En regresión simple vimos el test de hipótesis para ver si el coeficiente de <span class="math inline">\(\hat \beta_1\)</span> era significativamente distinto de 0. En regresión múltiple lo que debemos hacer es chequear si <em>todos</em> nuestros coeficientes son distintos de 0. (Y no uno por uno)</p>
-<p>Lo cual se traduce en: <span class="math display">\[ H_0 : \beta_1 = \beta_2 = ... = \beta_p = 0 \]</span> <span class="math display">\[ H_1 : \text{Al menos algún } \beta_j \neq 0\]</span> El test de hipótesis se hace calculando el estadístico F. <span class="math display">\[ F = \frac{(TSS - RSS) / p}{RSS / (n - p -1)}\]</span></p>
+<p>Lo cual se traduce en:
+<span class="math display">\[ H_0 : \beta_1 = \beta_2 = ... = \beta_p = 0 \]</span>
+<span class="math display">\[ H_1 : \text{Al menos algún } \beta_j \neq 0\]</span>
+El test de hipótesis se hace calculando el estadístico F.
+<span class="math display">\[ F = \frac{(TSS - RSS) / p}{RSS / (n - p -1)}\]</span></p>
 <p>Si los supuestos del modelo lineal se cumplen puede probarse que <span class="math inline">\(E[RSS/(n - p-1)] = \sigma^2\)</span> y si <span class="math inline">\(H_0\)</span> es verdadera <span class="math inline">\(E[(TSS-RSS)/p] = \sigma^2\)</span>. Por lo tanto si no hay relación el estadístico F será cercano a 1 y si en realidad la hipótesis alternativa es verdadera el numerador será mayor que <span class="math inline">\(\sigma^2\)</span> y por lo tanto F será mayor que 1. Dependiendo de n, p y del nivel de significatividad que busquemos F deberá superar un umbral distinto para poder rechazar la hipótesis nula.<br />
 Es inevitable mirar los p-valores individuales sin embargo debemos tener cuidado particularmente cuando tenemos muchas variables. Por definición, algunos coeficientes saldrán significativos <em>por azar</em> aunque no tengan relación con la variable dependiente. En el caso típico de significativdad del 95%, esto sucede en promedio el 5% de las veces. Con muchas variables nuestras posibilidades de encontrarnos con al menos algún falso significativo aumentan notoriamente por lo que hay que mirar con cuidado. Por su parte, el estadístico F corrige en su cálculo por la cantidad de coeficientes y por lo tanto no se ve afectado por este problema.</p>
 </div>
-<div id="seleccion-de-variables" class="section level4">
+<div id="selección-de-variables" class="section level4">
 <h4>Selección de variables</h4>
 <p>Cuando tenemos un set de datos grande es habitual tener que seleccionar cuáles son las variables importantes para el modelo. Más allá del conocimiento del problema (fundamental), idealmente lo mejor es probar una gran cantidad de modelos y con alguna métrica de comparación seleccionar los mejores. El problema es que la cantidad de modelos posible crece exponencialmente con la cantidad de variables y esto no es posible.<br />
 En el libro los autores mencionan como alternativas Forward Selection, Backward Selection y Selección mixta. Básicamente son enfoques que prueban una muestra de todos los modelos posibles según la significatividad de las variables. Son métodos iterativos. Habiendo avanzado la disciplina, llegado el caso buscaría otros métodos vigentes para atacar este problema.</p>
@@ -80,12 +105,15 @@ En el libro los autores mencionan como alternativas Forward Selection, Backward 
 <div id="otras-consideraciones" class="section level3">
 <h3>Otras consideraciones</h3>
 <ul>
-<li><p>Las variables independientes admiten variables categóricas! (Binarias o multiclase). Ej: Educación máxima alcanzada. Hay que mirar con atención la interpretación. Alteran el intercepto según la categoría de la observación y puede alterar pendientes si se las incluye en interacción con alguna variable continua.</p></li>
+<li><p>Las variables independientes admiten variables categóricas! (Binarias o multiclase). Ej: Educación máxima alcanzada.
+Hay que mirar con atención la interpretación. Alteran el intercepto según la categoría de la observación y puede alterar pendientes si se las incluye en interacción con alguna variable continua.</p></li>
 <li><p>El modelo que venimos viendo el aditivo y lineal, pero podemos remover esos supuestos. Por ejemplo podemos agregar interacción entre variable y por lo tanto relajar la aditividad. Esto significa que las variables se modelan multiplicadas entre sí por ejemplo.</p></li>
 </ul>
 <p><span class="math display">\[ Y = \beta_0 + \beta_1X_1 + \beta_2X_2 +  \beta_3X_1X_2 + \epsilon \]</span></p>
 <ul>
-<li>Podemos aproximar relaciones no lineales extendiendo el modelo a regresión polinómica. Suponiendo que los datos provienen de un modelo polinómico, podemos ver en el siguiente gráfico cómo cambia al agregar el término de no linealidad. La línea naranja es la regresión lineal simple y la celeste (que ajusta casi perfecto) es la regresión polinómica que respeta el proceso generador de los datos (la ecuación que se ve en el gráfico). Vemos que la variable Y depende de X linealmente pero también de X al cuadrado, lo que le da la curvatura.</li>
+<li>Podemos aproximar relaciones no lineales extendiendo el modelo a regresión polinómica.
+Suponiendo que los datos provienen de un modelo polinómico, podemos ver en el siguiente gráfico cómo cambia al agregar el término de no linealidad.
+La línea naranja es la regresión lineal simple y la celeste (que ajusta casi perfecto) es la regresión polinómica que respeta el proceso generador de los datos (la ecuación que se ve en el gráfico). Vemos que la variable Y depende de X linealmente pero también de X al cuadrado, lo que le da la curvatura.</li>
 </ul>
 <p><img src="/post/2019-05-15-regresion-lineal-islr_files/figure-html/reg2-1.png" width="672" /></p>
 </div>
@@ -95,19 +123,25 @@ En el libro los autores mencionan como alternativas Forward Selection, Backward 
 <h4>No linealidad de los datos</h4>
 <p>Si la relación entre nuestras variables independientes y la dependiente no es lineal nuestro modelo va a tener sesgo alto. Para el modelo simple es fácil de ver al graficar X vs Y en un gráfico de puntos pero con muchas variables eso ya no es tan sencillo. Un buen enfoque es realizar una regresión lineal y graficar los residuos contra los valores predichos.</p>
 <p>Es un caso un poco extremo pero supongamos que la relación es no lineal, polinómica de orden 2 (como el ejemplo de arriba).<br />
-Si nosotros corremos una regresión lineal, nuestros residuos van a seguir un patrón muy obvio. <img src="/post/2019-05-15-regresion-lineal-islr_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Claramente en ese gráfico el residuo no está centrado en 0… En cambio, si nosotros corremos una regresión lineal para un modelo realmente lineal, o para este caso, corremos un modelo no lineal, deberíamos ver una nube de puntos dispersa para los resiudos, centrada en 0 y con algún desvío estándar. Idealmente veríamos algo asi.</p>
+Si nosotros corremos una regresión lineal, nuestros residuos van a seguir un patrón muy obvio.
+<img src="/post/2019-05-15-regresion-lineal-islr_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Claramente en ese gráfico el residuo no está centrado en 0…
+En cambio, si nosotros corremos una regresión lineal para un modelo realmente lineal, o para este caso, corremos un modelo no lineal, deberíamos ver una nube de puntos dispersa para los resiudos, centrada en 0 y con algún desvío estándar.
+Idealmente veríamos algo asi.</p>
 <p><img src="/post/2019-05-15-regresion-lineal-islr_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
-<div id="correlacion-de-los-terminos-de-error" class="section level4">
+<div id="correlación-de-los-términos-de-error" class="section level4">
 <h4>Correlación de los términos de error</h4>
 <p>Uno de los supuestos de la regresión lineal es que los errores no están correlacionados, es decir que el error <span class="math inline">\(\epsilon_i\)</span> de una observación no nos aporta información acerca del error <span class="math inline">\(\epsilon_j\)</span> de otra observación. Son independientes.<br />
 Si esto no se cumple lo que sucede es que el SE de los coeficientes estimados es menor al real y puede llevarnos a confiar más en nuestro modelo de lo que deberíamos.<br />
 Los errores correlacionados suelen suceder más frecuentemente en series de tiempo pero también pueden darse en estudios experimentales mal diseñados.</p>
 </div>
-<div id="varianza-de-los-terminos-de-error-no-constante.-heterocedasticidad" class="section level4">
+<div id="varianza-de-los-términos-de-error-no-constante.-heterocedasticidad" class="section level4">
 <h4>Varianza de los términos de error no constante. (Heterocedasticidad)</h4>
-<p>Otro supuesto de la regresión lineal es que la varianza de los errores es constante <span class="math inline">\(Var(\epsilon_i) = \sigma^2\)</span>. Esto no siempre es el caso. En este ejemplo vemos como los resiudos siguen centrados en 0 pero con una dispersión mucho mayor a medida que avanzamos en el eje X. <img src="/post/2019-05-15-regresion-lineal-islr_files/figure-html/unnamed-chunk-4-1.png" width="672" /> Entre las soluciones para este problema se encuentra transformar la variable dependiente - <span class="math inline">\(ln(y)\)</span> por ejemplo, o utilizar Mínimos cuadrados ponderados, que pondera por la inversa de la varianza. El libro no se explaya mucho más al respecto en este capítulo.</p>
+<p>Otro supuesto de la regresión lineal es que la varianza de los errores es constante <span class="math inline">\(Var(\epsilon_i) = \sigma^2\)</span>. Esto no siempre es el caso.
+En este ejemplo vemos como los resiudos siguen centrados en 0 pero con una dispersión mucho mayor a medida que avanzamos en el eje X.
+<img src="/post/2019-05-15-regresion-lineal-islr_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+Entre las soluciones para este problema se encuentra transformar la variable dependiente - <span class="math inline">\(ln(y)\)</span> por ejemplo, o utilizar Mínimos cuadrados ponderados, que pondera por la inversa de la varianza. El libro no se explaya mucho más al respecto en este capítulo.</p>
 </div>
 <div id="outliers" class="section level4">
 <h4>Outliers</h4>
@@ -116,7 +150,8 @@ Los errores correlacionados suelen suceder más frecuentemente en series de tiem
 <div id="puntos-con-alto-leverage" class="section level4">
 <h4>Puntos con alto “leverage”</h4>
 <ul>
-<li>Si alguno tiene una traducción satisfactoria bienvenido sea.. Los puntos con alto leverage son aquellos cuyo valor de la variable independiente se aleja del rango estándar. Las observaciones con esta característica tienden a afectar en buena medida a la curva ajustada y por ende a los parámetros de nuestro modelo. Nuestra estimación por mínimos cuadrados puede verse muy influenciada por estos puntos e invalidar el ajuste por eso es muy necesario identificar estas observaciones.<br />
+<li>Si alguno tiene una traducción satisfactoria bienvenido sea..
+Los puntos con alto leverage son aquellos cuyo valor de la variable independiente se aleja del rango estándar. Las observaciones con esta característica tienden a afectar en buena medida a la curva ajustada y por ende a los parámetros de nuestro modelo. Nuestra estimación por mínimos cuadrados puede verse muy influenciada por estos puntos e invalidar el ajuste por eso es muy necesario identificar estas observaciones.<br />
 En regresión simple es sencillo de ver porque resaltan si graficamos una nube de puntos pero en regresión múltiple es más difícil de ver ya que debemos encontrar anomalías en el conjunto de todas las variables. Es decir que una observación puede estar en el rango individual de cada variable pero si miramos a nivel conjunto, esa combinacion dentro de los rangos individuales es súper anómala. Con más de dos variables independientes se dificulta identificar visualmente. Para ayudar en estos casos se puede calcular el <em>estádistico de leverage</em> en algún programa estadístico.</li>
 </ul>
 </div>
@@ -124,6 +159,9 @@ En regresión simple es sencillo de ver porque resaltan si graficamos una nube d
 <h4>Colinealidad</h4>
 <p>Este problema refiere a la alta correlación entre variables independientes del modelo, es decir que tienden a aumentar o decrecer de manera conjunta. Esto genera que sea difícil (o imposible en el extremo) diferenciar el impacto de cada una de ellas en la variable dependiente.<br />
 En una regresión lineal esto se traduce en aumento de la varianza de los estimadores y por ende incertidumbre sobre los parámetros estimados. A modo intuitivo, con variables con alta correlación puede haber una gran cantidad de combinaciones de coeficientes para estas variables que resulten en un mismo ajuste (<span class="math inline">\(R^2\)</span>) y por ende mínimos cuadrados es <em>indistinto</em> frente a ellos. Cambiando alguna observación puede que el modelo pase de una combinación a otra muy disinta en ese arco de posibilidades. Otra consecuencia es que el aumento de la varianza de los coeficientes reduce el estadístico t que miramos para la significatividad y puede que lleve a no rechazar una hipótesis nula que debía ser rechazada. La potencia del test de hipótesis se ve disminuida por la colinealidad.<br />
-No solo la correlación sirve para detectar colinealidad. Puede existir multicolinealidad en donde varias variables son colineales aún sin tener alta correlación de a pares. Posiblemente se deba a combinación lineal generada por algunas de las variables. Para estos casos lo que se puede mirar es el VIF ( Variance Inflation Factor) en inglés. Este estadístico se calcula para cara variable y compara la varianza del estimador al tener la variable en el modelo versus ajustando un modelo solo con esa variable. Cuanto mayor es el VIF, mayores problemas de colinealidad resalta. Se puede calcular con la siguiente formula donde <span class="math inline">\(R^2_{X_j|X_{-j}}\)</span> es el <span class="math inline">\(R^2\)</span> de la regresión de <span class="math inline">\(X_j\)</span> contra todas las otras variables independientes del modelo. <span class="math display">\[ VIF(\hat \beta_j) = \frac{1}{1 - R^2_{X_j|X_{-j}}}\]</span> La solución a este problema suele ser descartar alguna de las variables o agruparlas de alguna manera para quedarnos con una única variable que represente a ambas.</p>
+No solo la correlación sirve para detectar colinealidad. Puede existir multicolinealidad en donde varias variables son colineales aún sin tener alta correlación de a pares. Posiblemente se deba a combinación lineal generada por algunas de las variables. Para estos casos lo que se puede mirar es el VIF ( Variance Inflation Factor) en inglés. Este estadístico se calcula para cara variable y compara la varianza del estimador al tener la variable en el modelo versus ajustando un modelo solo con esa variable. Cuanto mayor es el VIF, mayores problemas de colinealidad resalta.
+Se puede calcular con la siguiente formula donde <span class="math inline">\(R^2_{X_j|X_{-j}}\)</span> es el <span class="math inline">\(R^2\)</span> de la regresión de <span class="math inline">\(X_j\)</span> contra todas las otras variables independientes del modelo.
+<span class="math display">\[ VIF(\hat \beta_j) = \frac{1}{1 - R^2_{X_j|X_{-j}}}\]</span>
+La solución a este problema suele ser descartar alguna de las variables o agruparlas de alguna manera para quedarnos con una única variable que represente a ambas.</p>
 </div>
 </div>

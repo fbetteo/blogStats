@@ -9,7 +9,7 @@ categories:
 tags:
   - estadistica
   - R
-thumbnailImage: https://lh3.googleusercontent.com/nhlc2ATujz4P9pWYNtDaIjekQkYVux3yLq9NLVo-768-FxONnhevkYazCYooWaNyjdusTUn7NEcYwIdigA=w287-h176
+thumbnailImage: https://lh3.googleusercontent.com/5h93ms-7zsiAIgfCwUz2BKGQ1YoLgrvd-IegYZOmqZeVA6hy4RBnP8lc_CEgQLNdWwwT-a60CwwiW2RJ6A=w287-h176-rw
 thumbnailImagePosition: left
 summary: Acerca de variables aleatorias y sus distribuciones.
 ---
@@ -31,7 +31,8 @@ Si s resulta ser la secuencia <code>ooxxxoxxxo</code> entonces X(s) = 4.</p>
 <div id="distribucion-de-una-variable-aleatoria" class="section level1">
 <h1>Distribucion de una variable aleatoria</h1>
 <p>Si tenemos la distribución de probabilidad del espacio muestral del experimento podemos determinar la distribución de probabilidad de cualquier variable aleatoria válida.</p>
-<p>Volviendo al ejemplo de la moneda. Dijimos que hay 2<sup>10</sup> combinaciones de cara o cruz. La cantidad de combinaciones de X caras en 10 lanzamientos es <span class="math inline">\(P(X = x) = \binom{n}{x} \frac{1}{2^{10}}\)</span> para <span class="math inline">\(x = 0,1,2,..,10\)</span></p>
+<p>Volviendo al ejemplo de la moneda. Dijimos que hay 2<sup>10</sup> combinaciones de cara o cruz.
+La cantidad de combinaciones de X caras en 10 lanzamientos es <span class="math inline">\(P(X = x) = \binom{n}{x} \frac{1}{2^{10}}\)</span> para <span class="math inline">\(x = 0,1,2,..,10\)</span></p>
 <div id="distribuciones-discretas" class="section level2">
 <h2>Distribuciones Discretas</h2>
 <p>Una variable aleatoria tiene una distribución discreta si solo puede tomar valores de una secuencia (generalmente finita pero puede no serlo).</p>
@@ -40,16 +41,18 @@ Si s resulta ser la secuencia <code>ooxxxoxxxo</code> entonces X(s) = 4.</p>
 <li>Los valores por fuera de la secuencia tienen probabilidad = 0</li>
 <li>La suma de todas las probabilidades tiene que ser 1</li>
 </ul>
-<div id="distribucion-uniforme" class="section level3">
+<div id="distribución-uniforme" class="section level3">
 <h3>Distribución Uniforme</h3>
-<p>En el caso de la dsitribución uniforme, supongamos que la variable puede tomar valores de 1 a k. La función de probabilidad será <span class="math inline">\(f(x) = \frac{1}{k}\)</span> para x = 1,2,…,k. Y 0 para todos los otros valores.</p>
+<p>En el caso de la dsitribución uniforme, supongamos que la variable puede tomar valores de 1 a k.
+La función de probabilidad será <span class="math inline">\(f(x) = \frac{1}{k}\)</span> para x = 1,2,…,k.
+Y 0 para todos los otros valores.</p>
 <blockquote>
 <p>si k = 10<br />
 Los valores de la variable serán cualquier entero entre 1 y 10<br />
 Cada valor tendrá probabilidad <span class="math inline">\(\frac{1}{10}\)</span></p>
 </blockquote>
 </div>
-<div id="distribucion-binomial" class="section level3">
+<div id="distribución-binomial" class="section level3">
 <h3>Distribución Binomial</h3>
 <p>En el caso de la dsitribución binomial se asumen dos posibles resultados, uno con probabilidad <em>p</em> y su contraparte con probabilidad <em>1-p</em>.<br />
 Por ejemplo la probabilidad p de que una máquina genere un producto defectuoso y 1-p de que sea no defectuoso.<br />
@@ -57,10 +60,12 @@ Si una máquina produce <em>n</em> productos va a generar X productos defectuoso
 Para cualquier valor de x (entre 0 y n), la probabilidad de que la máquina genere x productos defectuosos entre los n producidos (de una secuencia particular) es <span class="math inline">\(p^{x}q^{(n-x)}\)</span><br />
 Como existen <span class="math inline">\(\binom{n}{x}\)</span> distintas secuencias posibles con x defectuosos entre los n productos tenemos que:<br />
 <span class="math inline">\(Pr(X = x) = \binom{n}{x}p^{x}q^{(n-x)}\)</span><br />
-La función de probabilidad será <span class="math inline">\(f(x) = \binom{n}{x}p^{x}q^{(n-x)}\)</span> para x = 0,1,2,…,n. Y 0 para todos los otros valores.</p>
+La función de probabilidad será <span class="math inline">\(f(x) = \binom{n}{x}p^{x}q^{(n-x)}\)</span> para x = 0,1,2,…,n. 
+Y 0 para todos los otros valores.</p>
 <p>Para usar esta distribución en R tenemos los siguientes comandos:</p>
 <ul>
-<li>Para generar <em>n</em> escenarios al azar donde se producen <em>size</em> productos con probabilidad <em>p</em> de ser defectuosos. El resultado es la variable x por escenario. Es decir la cantidad de defectuosos.<br />
+<li>Para generar <em>n</em> escenarios al azar donde se producen <em>size</em> productos con probabilidad <em>p</em> de ser defectuosos.
+El resultado es la variable x por escenario. Es decir la cantidad de defectuosos.<br />
 En el primer escenario x = 0, en el segundo x = 1 y así.</li>
 </ul>
 <pre class="r"><code>set.seed(1)
@@ -74,7 +79,9 @@ Hay probabilidad de 0.0264 de obtener 5 defectuosos si producimos 10 con probabi
 <pre class="r"><code>dbinom(x = 5, size = 10, prob = 0.2)</code></pre>
 <pre><code>## [1] 0.02642412</code></pre>
 <ul>
-<li>Para saber la probabilidad acumulada de obtener <em>q</em> <strong>o menos</strong> productos defectuosos si la máquina fabrica <em>size</em> objetos, con probabilidad de defecto <em>prob</em>. Hay probabiliad de 0.879 de obtener 3 o menos defectuosos si la máquina produce 10 objetos con probabilidad 0.2 de defecto. Es decir, es la suma de obtener exactamanete 0 defectuosos, más exactamente 1 defectuoso, más exactamnente 2 defectuosos, más exactamente 3 defectuosos.</li>
+<li>Para saber la probabilidad acumulada de obtener <em>q</em> <strong>o menos</strong> productos defectuosos si la máquina fabrica <em>size</em> objetos, con probabilidad de defecto <em>prob</em>.
+Hay probabiliad de 0.879 de obtener 3 o menos defectuosos si la máquina produce 10 objetos con probabilidad 0.2 de defecto.
+Es decir, es la suma de obtener exactamanete 0 defectuosos, más exactamente 1 defectuoso, más exactamnente 2 defectuosos, más exactamente 3 defectuosos.</li>
 </ul>
 <pre class="r"><code>pbinom(q = 3, size = 10, prob = 0.2)</code></pre>
 <pre><code>## [1] 0.8791261</code></pre>
@@ -88,7 +95,7 @@ Hay probabilidad de 0.0264 de obtener 5 defectuosos si producimos 10 con probabi
 La probabilidad de que X tome algún valor en un intervalo se encuentra integrando <code>f</code> en ese rango.</p>
 <p>Por ejemplo para la distribución uniforme en un intervalo <em>(a,b)</em> podemos ver que su pdf (o función de densidad de probabilidad) es<br />
 <span class="math inline">\(f(x) = \begin{cases}\frac{1}{b-a} &amp; \text{para } a \leq x \leq b \\ 0 &amp; \text{resto}\\ \end{cases}\)</span></p>
-<div id="distribucion-normal" class="section level3">
+<div id="distribución-normal" class="section level3">
 <h3>Distribución Normal</h3>
 <p>Para la distribución Normal tenemos los siguientes comandos:</p>
 <ul>
@@ -98,13 +105,15 @@ La probabilidad de que X tome algún valor en un intervalo se encuentra integran
 rnorm(n = 5, mean = 10, sd = 2)</code></pre>
 <pre><code>## [1]  8.747092 10.367287  8.328743 13.190562 10.659016</code></pre>
 <ul>
-<li>Para obtener el valor de la pdf de la normal para algún valor de X en particular. Recuerden que no es una probabilidad, solo es el valor de la función. Las probabilidad se encuentra integrando la función en el intervalo deseado.<br />
+<li>Para obtener el valor de la pdf de la normal para algún valor de X en particular.
+Recuerden que no es una probabilidad, solo es el valor de la función. Las probabilidad se encuentra integrando la función en el intervalo deseado.<br />
 Si graficáramos los valores de dnorm para el intervalo -3,3 obtendríamos la forma típica de la normal.</li>
 </ul>
 <pre class="r"><code>dnorm(0.5, mean = 0, sd = 1)</code></pre>
 <pre><code>## [1] 0.3520653</code></pre>
 <ul>
-<li>Para obtener la probabilidad acumulada hasta determinado punto. También conocido como <em>Función de Distribución</em> o <em>Función de Distribución Acumulada</em> <strong>C.D.F. por sus siglas en ingles</strong> Por ejemplo, cual es la probabilidad de obtener un valor igual o menos a 1.5 si tomamos una muestra de una normal estándar</li>
+<li>Para obtener la probabilidad acumulada hasta determinado punto. También conocido como <em>Función de Distribución</em> o <em>Función de Distribución Acumulada</em> <strong>C.D.F. por sus siglas en ingles</strong>
+Por ejemplo, cual es la probabilidad de obtener un valor igual o menos a 1.5 si tomamos una muestra de una normal estándar</li>
 </ul>
 <p><span class="math inline">\(N \sim (0,1)\)</span></p>
 <pre class="r"><code>pnorm(q = 1.5, mean = 0, sd = 1)</code></pre>

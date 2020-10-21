@@ -10,7 +10,7 @@ tags:
 - tidyverse
 categories: 
 - R
-thumbnailImage: https://lh3.googleusercontent.com/UrrvM2aSqKpt-kLI2PSzo5_ghVPqViZ5JoFw9fv8q8TaDoh-pJ3NwP6lstTNy9APJwRmqn9Lhks0eTAwmQ=w258-h195
+thumbnailImage: https://lh3.googleusercontent.com/VgGzoDts-2BBUgLrNH9tsnMvt23QHKhK0IBimzLr6BpFCHIs7siXVuRCbso953Tpi6n_4pWIgdpqKi0qqQ=w258-h195-rw
 thumbnailImagePosition: left
 summary: Introduccion a graficos en mapas con ggplot.
 ---
@@ -24,41 +24,47 @@ summary: Introduccion a graficos en mapas con ggplot.
 <pre><code>&gt; tidyverse
 &gt; rgdal
 &gt; rgeos</code></pre>
-<p>Tendremos como input las provincias, departamento, cantidad de focos por incendio, area afectada y año de inicio y fin. Cada observación es un incendio.</p>
+<p>Tendremos como input las provincias, departamento, cantidad de focos por incendio, area afectada y año de inicio y fin.
+Cada observación es un incendio.</p>
 <p>Para este ejemplo nos vamos a centrar en las provincias, los focos y su efecto sin importar la fecha.</p>
 <p>Empezamos cargando la data.</p>
 <pre class="r"><code>library(tidyverse)
 # Load Raw data
 raw &lt;- read.csv(&quot;../../static/post/2019-03-30-introduccion-a-graficos-en-mapas/focosincendio.csv&quot;, sep = &quot;;&quot;)
 raw &lt;- as.tibble(raw)</code></pre>
+<pre><code>## Warning: `as.tibble()` is deprecated as of tibble 2.0.0.
+## Please use `as_tibble()` instead.
+## The signature and semantics have changed, see `?as_tibble`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <pre class="r"><code>glimpse(raw)</code></pre>
-<pre><code>## Observations: 120
-## Variables: 11
-## $ pais_id         &lt;int&gt; 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32...
-## $ pais            &lt;fct&gt; Argentina, Argentina, Argentina, Argentina, Ar...
-## $ provincia_id    &lt;int&gt; 6, 14, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18,...
-## $ provincia       &lt;fct&gt; Buenos Aires, Córdoba, Corrientes, Corrientes,...
-## $ departamento_id &lt;int&gt; 833, 14, 56, 28, 28, 28, 70, 84, 84, 84, 112, ...
-## $ departamento    &lt;fct&gt; Tres Arroyos, Calamuchita, General Alvear, Con...
-## $ sup_afectada    &lt;dbl&gt; 2400.00, 50.00, 257.00, 130.00, 5.00, 146.00, ...
-## $ uni_med_id      &lt;fct&gt; ha, ha, ha, ha, ha, ha, ha, ha, ha, ha, ha, ha...
-## $ cant_focos      &lt;int&gt; 1, 1, 1, 2, 1, 1, 1, 3, 1, 3, 1, 1, 5, 2, 2, 1...
-## $ año_inicial     &lt;int&gt; 2014, 2015, 2012, 2012, 2013, 2015, 2012, 2012...
-## $ año_final       &lt;int&gt; 2014, 2015, 2012, 2012, 2013, 2015, 2012, 2012...</code></pre>
+<pre><code>## Rows: 120
+## Columns: 11
+## $ pais_id         &lt;int&gt; 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32,...
+## $ pais            &lt;chr&gt; &quot;Argentina&quot;, &quot;Argentina&quot;, &quot;Argentina&quot;, &quot;Argentina&quot;,...
+## $ provincia_id    &lt;int&gt; 6, 14, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, ...
+## $ provincia       &lt;chr&gt; &quot;Buenos Aires&quot;, &quot;Córdoba&quot;, &quot;Corrientes&quot;, &quot;Corriente...
+## $ departamento_id &lt;int&gt; 833, 14, 56, 28, 28, 28, 70, 84, 84, 84, 112, 112, ...
+## $ departamento    &lt;chr&gt; &quot;Tres Arroyos&quot;, &quot;Calamuchita&quot;, &quot;General Alvear&quot;, &quot;C...
+## $ sup_afectada    &lt;dbl&gt; 2400.00, 50.00, 257.00, 130.00, 5.00, 146.00, 30.00...
+## $ uni_med_id      &lt;chr&gt; &quot;ha&quot;, &quot;ha&quot;, &quot;ha&quot;, &quot;ha&quot;, &quot;ha&quot;, &quot;ha&quot;, &quot;ha&quot;, &quot;ha&quot;, &quot;ha...
+## $ cant_focos      &lt;int&gt; 1, 1, 1, 2, 1, 1, 1, 3, 1, 3, 1, 1, 5, 2, 2, 1, 3, ...
+## $ año_inicial     &lt;int&gt; 2014, 2015, 2012, 2012, 2013, 2015, 2012, 2012, 201...
+## $ año_final       &lt;int&gt; 2014, 2015, 2012, 2012, 2013, 2015, 2012, 2012, 201...</code></pre>
 <p>Exploramos un poco el dataset. Lo que nos vas a interesar represetnar es la segunda parte del código. Variables agregadas a nivel provincia.</p>
 <pre class="r"><code># Generate Summary to Explore
 sum_year &lt;- raw %&gt;% group_by(año_inicial) %&gt;%
   summarise(focos = sum(cant_focos), sup = sum(sup_afectada, na.rm = TRUE)) %&gt;%
-  mutate(sup_prom = sup/focos)
-
-# Actual data to be plotted
+  mutate(sup_prom = sup/focos)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code># Actual data to be plotted
 sum_prov &lt;- raw %&gt;% group_by(provincia) %&gt;%
   summarise(focos = sum(cant_focos), sup = sum(sup_afectada, na.rm = TRUE)) %&gt;%
   mutate(sup_prom = sup/focos) %&gt;%
   arrange(desc(sup_prom)) %&gt;%
-  mutate(provincia = as.character(provincia))
-
-head(sum_prov)</code></pre>
+  mutate(provincia = as.character(provincia))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre class="r"><code>head(sum_prov)</code></pre>
 <pre><code>## # A tibble: 6 x 4
 ##   provincia    focos   sup sup_prom
 ##   &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;
@@ -74,9 +80,11 @@ head(sum_prov)</code></pre>
 <div id="mapa" class="section level1">
 <h1>Mapa</h1>
 <p>Necesitamos un <strong>ShapeFile</strong> de Argentina, que basicamente es el tipo de archivo que se usa para representar mapas en gráficos. Contiene divisiones del país (provincias) con sus respectivas coordenadas y nombres.</p>
-<p>Utilizaremos data descargada del siguiente link. url &lt;- “<a href="http://biogeo.ucdavis.edu/data/diva/adm/ARG_adm.zip" class="uri">http://biogeo.ucdavis.edu/data/diva/adm/ARG_adm.zip</a>”</p>
+<p>Utilizaremos data descargada del siguiente link.
+url &lt;- “<a href="http://biogeo.ucdavis.edu/data/diva/adm/ARG_adm.zip" class="uri">http://biogeo.ucdavis.edu/data/diva/adm/ARG_adm.zip</a>”</p>
 <p>Lo descargué y deszipee en la computadora. Lo leemos con una librería particular <em>RGDAL</em>.</p>
-<p>dsn contiene la ruta a la carpeta con los archivos del shapefile. Layer apunta a al set de archivos que contiene la data que queremos. Generalmente hay otros sets con información no relevante al gráfico.</p>
+<p>dsn contiene la ruta a la carpeta con los archivos del shapefile.
+Layer apunta a al set de archivos que contiene la data que queremos. Generalmente hay otros sets con información no relevante al gráfico.</p>
 <pre class="r"><code>argentina &lt;- rgdal::readOGR(dsn = &quot;../../static/post/2019-03-30-introduccion-a-graficos-en-mapas/ARG_adm&quot;, layer = &quot;ARG_adm1&quot;, use_iconv=TRUE, encoding=&#39;UTF-8&#39;)</code></pre>
 <pre><code>## OGR data source with driver: ESRI Shapefile 
 ## Source: &quot;D:\Data Science\StatsBlog\blogStats\static\post\2019-03-30-introduccion-a-graficos-en-mapas\ARG_adm&quot;, layer: &quot;ARG_adm1&quot;
@@ -106,7 +114,8 @@ head(sum_prov)</code></pre>
 ## 3                                                        El Chaco|Presidente Juan Peron
 ## 4                                                                                  &lt;NA&gt;
 ## 5 BUENOS AIRES D.F.|Capital Federal|Distretto Federale|Distrito Federal|Federal Capital</code></pre>
-<p>Este tipo de archivos tiene una estructura complicada y hay varias librerías útiles. Con el fin de mantenernos dentro del tidyverse usaremos el enfoque de ggplot por capaz para graficar. Primero necesitamos llevar la información del shapefile a un dataframe.</p>
+<p>Este tipo de archivos tiene una estructura complicada y hay varias librerías útiles. Con el fin de mantenernos dentro del tidyverse usaremos el enfoque de ggplot por capaz para graficar.
+Primero necesitamos llevar la información del shapefile a un dataframe.</p>
 <pre class="r"><code># Transformo a dataframe.
 argentina_df &lt;- broom::tidy(argentina)</code></pre>
 <pre><code>## Regions defined for each Polygons</code></pre>
@@ -114,7 +123,7 @@ argentina_df &lt;- broom::tidy(argentina)</code></pre>
 head(argentina_df)</code></pre>
 <pre><code>## # A tibble: 6 x 7
 ##    long   lat order hole  piece group id   
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;lgl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;lgl&gt; &lt;fct&gt; &lt;fct&gt; &lt;chr&gt;
 ## 1 -60.2 -33.3     1 FALSE 1     0.1   0    
 ## 2 -60.2 -33.3     2 FALSE 1     0.1   0    
 ## 3 -60.2 -33.3     3 FALSE 1     0.1   0    
@@ -124,14 +133,17 @@ head(argentina_df)</code></pre>
 <p>Ahora genero un diccionario de ids con su respectiva provincia para poder linkear mi mapa con la data de incendios.</p>
 <pre class="r"><code>ids &lt;- cbind.data.frame(provincia = as.character(argentina@data$NAME_1), id = as.character(rownames(argentina@data))) %&gt;%
   mutate(provincia = as.character(provincia), id = as.character(id))</code></pre>
-<p>El dataframe generado a partir del shapefile tiene las coordenadas que forman cada provincia y el id. Ahora lo que haremos es pegarle la data de incendios para poder utilizarla sobre el mapa. Está generado el log de los focos porque en una prueba intenté usar la data transformada para suavizar outliers pero no se verá en esta versión.</p>
+<p>El dataframe generado a partir del shapefile tiene las coordenadas que forman cada provincia y el id. Ahora lo que haremos es pegarle la data de incendios para poder utilizarla sobre el mapa.
+Está generado el log de los focos porque en una prueba intenté usar la data transformada para suavizar outliers pero no se verá en esta versión.</p>
 <pre class="r"><code># Agrego provincia por ID y data de incendios a la data del shapefile.
 argentina_df2 &lt;- argentina_df %&gt;% left_join(ids, by = &quot;id&quot;) %&gt;%
   left_join(sum_prov, by = &quot;provincia&quot;) %&gt;%
   mutate(focos = ifelse(is.na(focos),0.5,focos),
          logfocos = log(focos), 
          logfocos2 = logfocos - min(logfocos))</code></pre>
-<p>Por ahora vamos a poder ser capaces de graficar un mapa de argentina con sus provincias delimitadas y pintarlas según la cantidad de focos de incendio por ejemplo. Pero además vamos a querer agregar alguna forma sobre cada provincia. Por ejemplo un punto de distinto tamaño según el area afectada por cada foco en promedio. Para eso necesitamos localizar el centroide de cada poligono, es decir, el centro de cada provincia. Para ellos usamos la librería <strong>RGEOS</strong> Luego a cada centro le agrego la data que voy a querer usar. En este caso la superficie promedio afectada por foco de cada provincia.</p>
+<p>Por ahora vamos a poder ser capaces de graficar un mapa de argentina con sus provincias delimitadas y pintarlas según la cantidad de focos de incendio por ejemplo. Pero además vamos a querer agregar alguna forma sobre cada provincia. Por ejemplo un punto de distinto tamaño según el area afectada por cada foco en promedio. Para eso necesitamos localizar el centroide de cada poligono, es decir, el centro de cada provincia.
+Para ellos usamos la librería <strong>RGEOS</strong>
+Luego a cada centro le agrego la data que voy a querer usar. En este caso la superficie promedio afectada por foco de cada provincia.</p>
 <pre class="r"><code># Calculo el centro de cada poligono (provincias)
 # para obtener el &quot;centro&quot; donde iran los puntos o nombres.
 centros &lt;- rgeos::gCentroid(argentina, byid = TRUE) %&gt;%
@@ -148,7 +160,9 @@ centros2 &lt;- centros %&gt;% left_join(ids, by = &quot;id&quot;) %&gt;%
 </div>
 <div id="grafico" class="section level1">
 <h1>Grafico!</h1>
-<p>Ya tenemos todo. Tenemos el mapa, tenemos la cantidad de focos de incendio por provincia y tenemos el centro de cada provincia donde vamos a incluir un punto que muestra la intensidad de los incendios. Simplemente graficamos sigueindo la lógica por capas de ggplot. Las provincias sin puntos son aquellas que no tuvieron ningún incendio.</p>
+<p>Ya tenemos todo. Tenemos el mapa, tenemos la cantidad de focos de incendio por provincia y tenemos el centro de cada provincia donde vamos a incluir un punto que muestra la intensidad de los incendios.
+Simplemente graficamos sigueindo la lógica por capas de ggplot.
+Las provincias sin puntos son aquellas que no tuvieron ningún incendio.</p>
 <pre class="r"><code>ggplot() +
   geom_polygon(data = argentina_df2, aes(x=long, y = lat, group = group,  fill = focos), color = &quot;white&quot;) + # mapa de argentina
   # coloreado segun cantidad de focos

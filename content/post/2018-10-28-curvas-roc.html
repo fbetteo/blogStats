@@ -3,7 +3,7 @@ title: "Curvas ROC"
 author: ""
 date: '2018-10-28'
 slug: curvas-roc
-thumbnailImage: https://lh3.googleusercontent.com/ltt1jJAJ-hZsUNTKq_qI_x9OxIssC29pNyhO-iP0IbQ4eyIAsM-JCu2A2sxLIMXLLUP-nkzHNrJbJOxTvQ=w221-h220
+thumbnailImage: https://lh3.googleusercontent.com/tLg0Pr_VbROknZC9tfWmkQRxtItwLZEalRMnszkTwnROkVlJDOC4QUsUnJLdfL8s6A1BhuW8UGIOzoLS7Q=w221-h220-rw
 tags:
 - R
 - estadistica
@@ -47,7 +47,9 @@ roc(df[,1],  fit , percent=F,   boot.n=1000, ci.alpha=0.9, stratified=FALSE, plo
 ## Data: fit in 19 controls (df[, 1] 0) &lt; 13 cases (df[, 1] 1).
 ## Area under the curve: 0.9433
 ## 95% CI: 0.8695-1 (DeLong)</code></pre>
-<p>Básicamente entrenamos un modelo logístico y graficamos la curva ROC prediciendo sobre el mismo dataset con el que fue entrenado. No es lo adecuado pero dadas las pocas observaciones y el propósito explicativo no lo tomamos como un problema. La curva ROC es la más oscura y como vemos empieza en (0,0) y termina en el (1,1). El eje X es 1 - Especificidad (Falsos Negativos) y el eje Y es Sensitividad (Verdaderos Positivos) por lo tanto lo deseable es estar lo más arriba a la izquierda posible. El punto (0,1) sería óptimo ya que habría 0 falsos negativos y 100% de verdaderos positivos.</p>
+<p>Básicamente entrenamos un modelo logístico y graficamos la curva ROC prediciendo sobre el mismo dataset con el que fue entrenado. No es lo adecuado pero dadas las pocas observaciones y el propósito explicativo no lo tomamos como un problema.
+La curva ROC es la más oscura y como vemos empieza en (0,0) y termina en el (1,1).
+El eje X es 1 - Especificidad (Falsos Negativos) y el eje Y es Sensitividad (Verdaderos Positivos) por lo tanto lo deseable es estar lo más arriba a la izquierda posible. El punto (0,1) sería óptimo ya que habría 0 falsos negativos y 100% de verdaderos positivos.</p>
 <p>Lo que representa la curva es la combinación de Sensitividad y (1 - especificidad) para varios puntos de corte. Recordemos que la regresión logística devuelve un valor entre 0 y 1 por lo tanto hay que determinar en qué valor empezamos a considerar una predicción como positiva o negativa. En este caso positivo sería tener un valor de 1 en am, por lo tanto tener caja automática. Cada punto de la curva corresponde a algún punto de corte. Como decíamos antes, el mejor debería ser el más “arriba a la izquierda” aunque depende el problema eso puede cambiar, dependiendo del costo de equivocarse en uno u otro sentido.</p>
 <p>El peor escenario es que la curva siga a la diagonal, lo que equivaldría a ser iguales a un modelo eligiendo siempre la clase mayoritaria, totalmente inútil. Si estuviera por debajo de la diagonal, sería peor aún, pero bastaría con invertir las predicciones para pasar a estar por encima. Un viejo truco no muy científico.</p>
 <p>El área bajo la curva (AUC) es una medida resumen de la curva ROC ya que justamente describe el área entre la curva ROC y la diagonal. Valores mayores se corresponden con curvas ROC más alejadas de la diagonal y por lo tanto que separan mejor a la clase dependiente. Es útil para comparar modelos.</p>

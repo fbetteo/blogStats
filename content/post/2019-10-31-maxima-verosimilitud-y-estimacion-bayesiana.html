@@ -10,7 +10,7 @@ tags:
 categories:
 - estadistica
 - R
-thumbnailImage: https://lh3.googleusercontent.com/nhlc2ATujz4P9pWYNtDaIjekQkYVux3yLq9NLVo-768-FxONnhevkYazCYooWaNyjdusTUn7NEcYwIdigA=w287-h176
+thumbnailImage: https://lh3.googleusercontent.com/Jn2i1YphKhAbS_1w3KSotp7L0BZA3GguSSAEUCCyH9V4g2PtunCuoE0GlY-PkdrsLERb08KiSsNvIMPqpQ=w260-h173-rw
 thumbnailImagePosition: left
 summary: Acerca de MLE y Estimadores bayesianos para estimar un parámetro desconocido.
 ---
@@ -26,7 +26,7 @@ summary: Acerca de MLE y Estimadores bayesianos para estimar un parámetro desco
 Nosotros no sabemos el valor de <span class="math inline">\(\mu\)</span> pero podemos tener una idea de qué valores puede tomar y tener en mente una distribución prior de este parámetro <span class="math inline">\(\epsilon(\theta)\)</span>. Para el ejemplo sería <span class="math inline">\(\epsilon(\mu)\)</span>. Podemos suponer que <span class="math inline">\(\mu\)</span> se distribuye como una uniforme (0,1) por decir algo.<br />
 El concepto radica en tener una distribución prior para los parámetros de la distribución de la cual tomamos muestras aleatorias.</p>
 </div>
-<div id="distribucion-posterior" class="section level2">
+<div id="distribución-posterior" class="section level2">
 <h2>Distribución Posterior</h2>
 <p>Volviendo a nuestra muestra <span class="math inline">\(X_1...X_n\)</span> proveniente de <span class="math inline">\(f(x|\theta)\)</span>, podemos decir, debido a que son observaciones aleatorias e independientes que su distribución conjunta es <span class="math inline">\(f_n(x_1...X_n|\theta) = f(x_1|\theta)...f(x_n|\theta)\)</span>, que lo podemos escribir como <span class="math inline">\(f_n(x|\theta)\)</span>.<br />
 Dado que suponemos que <span class="math inline">\(\theta\)</span> proviene de una distribución <span class="math inline">\(\epsilon(\theta)\)</span>, la pdf conjunta <span class="math inline">\(f_n(x|\theta)\)</span> tiene que ser vista como la pdf conjunta condicional de<span class="math inline">\(X_1...X_n\)</span> para un valor particular de <span class="math inline">\(\theta\)</span>.<br />
@@ -52,7 +52,7 @@ Supongamos que tomamos observaciones <span class="math inline">\(X_1...X_n\)</sp
 <p>Según la distribución de la que provengan las observaciones hay distintas distribuciones conjugadas que son las más convenientes para ese caso.</p>
 </div>
 </div>
-<div id="estimacion-de-parametros" class="section level1">
+<div id="estimación-de-parámetros" class="section level1">
 <h1>Estimación de parámetros</h1>
 <p>La idea es estimar algún parámetro de la distribución de la cual se obtienen los datos observados. El valor estimado del parámetro va a depender de dos cosas:</p>
 <ul>
@@ -60,7 +60,7 @@ Supongamos que tomamos observaciones <span class="math inline">\(X_1...X_n\)</sp
 <li>De la muestra. El valor estimado va a depender de los datos aleatorios que tengamos de la distribución.</li>
 </ul>
 <p>Como el estimador depende de la muestra podemos verlo a su vez como una variable aleatoria.</p>
-<div id="funcion-de-perdida" class="section level2">
+<div id="función-de-pérdida" class="section level2">
 <h2>Función de pérdida</h2>
 <p>Lo que queremos de un estimador es que devuelva un valor estimado “a” para el parámetro lo más cercano posible al verdadero valor de <span class="math inline">\(\theta\)</span>. La función de pérdida es una función que cuantifica esto.
 <span class="math display">\[ L(\theta,a)\]</span>
@@ -78,7 +78,7 @@ El estimador bayesiano, que minimiza la pérdida esperada para cualquier set de 
 está demostrado que la pérdida es mínima cuando <span class="math inline">\(a\)</span> es la media de la distribución posterior <span class="math inline">\(E(\theta|x)\)</span>.</p>
 <p>Dijimos que el valor del estimador bayesiano va a depender de la distribución prior elegida. Esto es cierto, pero hay que tener en cuenta que para muestras grandes las diferencias empiezan a achicarse y los estimadores bayesianos provenientes de distintos priors empiezan a converger en la mayoría de los casos.</p>
 </div>
-<div id="estimadores-de-maxima-verosimilitud" class="section level2">
+<div id="estimadores-de-máxima-verosimilitud" class="section level2">
 <h2>Estimadores de Máxima Verosimilitud</h2>
 <p>Los estimadores de máxima verosimilitud (MLE) son muy comunmente usados para estimar parámetros desconocidos ya que más allá de la discusión casi filosófica de “bayesianos vs frecuentistas”, sirven para estimar sin tener que definir una función de pérdida ni una distribución prior para los parámetros. Esto último es importante ya que para casos donde se necesita estimar un vector de parámetros, la distribución prior debe ser una multivariada que englobe a todos y eleva la complejidad del proceso bayesiano ampliamente.<br />
 Para muestras chicas MLE suele hacer un trabajo decente y para muestras grandes suele ser excelente por lo que se llega a resultados muy similares a través de un proceso más directo y más sencillo.</p>

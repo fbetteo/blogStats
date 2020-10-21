@@ -13,7 +13,7 @@ tags:
 categories:
 - R
 coverImage: https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/images/649694main_pia15417-43_full.jpg
-thumbnailImage: https://lh3.googleusercontent.com/iAbeDudWjqCRe2WIRN6Z9UQFLtGfEXSCevQjT8p13BBYx5eXYw7ThHbsXL-gdE_VnUjZ5QjeLcN4mETILw=w191-h220
+thumbnailImage: https://lh3.googleusercontent.com/LMR8eyUF0ocCRmnCsqfcD_z2JM1YH78BZkkh-Rza3-S3irCmThYSMC_n3wTbyTenXn74_AOSnZJjS5INCg=w191-h220-rw
 thumbnailImagePosition: left
 summary: "La idea de este post es introducirlos a la familia de funciones **MAP**, propias de [tidyverse](https://www.tidyverse.org/)."
 ---
@@ -21,7 +21,7 @@ summary: "La idea de este post es introducirlos a la familia de funciones **MAP*
 
 <div id="TOC">
 <ul>
-<li><a href="#introduccion">Introducción</a></li>
+<li><a href="#introducción">Introducción</a></li>
 <li><a href="#consistencia-entre-variantes">Consistencia entre variantes</a><ul>
 <li><a href="#map_if">map_if</a></li>
 <li><a href="#map_at">map_at</a></li>
@@ -30,9 +30,11 @@ summary: "La idea de este post es introducirlos a la familia de funciones **MAP*
 </ul>
 </div>
 
-<div id="introduccion" class="section level1">
+<div id="introducción" class="section level1">
 <h1>Introducción</h1>
-<p>La idea de este post es introducirlos a la familia de funciones <strong>MAP</strong>, propias de <a href="https://www.tidyverse.org/">tidyverse</a>. A grandes rasgos son un remplazo MUY útil a la familia de funciones <strong>APPLY</strong>, propias de R base. Estas últimas se suelen enseñar en todos los cursos introductorios de R, como la manera correcta de aplicar funciones a listas o columnas de dataframes. No es que no sirvan, pero dado el surgimiento de tantas librerías que facilitan el manejo de la data, no tiene sentido seguir insistiendo con ellas dado que hay nuevas con mayor flexibilidad, muy sencillas de utilizar y mucho más amenas.</p>
+<p>La idea de este post es introducirlos a la familia de funciones <strong>MAP</strong>, propias de <a href="https://www.tidyverse.org/">tidyverse</a>.
+A grandes rasgos son un remplazo MUY útil a la familia de funciones <strong>APPLY</strong>, propias de R base. Estas últimas se suelen enseñar en todos los cursos introductorios de R, como la manera correcta de aplicar funciones a listas o columnas de dataframes.
+No es que no sirvan, pero dado el surgimiento de tantas librerías que facilitan el manejo de la data, no tiene sentido seguir insistiendo con ellas dado que hay nuevas con mayor flexibilidad, muy sencillas de utilizar y mucho más amenas.</p>
 <ul>
 <li>Lo mejor que tienen las funciones MAP es:
 <ul>
@@ -42,11 +44,10 @@ summary: "La idea de este post es introducirlos a la familia de funciones **MAP*
 </ul></li>
 </ul>
 <p>Empecemos.</p>
-<pre class="r"><code>library(purrr) # MAP está contenida acá</code></pre>
-<pre><code>## Warning: package &#39;purrr&#39; was built under R version 3.4.4</code></pre>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.4.4</code></pre>
-<p>Como regla general, MAP aplica funciones a elementos de una lista o de un vector. Su output es otra lista. Muy similar a lapply().</p>
+<pre class="r"><code>library(purrr) # MAP está contenida acá
+library(dplyr)</code></pre>
+<p>Como regla general, MAP aplica funciones a elementos de una lista o de un vector.
+Su output es otra lista. Muy similar a lapply().</p>
 <pre class="r"><code>l1 &lt;- list( a= c(100,200), b = c(8,10))
 map(l1, max)</code></pre>
 <pre><code>## $a
@@ -62,7 +63,9 @@ map(l1, max)</code></pre>
 ## 
 ## $b
 ## [1] 10</code></pre>
-<p>Aplicando funciones a elementos de un vector. Cada numero de 1 a 5 es usado como primer input de la funcion <em>rnorm</em>, sd y n son otros parámetros de rnorm. El resultado de nuevo es una lista.</p>
+<p>Aplicando funciones a elementos de un vector.
+Cada numero de 1 a 5 es usado como primer input de la funcion <em>rnorm</em>, sd y n son otros parámetros de rnorm.
+El resultado de nuevo es una lista.</p>
 <pre class="r"><code>set.seed(1)
 1:5 %&gt;% map(., rnorm,sd =2, n=5)</code></pre>
 <pre><code>## [[1]]
@@ -85,7 +88,8 @@ map(l1, max)</code></pre>
 <p>Por ahora solo vimos la versión de lapply en MAP, pero esta familia tiene varios integrantes.</p>
 <div id="map_if" class="section level2">
 <h2>map_if</h2>
-<p>Ejecuta la función solo si el elemento cumple determinada condición. Devuelve una lista.</p>
+<p>Ejecuta la función solo si el elemento cumple determinada condición.
+Devuelve una lista.</p>
 <pre class="r"><code>l2 &lt;- list(a = 213, b = &quot;string&quot;, c = c(1,2))
 map_if(l2, is.numeric, function(x) x*2)</code></pre>
 <pre><code>## $a
@@ -96,11 +100,13 @@ map_if(l2, is.numeric, function(x) x*2)</code></pre>
 ## 
 ## $c
 ## [1] 2 4</code></pre>
-<p>El output es la lista original con los elementos correspondientes transformados. Vemos que no hubo ningún problema con “string” ya que fue omitido.</p>
+<p>El output es la lista original con los elementos correspondientes transformados. Vemos que no hubo ningún problema con
+“string” ya que fue omitido.</p>
 </div>
 <div id="map_at" class="section level2">
 <h2>map_at</h2>
-<p>Ejecuta la función solo en los elementos que seleccionemos. No hace falta que cumplan alguna condición. Misma función de antes pero solo aplicada al tercer elemento. Devuelve una lista.</p>
+<p>Ejecuta la función solo en los elementos que seleccionemos. No hace falta que cumplan alguna condición.
+Misma función de antes pero solo aplicada al tercer elemento. Devuelve una lista.</p>
 <pre class="r"><code>map_at(l2, c(3), function(x) x*2)</code></pre>
 <pre><code>## $a
 ## [1] 213
@@ -110,7 +116,8 @@ map_if(l2, is.numeric, function(x) x*2)</code></pre>
 ## 
 ## $c
 ## [1] 2 4</code></pre>
-<p>Variantes súper útiles que permiten no utilizar loops y que dan mucho control de manera sencilla sobre las funciones a ejecutar. Por otra parte, en términos de consistencia, la estructura es siempre la misma. El primer argumento es x= y luego viene la función a aplicar. En el caso de map_if y map_at entre medio surge el condicionante. Si recuerdan, la familia apply cambia el orden de los inputs según si es apply, lapply, mapply, sapply…</p>
+<p>Variantes súper útiles que permiten no utilizar loops y que dan mucho control de manera sencilla sobre las funciones a ejecutar. Por otra parte, en términos de consistencia, la estructura es siempre la misma. El primer argumento es x= y luego viene la función a aplicar. En el caso de map_if y map_at entre medio surge el condicionante.
+Si recuerdan, la familia apply cambia el orden de los inputs según si es apply, lapply, mapply, sapply…</p>
 </div>
 </div>
 <div id="flexibilidad-del-output" class="section level1">
