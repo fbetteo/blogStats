@@ -1,0 +1,113 @@
+---
+title: Softmax vs sigmoid
+author: ''
+date: '2021-01-18'
+slug: softmax-vs-sigmoid.en-us
+categories:
+  - estadistica
+  - Python
+  - machine learning
+tags:
+  - estadistica
+  - Python
+  - AI
+  - Machine Learning
+thumbnailImage: https://lh3.googleusercontent.com/nfHMd9voBvXDKziowr-dYKDIPTQwb0og9vQ3GUdbEyIt95UTfag3ajjsGJcoB-HCC2tt683hiZ8Xo2vVEw=w328-h153-rw
+thumbnailImagePosition: left
+summary: Softmax vs Sigmoid. How weights are updated in the last layer.
+---
+
+
+
+<pre class="r"><code>library(reticulate)</code></pre>
+<p>When using Neural Nets for a multiclass classification problem it’s standard to have a softmax layer at the end to normalize the probabilities for each class. This means that the output of our net is a vector of probabilities (one for each class) that sums to 1. If there isn’t a softmax layer at the end, then the net will output a value in each of the last cells (one for each class) but without a delimited range. Just a set of numbers where usually the highest is the one with the most probable class but it’s not obvious how to value the differences between them.</p>
+<p>So, you have a ordered set of numbers, you know which one is the most probable but you want to transform that into clear probabilities. You use the softmax layer.</p>
+<p>You could use a sigmoid activation function in the last cell to have <em>individual</em> probabilities. For each class it transformd the output of the net into a probability. However the sum of those probabilities is not guaranteed to sum 1, actually it won’t in practice. It’s a simple proxy but you can get better intuitions with softmax.</p>
+<p>We will compare how these two approaches affect the last group of weights by inspecting the gradient after calculating the loss for an observation.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>I’m using the <em>reticulate</em> package in R to include Python code in Rmarkdown. Pretty nice.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>We import pytorch to handle tensors and neural net functions.</p>
+<pre class="python"><code>import numpy as np
+import torch
+import torch.nn.functional as F</code></pre>
+<pre class="python"><code>torch.manual_seed(99)</code></pre>
+<pre><code>## &lt;torch._C.Generator object at 0x000000002CEFD490&gt;</code></pre>
+<ul>
+<li>1 obs<br />
+</li>
+<li>5 features (X)<br />
+</li>
+<li>3 possible classes (index 1 = class 2)<br />
+</li>
+<li>W. 3 output cells, each one with 5 weights (one per feature)<br />
+</li>
+<li>W1 = W2 because we run it twice (two scenarios) and we can re use the same weights because of the gradient calculated</li>
+</ul>
+<pre class="python"><code># 5 features, 3 clases, 1 ejemplo
+X = torch.randn(5)
+W1 = torch.randn(3,5)
+W2 = W1.detach().clone() # una matriz de perdida por loss function
+y = torch.tensor([1]) # (el ejemplo es de la clase 2)</code></pre>
+<p>We transform everything to positives to make it cleaner and we add the requires_grad characteristic
+that tells pytorch that those tensors need the gradient backpropagated during training</p>
+<pre class="python"><code>X = X.abs()
+W1 = W1.abs().requires_grad_()
+W2 = W2.abs().requires_grad_()</code></pre>
+<p>We define both losses (softmax and sigmoid).<br />
+<em>Softmax</em></p>
+<ul>
+<li>Weights * input: cell value</li>
+<li>we change dimension of output to use it as input of softmax</li>
+<li>We calculate the softmax (probabilities of each class that sum 1)</li>
+<li>Apply log because we will use the negative log likelihood</li>
+<li>We calculate the loss (log of softmax probabilities vs actual class)</li>
+</ul>
+<p><em>Sigmoid</em></p>
+<ul>
+<li>Weights * input: cell value</li>
+<li>we change dimension of output to use it as input of sigmoid</li>
+<li>We calculate the sigmoid (probabilities of each class individually)</li>
+<li>Apply log because we will use the negative log likelihood</li>
+<li>We calculate the loss (log of sigmoid probabilities vs actual class)</li>
+</ul>
+<pre class="python"><code># funcion con softmax al final
+def softmax_loss(W):
+    z = W @ X
+    z = z.unsqueeze(0)
+    z = torch.softmax(z, dim=1)
+    z = torch.log(z)
+    return F.nll_loss(z, y)
+
+# funcion con una sigmoidea por activacion
+def sigmoid_loss(W):
+    z = W @ X
+    z = z.unsqueeze(0)
+    z = torch.sigmoid(z)
+    z = torch.log(z)
+    return F.nll_loss(z, y)</code></pre>
+<p>We run the forward pass and calculate the loss for the sigmoid first. Then we look for the gradient.<br />
+As we can see in the results, only the weights that go to the correct class’ output cell are modified. Classes one and three rest untouched. This is because the sigmoid activation just have the individual weights (and cross entropy only look to the correct class)</p>
+<pre class="python"><code>out_sigmoid = sigmoid_loss(W1)
+out_sigmoid.backward()
+W1.grad</code></pre>
+<pre><code>## tensor([[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
+##         [-0.0452, -0.0867, -0.0564, -0.0492, -0.0549],
+##         [ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000]])</code></pre>
+<p>On the contrary, when running the same net but with softmax layer we see that all the weights are updated. The correct class have gradient with the same sign that for the sigmoid example but the other two classes have in this case opposite sign gradients (which makes sense since you want them to go in the other direction).<br />
+This happens because the softmax includes the other classes in each cell since they are needed to normalize and return probabilities that sum up to 1.</p>
+<pre class="python"><code>out_softmax = softmax_loss(W2)
+out_softmax.backward()
+W2.grad</code></pre>
+<pre><code>## tensor([[ 0.5393,  1.0346,  0.6731,  0.5868,  0.6552],
+##         [-0.5576, -1.0697, -0.6959, -0.6066, -0.6775],
+##         [ 0.0183,  0.0351,  0.0228,  0.0199,  0.0222]])</code></pre>
+<p>This is a simple case with just one layer of weights so we can clearly see this. If you had a fully connected net with more layers, this is valid just for the last one because the gradient is backpropagated and the weights from “other paths” still affect the cell that corresponds to the second class.</p>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>The net should evolve during training in a similar way with both last layer activations but the way they do it is different and we try to show in here why. In the end, the sigmoid still reflects the preference for one of the classes and during each epoch it will go through the desired path but just updating some of the weights and not all at the same time.</p>
+</div>

@@ -12,7 +12,7 @@ tags:
 categories:
 - R
 - Python
-thumbnailImage: https://lh3.googleusercontent.com/f7uoZeNfyE1QhvX_84hm9fJcmulJCq1OzSKOcW6GaiTJNyOBrgoFUMp_WBFCIbOdhwIhSOUzbcH64ZcHlQ=w328-h153-rw
+thumbnailImage: https://lh3.googleusercontent.com/nfHMd9voBvXDKziowr-dYKDIPTQwb0og9vQ3GUdbEyIt95UTfag3ajjsGJcoB-HCC2tt683hiZ8Xo2vVEw=w328-h153-rw
 thumbnailImagePosition: left
 summary: Aprendizajes y recordatorios de la transicion de R a Python.
 ---
@@ -38,7 +38,7 @@ pickle.dump(OBJETO, open(&quot;working/qualifying.p&quot;, &quot;wb&quot;))
 # importar
 leer = pd.read_pickle(&#39;archivo.p&#39;)</code></pre>
 </div>
-<div id="seleccionar-columas-de-dataframe-por-patron-en-el-nombre" class="section level3">
+<div id="seleccionar-columas-de-dataframe-por-patrón-en-el-nombre" class="section level3">
 <h3>Seleccionar columas de dataframe por patrón en el nombre</h3>
 <p>Para seleccionar columnas basados en si contiene determinado string en su nombre y no solo por nombre
 completo o por índice.</p>
@@ -152,7 +152,7 @@ rectangles_df.apply(multiplicar_2)
 <pre class="python"><code># Equivalente a  groupby(raceid) %&gt;% summarise(newcol = min(best_qualy_ms))
 min_qualy_by_race = qualifying.groupby(&#39;raceId&#39;)[&#39;best_qualy_ms&#39;].min()</code></pre>
 </div>
-<div id="by-group-mas-complejo-con-calculo-acumulado-en-determinada-ventana-de-obs.-por-cada-fila" class="section level3">
+<div id="by-group-más-complejo-con-calculo-acumulado-en-determinada-ventana-de-obs.-por-cada-fila" class="section level3">
 <h3>By Group más complejo, con calculo acumulado en determinada ventana de obs. por cada fila</h3>
 <pre class="python"><code># suma acumulada de los ultimos 4 periodos (rolling)
 # luego el gorupby(level = 0).shift() es para lagearlo por grupo
