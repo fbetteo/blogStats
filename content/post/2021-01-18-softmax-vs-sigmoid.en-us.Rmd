@@ -18,20 +18,22 @@ summary: Softmax vs Sigmoid. How weights are updated in the last layer.
 ---
 
 
-
-```{r message=FALSE, warning=FALSE}
-library(reticulate)
-```
-When using Neural Nets for a multiclass classification problem it's standard to have a softmax layer at the end to normalize the probabilities for each class. This means that the output of our net is a vector of probabilities (one for each class) that sums to 1. If there isn't a softmax layer at the end, then the net will output a value in each of the last cells (one for each class) but without a delimited range. Just a set of numbers where usually the highest is the one with the most probable class but it's not obvious how to value the differences between them.
+When using Neural Nets for a multiclass classification problem it's standard to have a softmax layer at the end to normalize the probabilities for each class. This means that the output of our net is a vector of probabilities (one for each class) that sums to 1. If there isn't a softmax layer at the end, then the net will output a value in each of the last cells (one for each class) but without a delimited range.  
+Just a set of numbers where usually the highest is the one with the most probable class but it's not obvious how to value the differences between them.
 
 So, you have a ordered set of numbers, you know which one is the most probable but you want to transform that into clear probabilities. You use the softmax layer. 
 
-You could use a sigmoid activation function in the last cell to have *individual* probabilities. For each class it transformd the output of the net into a probability. However the sum of those probabilities is not guaranteed to sum 1, actually it won't in practice. It's a simple proxy but you can get better intuitions with softmax.
+You could use a sigmoid activation function in the last cell to have *individual* probabilities. For each class, it transforms the output of the net into a probability. However the sum of those probabilities is not guaranteed to sum 1, actually it won't in practice. It's a simple proxy but you can get better intuitions with softmax.
 
 We will compare how these two approaches affect the last group of weights by inspecting the gradient after calculating the loss for an observation.
 
 >>> I'm using the *reticulate* package in R to include Python code in Rmarkdown. Pretty nice.
 
+
+
+```{r message=FALSE, warning=FALSE}
+library(reticulate)
+```
 
 We import pytorch to handle tensors and neural net functions.
 ```{python}
@@ -48,18 +50,17 @@ torch.manual_seed(99)
 * 5 features (X)  
 * 3 possible classes (index 1 = class 2)  
 * W. 3 output cells, each one with 5 weights (one per feature)  
-* W1 = W2 because we run it twice (two scenarios) and we can re use the same weights because of the gradient calculated
+* W1 = W2 because we run it twice (two scenarios) and we can't re use the same weights because of the gradient calculated
 
 ```{python}
-# 5 features, 3 clases, 1 ejemplo
 X = torch.randn(5)
 W1 = torch.randn(3,5)
-W2 = W1.detach().clone() # una matriz de perdida por loss function
-y = torch.tensor([1]) # (el ejemplo es de la clase 2)
+W2 = W1.detach().clone() 
+y = torch.tensor([1]) 
 
 ```
 
-We transform everything to positives to make it cleaner and we add the requires_grad characteristic
+We transform everything to positives to make it cleaner and we add the requires_grad_() characteristic
 that tells pytorch that those tensors need the gradient backpropagated during training
 ```{python}
 X = X.abs()
@@ -69,6 +70,7 @@ W2 = W2.abs().requires_grad_()
 
 
 We define both losses (softmax and sigmoid).  
+
 *Softmax*  
 
 * Weights * input: cell value
@@ -106,14 +108,14 @@ def sigmoid_loss(W):
 
 
 We run the forward pass and calculate the loss for the sigmoid first. Then we look for the gradient.  
-As we can see in the results, only the weights that go to the correct class' output cell are modified. Classes one and three rest untouched. This is because the sigmoid activation just have the individual weights (and cross entropy only look to the correct class)
+As we can see in the results, only the weights that go to the correct class' output cell are modified. Classes one and three rest untouched. This is because the sigmoid activation just has the individual weights (and cross entropy only look to the correct class)
 ```{python}
 out_sigmoid = sigmoid_loss(W1)
 out_sigmoid.backward()
 W1.grad
 
 ```
-On the contrary, when running the same net but with softmax layer we see that all the weights are updated. The correct class have gradient with the same sign that for the sigmoid example but the other two classes have in this case opposite sign gradients (which makes sense since you want them to go in the other direction).  
+On the contrary, when running the same net but with softmax layer we see that all the weights are updated. The correct class has gradient with the same sign that for the sigmoid example but the other two classes have in this case opposite sign gradients (which makes sense since you want them to go in the other direction).  
 This happens because the softmax includes the other classes in each cell since they are needed to normalize and return probabilities that sum up to 1.
 
 ```{python}

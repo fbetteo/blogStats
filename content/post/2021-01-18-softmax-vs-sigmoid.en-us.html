@@ -19,10 +19,10 @@ summary: Softmax vs Sigmoid. How weights are updated in the last layer.
 
 
 
-<pre class="r"><code>library(reticulate)</code></pre>
-<p>When using Neural Nets for a multiclass classification problem it’s standard to have a softmax layer at the end to normalize the probabilities for each class. This means that the output of our net is a vector of probabilities (one for each class) that sums to 1. If there isn’t a softmax layer at the end, then the net will output a value in each of the last cells (one for each class) but without a delimited range. Just a set of numbers where usually the highest is the one with the most probable class but it’s not obvious how to value the differences between them.</p>
+<p>When using Neural Nets for a multiclass classification problem it’s standard to have a softmax layer at the end to normalize the probabilities for each class. This means that the output of our net is a vector of probabilities (one for each class) that sums to 1. If there isn’t a softmax layer at the end, then the net will output a value in each of the last cells (one for each class) but without a delimited range.<br />
+Just a set of numbers where usually the highest is the one with the most probable class but it’s not obvious how to value the differences between them.</p>
 <p>So, you have a ordered set of numbers, you know which one is the most probable but you want to transform that into clear probabilities. You use the softmax layer.</p>
-<p>You could use a sigmoid activation function in the last cell to have <em>individual</em> probabilities. For each class it transformd the output of the net into a probability. However the sum of those probabilities is not guaranteed to sum 1, actually it won’t in practice. It’s a simple proxy but you can get better intuitions with softmax.</p>
+<p>You could use a sigmoid activation function in the last cell to have <em>individual</em> probabilities. For each class, it transforms the output of the net into a probability. However the sum of those probabilities is not guaranteed to sum 1, actually it won’t in practice. It’s a simple proxy but you can get better intuitions with softmax.</p>
 <p>We will compare how these two approaches affect the last group of weights by inspecting the gradient after calculating the loss for an observation.</p>
 <blockquote>
 <blockquote>
@@ -31,12 +31,13 @@ summary: Softmax vs Sigmoid. How weights are updated in the last layer.
 </blockquote>
 </blockquote>
 </blockquote>
+<pre class="r"><code>library(reticulate)</code></pre>
 <p>We import pytorch to handle tensors and neural net functions.</p>
 <pre class="python"><code>import numpy as np
 import torch
 import torch.nn.functional as F</code></pre>
 <pre class="python"><code>torch.manual_seed(99)</code></pre>
-<pre><code>## &lt;torch._C.Generator object at 0x000000002CEFD490&gt;</code></pre>
+<pre><code>## &lt;torch._C.Generator object at 0x000000002CF11490&gt;</code></pre>
 <ul>
 <li>1 obs<br />
 </li>
@@ -46,20 +47,19 @@ import torch.nn.functional as F</code></pre>
 </li>
 <li>W. 3 output cells, each one with 5 weights (one per feature)<br />
 </li>
-<li>W1 = W2 because we run it twice (two scenarios) and we can re use the same weights because of the gradient calculated</li>
+<li>W1 = W2 because we run it twice (two scenarios) and we can’t re use the same weights because of the gradient calculated</li>
 </ul>
-<pre class="python"><code># 5 features, 3 clases, 1 ejemplo
-X = torch.randn(5)
+<pre class="python"><code>X = torch.randn(5)
 W1 = torch.randn(3,5)
-W2 = W1.detach().clone() # una matriz de perdida por loss function
-y = torch.tensor([1]) # (el ejemplo es de la clase 2)</code></pre>
-<p>We transform everything to positives to make it cleaner and we add the requires_grad characteristic
+W2 = W1.detach().clone() 
+y = torch.tensor([1]) </code></pre>
+<p>We transform everything to positives to make it cleaner and we add the requires_grad_() characteristic
 that tells pytorch that those tensors need the gradient backpropagated during training</p>
 <pre class="python"><code>X = X.abs()
 W1 = W1.abs().requires_grad_()
 W2 = W2.abs().requires_grad_()</code></pre>
-<p>We define both losses (softmax and sigmoid).<br />
-<em>Softmax</em></p>
+<p>We define both losses (softmax and sigmoid).</p>
+<p><em>Softmax</em></p>
 <ul>
 <li>Weights * input: cell value</li>
 <li>we change dimension of output to use it as input of softmax</li>
@@ -91,14 +91,14 @@ def sigmoid_loss(W):
     z = torch.log(z)
     return F.nll_loss(z, y)</code></pre>
 <p>We run the forward pass and calculate the loss for the sigmoid first. Then we look for the gradient.<br />
-As we can see in the results, only the weights that go to the correct class’ output cell are modified. Classes one and three rest untouched. This is because the sigmoid activation just have the individual weights (and cross entropy only look to the correct class)</p>
+As we can see in the results, only the weights that go to the correct class’ output cell are modified. Classes one and three rest untouched. This is because the sigmoid activation just has the individual weights (and cross entropy only look to the correct class)</p>
 <pre class="python"><code>out_sigmoid = sigmoid_loss(W1)
 out_sigmoid.backward()
 W1.grad</code></pre>
 <pre><code>## tensor([[ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000],
 ##         [-0.0452, -0.0867, -0.0564, -0.0492, -0.0549],
 ##         [ 0.0000,  0.0000,  0.0000,  0.0000,  0.0000]])</code></pre>
-<p>On the contrary, when running the same net but with softmax layer we see that all the weights are updated. The correct class have gradient with the same sign that for the sigmoid example but the other two classes have in this case opposite sign gradients (which makes sense since you want them to go in the other direction).<br />
+<p>On the contrary, when running the same net but with softmax layer we see that all the weights are updated. The correct class has gradient with the same sign that for the sigmoid example but the other two classes have in this case opposite sign gradients (which makes sense since you want them to go in the other direction).<br />
 This happens because the softmax includes the other classes in each cell since they are needed to normalize and return probabilities that sum up to 1.</p>
 <pre class="python"><code>out_softmax = softmax_loss(W2)
 out_softmax.backward()
