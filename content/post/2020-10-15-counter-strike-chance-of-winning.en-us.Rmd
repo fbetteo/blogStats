@@ -11,7 +11,7 @@ tags:
   - estadistica
   - statistics
   - xgboost
-thumbnailImage: https://lh3.googleusercontent.com/Xbv6Fpir5Fi9h_VWTR5cTqsjF6hr6Vypjqe5QcR95ujaxDVZ0UYkdqtwFtRpAiABVWkghL60pEs-NvG-LA=w317-h159-rw
+thumbnailImage: https://lh3.googleusercontent.com/PxQ0CCg9zhTas19H2xDVgkblnrOQ9Ct5Fi2s62__ae5zwLIJiKjLLdyHTa7YY9t9lnHYN8qaieqEOJ9Caw=s220-rw
 thumbnailImagePosition: left
 summary: Xgboost to quickly model winning probabilities with monotonic constraints.
 ---
