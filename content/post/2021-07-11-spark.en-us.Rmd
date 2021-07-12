@@ -1,0 +1,71 @@
+---
+title: Spark and Pyspark
+author: ''
+date: '2021-07-11'
+slug: spark.en-us
+categories:
+  - machine learning
+  - Python
+tags:
+  - Machine Learning
+  - Python
+  - Pyspark
+  - Spark
+thumbnailImage: https://lh3.googleusercontent.com/9Z6prSQJ1qmObWWo2L2yVa5o1rGnJ3Q0hneMLUgOQy-LpCMewkpxbxfwTUILq7RmBLPiP-bIKGPpbAyJUw=w299-h168-rw
+thumbnailImagePosition: left
+summary: Basic usage of Pyspark and link to useful documentation.
+---
+
+## What's Spark?
+
+The [definition](https://spark.apache.org/faq.html) says:  
+
+> Spark is a fast and general processing engine compatible with Hadoop data. It can run in Hadoop clusters >through YARN or Spark's standalone mode, and it can process data in HDFS, HBase, Cassandra, Hive, and any >Hadoop InputFormat. It is designed to perform both batch processing (similar to MapReduce) and new >workloads like streaming, interactive queries, and machine learning.
+
+Basically is a framework to work with big amounts of data stored in distributed systems instead of just one machine. This allows parallelization and hence much faster calculations.  
+It's biggest difference with plain Hadoop is that Spark uses RAM to process data while Hadoop doesn't.  
+
+Not being a data engineer myself I can tell you that you can use Spark to work with data stored in HDFS, S3 buckets or a data lake for example. All distributed systems.  
+
+Since those usually store huge big amount of data you can see how all this relate. The use case I have been exposed to, as a data scientist, is to query this distributed data and process it before using it for some purpose (modeling, reporting, etc).
+
+## How to use it?
+
+I haven't deployed a distributed storage system myself but I think it's safe to assume that amount of data is gathered in big organizations and probably some data engineer has already done all the setup. You just want to access the data from an environment connected to the spark cluster. 
+
+There are several languages that can interact with Spark. Scala is the original one but you could use Java or Python. As data scientist we are probably more familiar with Python so I will show you Pyspark
+
+
+### Pyspark
+
+Pyspark is an API to work with Spark using Python. In order to run you need also Java installed and Apache Spark.
+In our fictional organization a data engineer might have set up a server with Jupyter notebooks linked to the data lake and with all the dependencies.
+
+There are probably ways to connect to the remote spark server from your local machine but I haven't done that.
+
+So, Pyspark allows you to query the datalake/bigdata storage from a jupyter notebook and then convert that to a Pandas Dataframe and work as you are used to.
+
+
+Spark/Pyspark has a particular syntax that is quite clear but has some particularities based on the parallelization notion. For example, many functions don't actually retrieve all the data, that only happens when you decide to. For example `show()` or `collect()` do retrieve the data (and can take a while if you are working with a lot of data) while `filter()` or `withColumn()` don't.
+
+Another thing to notice is that you will need to create/initiate a sparkContext before actually being able to query data.
+
+To understand this and have a good amount of examples regarding the functions and syntax I highly recommend [THIS SITE.](https://sparkbyexamples.com/pyspark-tutorial/)
+
+
+
+### How to practice?
+
+You can practice Pyspark queries and scripts by installing Pyspark in your local machine despite not having a cluster running distributed data. With Pyspark installed you can create some data and use it as it was real.  
+You will be able to use all the functions and check them by yourself.
+
+How to install it? You can check [THIS GUIDE FOR WINDOWS.](https://sparkbyexamples.com/pyspark-tutorial/#pyspark-installation)
+
+I have struggled a bit to make it work so these are some things I learned during the way. 
+
+* I have downloaded Java 8 since that's what the guide says and use that at my current organization.
+* To avoid creating an account in Oracle to download Java you can check [THIS SOLUTION.](https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6#gistcomment-3799446)
+* When creating Environment variables avoid blank spaces
+* If Pyspark doesn't run because can't find Java. Check the %JAVA_HOME% path.
+* If the error is related to missing Python3 , check the %PYTHONPATH% and create in the anaconda path a copy of `python.exe` but rename it `python3.exe`
+
