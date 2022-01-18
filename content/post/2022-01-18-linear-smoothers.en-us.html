@@ -1,0 +1,69 @@
+---
+title: Linear Smoothers
+author: ''
+date: '2022-01-18'
+slug: linear-smoothers.en-us
+categories:
+  - estadistica
+  - machine learning
+  - algebra
+  - statistics
+tags:
+  - algebra
+  - estadistica
+  - Machine Learning
+  - statistics
+thumbnailImage: https://lh3.googleusercontent.com/Jn2i1YphKhAbS_1w3KSotp7L0BZA3GguSSAEUCCyH9V4g2PtunCuoE0GlY-PkdrsLERb08KiSsNvIMPqpQ=w260-h173-rw
+thumbnailImagePosition: left
+summary: Some details about OLS as smoothing of the training data. Weighted average of Y by distance of X to the center and variance of X.
+---
+
+
+
+<div id="linear-regression-as-smoothing" class="section level3">
+<h3>Linear regression as smoothing</h3>
+<p>Let’s assume the DGP (data generating process) is:
+<span class="math display">\[ Y = \mu(x) + \epsilon\]</span> where <span class="math inline">\(\mu(x)\)</span> is the mean Y value for that particular x and <span class="math inline">\(\epsilon\)</span> is an error with mean 0.</p>
+<p>When running OLS we are trying to approximate <span class="math inline">\(\mu(x)\)</span> with a linear function of the form <span class="math inline">\(\alpha + \beta x\)</span> and trying to retrieve the best <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> minimizing the mean-squared error.</p>
+<p>The conclusions don’t change but the math gets easier if we assume both X and Y are centered (mean=0).<br />
+With that in mind we can write down the MSE and optimize to get the best parameters.</p>
+<p><span class="math display">\[MSE(\alpha, \beta) = \mathbb{E}[(Y - \alpha - \beta X)^2] \\
+= \mathbb{E}[\mathbb{E}[(Y - \alpha - \beta X)^2 | X]] \\
+= \mathbb{E}[\mathbb{V}[Y|X]] + \mathbb{E}[Y- \alpha - \beta X | X])^2] \\
+= \mathbb{E}[\mathbb{V}[Y|X]] + \mathbb{E}[(\mathbb{E}[Y- \alpha - \beta X | X])^2]\]</span></p>
+<p>Deriving with respect to <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> for optimization..<br />
+The first term can be dropped since doesn’t include any parameter.</p>
+<p><span class="math display">\[\frac{\partial MSE}{\partial \alpha} =   \mathbb{E}[2(Y - \alpha - \beta X)(-1)] \\
+ \mathbb{E}[Y - a - b X] =  0 \\
+ a =  \mathbb{E}[Y] - b  \mathbb{E}[X] = 0
+ \]</span>
+when Y and X are centered..</p>
+<p>and
+<span class="math display">\[\frac{\partial MSE}{\partial \beta} =   \mathbb{E}[2(Y - \alpha - \beta X)(-X)] \\
+ \mathbb{E}[XY] - b\mathbb{E}[X^2] = 0 \\
+b = \frac{Cov[X,Y]}{\mathbb{V}[X]}
+\]</span></p>
+<p>The optimal beta is a function of the covariance between Y and X, and the variance of X.</p>
+<p>Putting together <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> we get <span class="math inline">\(\mu(x) = x \frac{Cov[X,Y]}{\mathbb{V}[X]}\)</span></p>
+<p>Replacing with the values from the sampled data we get an estimation of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p>
+<p>Remember they are 0 centered so variance and covariance get simplified.</p>
+<p><span class="math display">\[ \hat a = 0 \\
+\hat b = \frac{\sum_i y_i x_i}{\sum_i x_i^2}\]</span></p>
+<p>With all this we can see how <strong>OLS is a smoothing of the data</strong>.<br />
+Writing in terms of the data points:<br />
+<span class="math display">\[\hat \mu(x) = \hat b x \\
+= x  \frac{\sum_i y_i x_i}{\sum_i x_i^2} \\
+= \sum_i y_i \frac{x_i}{\sum_j x_j^2} x \\
+= \sum_i y_i \frac{x_i}{n \hat \sigma_x^2} x
+\]</span>
+where <span class="math inline">\(\hat \sigma_x^2\)</span> is the sample variance of X.<br />
+<em>In words, our prediction is a weighted average of the observed values <span class="math inline">\(y_i\)</span> of the dependent variable, where the weights are proportional to how far <span class="math inline">\(x_i\)</span> is from the center (relative to the variance), and proportional to the magnitude of <span class="math inline">\(x\)</span>. If <span class="math inline">\(x_i\)</span> is on the same side of the center as <span class="math inline">\(x\)</span>, it gets a positive weight, and if it’s on the opposite side it gets a negative weight.</em> (Shalizi 2017)</p>
+<p>If <span class="math inline">\(\mu(x)\)</span> is really a straight line, this is fine, but when it’s not, that the weights are proportional to how far they are to the <strong>center</strong> and not the point <strong>to predict</strong> can lead to awful predictions.</p>
+</div>
+<div id="alternative-smoothers" class="section level3">
+<h3>Alternative smoothers</h3>
+<p>For that, other methods smooth the data in another ways to help mitigate that.</p>
+<p>As quick examples, we have <em>KNN regression</em> where the smoothing is done using only close observations to the one to predict (and getting quite noisy since depend a lot on the sample points around a small area).</p>
+<p><em>Kernel smoothers</em> are a variant where depending on the kernel selected we get different smoothing. The main idea is that we use a windowd of data with the idea of putting more weight to points close to the one to predict. Could be Gaussian weight around X for example, or uniform around a window. Note this is different than KNN regression since we do not take the average of those points, we get a regression for that area.<br />
+A nice thing about this smoothers (and KNN regression) is that if we want to predict points far from the training data we won’t get a linear extrapolation as with OLS but it will be pushed towards the closest data points we had in training.</p>
+</div>
