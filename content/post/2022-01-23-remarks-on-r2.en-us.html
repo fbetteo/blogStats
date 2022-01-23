@@ -1,0 +1,54 @@
+---
+title: Remarks on R2
+author: ''
+date: '2022-01-23'
+slug: remarks-on-r2.en-us
+categories:
+  - estadistica
+  - statistics
+  - machine learning
+tags:
+  - estadistica
+  - statistics
+  - Machine Learning
+thumbnailImage: https://lh3.googleusercontent.com/Jn2i1YphKhAbS_1w3KSotp7L0BZA3GguSSAEUCCyH9V4g2PtunCuoE0GlY-PkdrsLERb08KiSsNvIMPqpQ=w260-h173-rw
+thumbnailImagePosition: left
+summary: A few comments to have in mind about R2
+---
+
+
+
+<div id="r2-depends-on-the-variance-on-the-variance-of-the-predictors" class="section level3">
+<h3>R2 depends on the variance on the variance of the predictors</h3>
+<p>Quoting from Shalizi<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>
+Assuming a true linear model<br />
+<span class="math display">\[ Y = aX + \epsilon\]</span><br />
+and assuming we know <span class="math inline">\(a\)</span> exactly.<br />
+The variance of Y will be <span class="math inline">\(a^2\mathbb{V}[X] + \mathbb{V}[\epsilon]\)</span>.<br />
+So <span class="math inline">\(R^2 = \frac{a^2\mathbb{V}[X]}{a^2\mathbb{V}[X] + \mathbb{V}[\epsilon]}\)</span><br />
+This goes to 0 as <span class="math inline">\(\mathbb{V}[X] \rightarrow 0\)</span> and it goes to 1 as <span class="math inline">\(\mathbb{V}[X] \rightarrow \infty\)</span>. “It thus has little to do with the quality of the fit, and a lot to do with how spread out the predictor variable is. Notice also how easy it is to get a high <span class="math inline">\(R^2\)</span> even when the true model is not linear!”</p>
+<p>Below a quick comparison between two linear relationships, one with much higher variance than the other in the predictor.<br />
+Added a different constant for better display in plot.</p>
+<pre class="r"><code>library(tidyverse)
+
+x1 = rnorm(1000, mean=0, sd=1)
+x2 = rnorm(1000, mean=0, sd=10)
+error = rnorm(1000, mean=0, sd=0.5)
+
+y1 = x1 + error
+y2 = 10 + x2 +  error
+
+df = data.frame(x1,x2,y1,y2)
+
+model1 = lm(&quot;y1 ~ x1&quot;)
+model2 =  lm(&quot;y2 ~ x2&quot;)</code></pre>
+<p>R2 of lower variance predictor: 0.8</p>
+<p>R2 of higher variance predictor: 1</p>
+<p><img src="/post/2022-01-23-remarks-on-r2.en-us_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Advanced data analysis from a elementary point of view. Section 2.2.1.1<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
