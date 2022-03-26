@@ -21,9 +21,9 @@ summary: When and how to use weigthed regression.
 
 Weighted regression consists on assigning different weights to each observation and hence more or less importance at the time of fitting the regression.  
 
-On way to look at it is to think as solving the regression problem minimizing Weighted Mean Squared Error(WSME) instead od Mean Squared Error(MSE)
+On way to look at it is to think as solving the regression problem minimizing Weighted Mean Squared Error(WSME) instead of Mean Squared Error(MSE)
 
-$$WMSE(\beta, w) = \frac{1}{N} \sum_{i=1}^n w_i(y_i - \overrightarrow x_i \beta)^2$$
+$$WMSE(\beta, w) = \frac{1}{N} \sum_{i=1}^n w_i(y_i - \overrightarrow {x_i} \beta)^2$$
 Intuitively, we are looking fot the coefficients that minimize MSE but putting different weights to each observation. OLS is a particular case where all the $w_i = 1$
 
 Why doing this? A few reasons (Shalizi 2015. Chapter 7.1)  
