@@ -16,6 +16,8 @@ Ex: https://github.com/fbetteo/blogStats/blob/master/content/post/2020-10-06-non
 
 # Useful Links and Blogs. Someday a RSS/Feed/BlogRoll
 
+* https://www.sportsjobs.online
+
 * https://blog.stata.com/2011/03/03/understanding-matrices-intuitively-part-1/
 
 * https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab
