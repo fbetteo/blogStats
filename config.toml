@@ -88,16 +88,22 @@ canonifyurls = true
   url = "https://github.com/fbetteo"
 [[menu.links]]
   weight = 2
-  identifier = "paypal"
-  name = "Acepto un café!"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-paypal\"></i>"
-  url = "https://paypal.me/fbetteo"
-  [[menu.links]]
+  identifier = "sportsjobs"
+  name = "sportsjobs.online"
+  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-github\"></i>"
+  url = "https://www.sportsjobs.online"
+[[menu.links]]
   weight = 3
   identifier = "cafecito"
   name = "Cafecito.app"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-paypal\"></i>"
   url = "https://cafecito.app/fbetteo"
+[[menu.links]]
+  weight = 4
+  identifier = "paypal"
+  name = "Acepto un café!"
+  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-paypal\"></i>"
+  url = "https://paypal.me/fbetteo"
 
 [[menu.misc]]
 # weight = 1
