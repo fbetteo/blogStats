@@ -1,8 +1,8 @@
 ---
-title: Expectation Maximization for Poisson process
+title: "Expectation Maximization for Poisson process"
 author: ''
 date: '2024-09-05'
-slug: index.en-us
+slug: expectation_maximization_poisson
 categories:
   - estadistica
   - machine learning
@@ -97,8 +97,10 @@ plt.scatter(X[-1, 1], y[-1:]-substract_sales, color='red', label='Constrained')
 plt.legend()
 plt.show()
 ```
-####  Esimation  
-#####Poisson Regression
+
+####  Esimation    
+
+##### Poisson Regression  
 
 First we estimate the parameters using a poisson regression. We assume the data follows a poisson process and we don't do anything to manage the constrained data.  
 The results are kind of ok, we get some closeness to the true parameters but it is clearly biased.
@@ -111,7 +113,7 @@ results_censored = model_censored.fit()
 print(f'Estimated Censored coefficients: {results_censored.params}')
 ```
 
-#####Expectation Maximization
+##### Expectation Maximization  
 OK, here is our alternative. What we can do, a bit more sophisticated, is to apply EM algorithm, which is a iterative process, to estimate the coefficients of the poisson regression, including the knowledge we have, that there might be constrained data.
 
 ```{python}
