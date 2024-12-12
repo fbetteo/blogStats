@@ -1,0 +1,21 @@
+# Manually redirect specific blog posts
+/2024/09/expectation_maximization_poisson/ https://fbetteo.github.io/blog/writing/#expectation-maximization-for-poisson-process 301
+/2022/03/index.en-us/ https://your-new-mkdocs-site.com/blog/new-post-2 301
+/2022/01/inference-is-not-valid-in-the-dataset-used-for-model-selection.en-us/
+/2022/01/remarks-on-r2.en-us/
+/2022/01/linear-smoothers.en-us/
+/2022/01/bias-variance-tradeoff.en-us/
+/2021/07/spark.en-us/
+/2021/01/softmax-vs-sigmoid.en-us/
+/2020/10/counter-strike-chance-of-winning.en-us/
+/2020/10/non-negative-matrix-factorization.en-us/
+/2020/07/disitrbucion-dirichlet-como-prior-de-mulitnomial/
+/2020/07/de-r-a-python-1/
+/2020/05/anova/
+/2020/04/distribucion-gamma/
+/2020/04/proceso-poisson-y-distribucion-exponencial/
+/2019/11/distintas-distancias/
+
+
+# Catch-all rule: Redirect everything else to the main page
+/* https://your-new-mkdocs-site.com/ 301
